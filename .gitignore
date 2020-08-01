@@ -4,6 +4,7 @@ Assets/
 Notes.txt
 temp/
 Pipfile.lock
+Reference/
 
 **/migrations/*
 !**/migrations/_init_.py

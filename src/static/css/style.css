@@ -1,1 +1,10 @@
 @import url("fonts.css");
+
+td, label, p {
+    font-family: Roboto Slab; 
+    font-weight:400;
+}
+
+input, select {
+    width: 100%;
+}
