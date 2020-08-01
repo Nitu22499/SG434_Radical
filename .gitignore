@@ -6,7 +6,7 @@ temp/
 Pipfile.lock
 Reference/
 
-*/migrations/
+**/migrations/*
 !**/migrations/_init_.py
 .idea/
 
@@ -134,4 +134,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
