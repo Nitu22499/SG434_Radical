@@ -4,7 +4,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin-control-panel/', admin.site.urls),
     path('', include('misc.urls')),
-    path('attendance/', include('attendance.urls')),
     path('profiles/', include('profiles.urls')),
-    path('schoolinfo/', include('schoolinfo.urls'))
+    path('exams/', include('exams.urls')),
+    path('schoolinfo/', include('schoolinfo.urls')),
 ]
