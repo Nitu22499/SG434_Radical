@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Attendance
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center">
+            <h1>Attendance Manager</h1>
+            <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user }} &nbsp; <i
+                    class="fas fa-school"></i>&nbsp; {{ user.school }}</p>
+        </div>
+        <div class="row">
+            <div class="card col-5">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{% url 'attendance:student-list' %}">Student attendance</a></h2>
+                    <a href="{% url 'attendance:student-create' %}" class="btn"><i class="fas fa-plus"></i>&nbsp;Add
+                        new</a>
+                </div>
+            </div>
+            <div class="card col-5 offset-2">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{% url 'attendance:employee-list' %}">Employee attendance</a></h2>
+                    <a href="{% url 'attendance:employee-create' %}" class="btn"><i class="fas fa-plus"></i>&nbsp;Add
+                        new</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock body %}
