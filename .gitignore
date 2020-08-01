@@ -1,13 +1,13 @@
-README.md
 node_modules
 .vscode/
 Assets/
 Notes.txt
 temp/
 Pipfile.lock
+Reference/
 
-**/migrations/*
-!**/migrations/__init__.py
+*/migrations/
+!**/migrations/_init_.py
 .idea/
 
 ### Django ###
