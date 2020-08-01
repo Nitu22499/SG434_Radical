@@ -75,12 +75,18 @@ $('#convert-table').click( function() {
             if (data['err'] == undefined) {
                 window.location.reload()
             }else{
-                console.log(data['err'])
-                document.getElementsByClassName('msg')[0].innerHTML = 
-                `<div class="alert alert-danger" role="alert">
-                ${data['err'][Object.keys(data['err'])[0]]} - ${data['err'][1]}
-              </div>`;
-              
+                data['err'] = data['err'].replace(/'/g, '"')
+                data['err'] = JSON.parse(data['err'])
+                
+                for(let [key, val] of Object.entries(data['err'])) {
+                    console.log(val);
+                    $(".msg").append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong> ${key} - </strong> ${val}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>`);
+                }
             }
         })
   });
