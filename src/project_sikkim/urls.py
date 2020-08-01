@@ -5,6 +5,6 @@ urlpatterns = [
     path('admin-control-panel/', admin.site.urls),
     path('', include('misc.urls')),
     path('profiles/', include('profiles.urls')),
-    path('schoolinfo/', include('schoolinfo.urls'))
-    
+    path('exams/', include('exams.urls')),
+    path('schoolinfo/', include('schoolinfo.urls')),
 ]
