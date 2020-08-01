@@ -1,5 +1,4 @@
 from django.db import models
-from profiles.models import Subject, Student
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 
