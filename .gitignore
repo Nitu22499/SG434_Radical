@@ -125,6 +125,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
+README.md
 /site
 
 # mypy
