@@ -1,16 +1,29 @@
 from django.db import models
 from profiles.models import Subject, Student
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Helper Class to have Min and Max Integer validation
 class IntegerRangeField(models.IntegerField):
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
-        self.min_value, self.max_value = min_value, max_value
-        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
+
+    def __init__(self, min_value=None, max_value=None, **kwargs):
+        self.min_value = min_value
+        self.max_value = max_value
+        if 'validators' in kwargs:
+            validators = kwargs['validators']
+        else:
+            validators = []
+        if min_value:
+            validators.append(MinValueValidator(min_value))
+        if max_value:
+            validators.append(MaxValueValidator(max_value))
+        kwargs['validators'] = validators
+        super(IntegerRangeField, self).__init__(**kwargs)
+
     def formfield(self, **kwargs):
-        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
-        defaults.update(kwargs)
-        return super(IntegerRangeField, self).formfield(**defaults)
+        context = {'min_value': self.min_value, 'max_value': self.max_value}
+        context.update(kwargs)
+        return super(IntegerRangeField, self).formfield(**context)
 
 
 # choices for GRADE
@@ -64,16 +77,25 @@ class Exam(models.Model):
     @property
     def total_1(self):
         # returns Term-1 total marks obtained from 100
-        return self.per_test_1 + self.notebook_1 + self.sea_1 + self.main_1
+        try:
+            return self.per_test_1 + self.notebook_1 + self.sea_1 + self.main_1
+        except:
+            return ''
 
     @property
     def total_2(self):
         # returns Term-2 total marks obtained from 100
-        return self.per_test_2 + self.notebook_2 + self.sea_2 + self.main_2
+        try:
+            return self.per_test_2 + self.notebook_2 + self.sea_2 + self.main_2
+        except:
+            return ''
 
     def save(self, *args, **kwargs):
-        self.grade_1 = find_grade(self.total_1)
-        self.grade_2 = find_grade(self.total_2)
+        try:
+            self.grade_1 = find_grade(self.total_1)
+            self.grade_2 = find_grade(self.total_2)
+        except:
+            pass
         super().save(*args, **kwargs)
 
     def __str__(self):
