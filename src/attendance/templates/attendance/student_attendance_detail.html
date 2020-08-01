@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ attendance.student_attendance_subject.subject_name }} • {{ attendance.student_attendance_date }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1>{{ attendance.student_attendance_subject.subject_name }} • {{ attendance.student_attendance_date }}</h1>
+        <div>
+            <p class="text-muted">Class
+                <b>{{ attendance.student_attendance_subject.subject_class }}
+
+                    {% if attendance.student_attendance_section %}
+                        - {{ attendance.student_attendance_section }}
+                    {% endif %}
+                </b>
+            </p>
+        </div>
+
+        <a class="btn text-muted" href="{% url 'attendance:student-list' %}"><i class="fas fa-chevron-left"></i> return
+            back</a>
+        <a class="btn btn-outline-primary" href="{% url 'attendance:student-update' attendance.id %}"><i
+                class="far fa-edit"></i> edit</a>
+        <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                class="far fa-trash-alt"></i>&nbsp;Delete
+        </button>
+        <br><br>
+
+        <!-- Delete Modal -->
+        <div
+                class="modal fade"
+                id="deleteModal"
+                tabindex="-1"
+                aria-labelledby="deleteModal"
+                aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-light">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle"></i>&nbsp;Delete
+                            record?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure, you want to <span class="text-danger">delete</span> student attendance record
+                            dated- <span class="font-weight-bold"> {{ attendance.student_attendance_date }}</span> for
+                            the class <span
+                                    class="font-weight-bold">{{ attendance.student_attendance_subject.subject_name }}</span>
+                            ?</p>
+                        <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
+                    </div>
+                    <form class="modal-footer" method="post"
+                          action="{% url 'attendance:student-delete' attendance.pk %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fas fa-chevron-left"></i>&nbsp;return back
+                        </button>
+                        <button type="submit" class="btn btn-outline-danger">delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <table class="table table-responsive table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Roll no</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col" class="text-center">attendance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+
+                <tr>
+                    <th scope="row">{{ student.student_attendance_item_student.stud_rollno }}</th>
+                    <td>{{ student.student_attendance_item_student.user.first_name }}</td>
+                    <td>{{ student.student_attendance_item_student.user.last_name }}</td>
+                    <td class="text-{% if student.student_attendance_item_is_present %}success{% else %}danger{% endif %} text-center">
+                        {% if student.student_attendance_item_is_present %}
+                            P
+                        {% else %}
+                            A
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        <a class="btn text-muted" href="{% url 'attendance:student-list' %}"><i class="fas fa-chevron-left"></i> &nbsp;
+            return back</a>
+
+    </div>
+
+{% endblock body %}
