@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-8 mx-auto">
+    <h2 class = "card-header text-center bg-primary text-white">Student Profile</h2>
+<div class = "card-body">
+<form method = "POST" action = "">
+    {% csrf_token %}
+    {% for field in form %}
+    
+    <span class="text-danger small">{{ field.errors }}</span>
+    <div class="{% if field.field.widget.input_type == 'text' %} form-outline {% endif %} mb-3">
+    
+        {{ field }}
+        {% if field.label != '' %}
+        <label class="form-label">{{ field.label }}</label>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <div class = "text-center">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}
