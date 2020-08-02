@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'attendance',
     'exams',
     'profiles',
-    'schoolinfo'
+    'schoolinfo',
+    'teach_staff',
 
 ]
 

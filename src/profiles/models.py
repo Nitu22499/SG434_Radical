@@ -26,12 +26,12 @@ class User(AbstractUser):
     is_state_admin = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name
+        return self.username
 
 
 class District(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    district_name = models.CharField(max_length=250, choices=district_choices)
+    district_name = models.CharField(max_length=250, choices=district_choices, verbose_name='District')
     
     def __str__(self):
         return self.district_name
@@ -39,8 +39,8 @@ class District(models.Model):
 
 class Block(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    block_name = models.CharField(max_length=250)
-    block_district = models.ForeignKey(District, on_delete=models.CASCADE)
+    block_name = models.CharField(max_length=250, verbose_name='Block')
+    block_district = models.ForeignKey(District, on_delete=models.CASCADE, verbose_name='District')
 
     def __str__(self):
         return self.block_name

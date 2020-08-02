@@ -5,7 +5,7 @@ from .views import (
     EmployeeAttendanceHomeView, StudentAttendanceCreateView, StudentAttendanceUpdateView, student_mark_attendance,
     StudentAttendanceDetailView, student_attendance_delete_view, EmployeeAttendanceDetailView,
     EmployeeAttendanceCreateView, EmployeeAttendanceUpdateView, employee_mark_attendance,
-    employee_attendance_delete_view
+    employee_attendance_delete_view, MyAttendanceFetchView, MyAttendanceDetailView
 )
 
 app_name = 'attendance'
@@ -34,4 +34,9 @@ urlpatterns = (
     path('employee/update/<slug:create_date>/', EmployeeAttendanceUpdateView.as_view(), name='employee_update'),
     path('employee/delete/', employee_attendance_delete_view, name='employee_delete'),
     path('employee/mark-attendance/<slug:create_date>/', employee_mark_attendance, name='employee_mark_attendance'),
+
+    # self
+    path('my/', MyAttendanceFetchView.as_view(), name='my_home'),
+    path('my/detail/<slug:start_date>/<slug:end_date>/<slug:subject>/', MyAttendanceDetailView.as_view(),
+         name='my_detail'),
 )

@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
 from django.shortcuts import render
 from .models import SchoolProfile, RepeatersByGrade,PhysicalFacilities
-from .forms import SchoolProfileForm,PhysicalFacilitiesForm
+from .forms import SchoolProfileForm,PhysicalFacilitiesForm, SectionHomeForm
 from django.urls import reverse_lazy
 from django.forms.models import model_to_dict
 from misc.utilities import academic_year, year_choices
@@ -11,20 +11,32 @@ from django.contrib import messages
 # Importing Libraries
 import json
 
-class SectionsHome(TemplateView):
+class SectionsHome(FormView):
     template_name = 'schoolinfo/sections_home.html'
+    form_class = SectionHomeForm
+
+    def get_context_data(self, **kwargs):
+        kwargs['academic_year'] = self.kwargs['ac_year']
+        kwargs['school_name'] = self.request.user.school.school_name
+        return super().get_context_data(**kwargs)
+
+    def get_success_url(self):
+        input_year = self.request.POST['academic_year_field']
+        # print(input_year)
+        return reverse_lazy('schoolinfo:sections_home', kwargs={'ac_year':input_year})
+
 
 class SchoolProfileView(FormView):
     model = SchoolProfile
     form_class = SchoolProfileForm
     template_name = 'schoolinfo/school_profile.html'
-    success_url = reverse_lazy('schoolinfo:school_profile')
+    # success_url = reverse_lazy('schoolinfo:school_profile')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            # obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
-            obj = SchoolProfile.objects.get(sp_school = self.request.user.school)
+            obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = self.kwargs['ac_year'])
+            # obj = SchoolProfile.objects.get(sp_school = self.request.user.school)
             return obj
         except:
             return None 
@@ -47,12 +59,16 @@ class SchoolProfileView(FormView):
         ' ',' ',' ',999999,' ']
         return super().get_context_data(**kwargs)
 
+    def get_success_url(self):
+        input_year = self.kwargs['ac_year']
+        # print(input_year)
+        return reverse_lazy('schoolinfo:sections_home', kwargs={'ac_year':input_year})
 
     def form_valid(self, form):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.sp_school = self.request.user.school
-        # self.object.academic_year = academic_year()
+        self.object.academic_year = self.kwargs['ac_year']
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
         self.object.save()
@@ -144,13 +160,13 @@ class PhysicalFacilitiesView(FormView):
     model = PhysicalFacilities
     form_class = PhysicalFacilitiesForm
     template_name = 'schoolinfo/physical_facilities.html'
-    success_url = reverse_lazy('schoolinfo:physical_facilities')
+    # success_url = reverse_lazy('schoolinfo:physical_facilities')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            # obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school, academic_year = academic_year())
-            obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school)
+            obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school, academic_year = self.kwargs['ac_year'])
+            # obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school)
             return obj
         except:
             return None 
@@ -170,12 +186,17 @@ class PhysicalFacilitiesView(FormView):
         2.21,' ',' ',' ',' ',2.31,1.7,' ',' ',' ',' ',2.33,' ']
         return super().get_context_data(**kwargs)
 
+    def get_success_url(self):
+        input_year = self.kwargs['ac_year']
+        # print(input_year)
+        return reverse_lazy('schoolinfo:sections_home', kwargs={'ac_year':input_year})
+
 
     def form_valid(self, form):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.pf_school = self.request.user.school
-        # self.object.academic_year = academic_year()
+        self.object.academic_year = self.kwargs['ac_year']
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
         self.object.save()

@@ -55,7 +55,7 @@ class StudentList(ListView):
         if(self.stud_section=="Select Section"):
             self.stud_section=None
         student=Student.objects.filter(stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
-        print(student)
+        # print(student)
         # print(student.stud_rollno)
         # print(student)
         kwargs['currentclass']=self.stud_class
@@ -78,11 +78,8 @@ class StudentInfo(ListView):
     
     def get_context_data(self, **kwargs):
         stud = Student.objects.get(id=self.kwargs['stud'])
-        print(stud.stud_rollno)
+        # print(stud.stud_rollno)
         kwargs['stud']=stud
-        print(kwargs['stud'])
+        # print(kwargs['stud'])
         return super().get_context_data(**kwargs)
 
-
-
-    
