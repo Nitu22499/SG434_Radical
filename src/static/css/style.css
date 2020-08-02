@@ -8,3 +8,7 @@ td, label, p {
 input, select {
     width: 100%;
 }
+
+ul.no-style > li {
+    list-style-type: none;
+}

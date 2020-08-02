@@ -1,9 +1,15 @@
+from django.http import HttpResponse
 from django.views.generic import TemplateView, FormView
-from .models import SchoolProfile,PhysicalFacilities
+from django.shortcuts import render
+from .models import SchoolProfile, RepeatersByGrade,PhysicalFacilities
 from .forms import SchoolProfileForm,PhysicalFacilitiesForm
 from django.urls import reverse_lazy
 from django.forms.models import model_to_dict
-from misc.utilities import academic_year
+from misc.utilities import academic_year, year_choices
+from django.contrib import messages
+
+# Importing Libraries
+import json
 
 class SectionsHome(TemplateView):
     template_name = 'schoolinfo/sections_home.html'
@@ -12,12 +18,13 @@ class SchoolProfileView(FormView):
     model = SchoolProfile
     form_class = SchoolProfileForm
     template_name = 'schoolinfo/school_profile.html'
-    success_url = reverse_lazy('schoolinfo:sections_home')
+    success_url = reverse_lazy('schoolinfo:school_profile')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
+            # obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
+            obj = SchoolProfile.objects.get(sp_school = self.request.user.school)
             return obj
         except:
             return None 
@@ -45,23 +52,105 @@ class SchoolProfileView(FormView):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.sp_school = self.request.user.school
+        # self.object.academic_year = academic_year()
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
-        else:                                   # Create new record.
-            self.object.academic_year = academic_year()
         self.object.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
         return super().form_valid(form)
 
+def RepeatersByGradeView(request):
+    template_name = 'schoolinfo/repeaters-by-grade.html'
+
+    class_choices = (
+        ('General', 'General'),
+        ('SC', 'SC'),
+        ('ST', 'ST'),
+        ('OBC', 'OBC'),
+        ('Muslim', 'Muslim'),
+        ('Christian', 'Christian'),
+        ('Sikh', 'Sikh'),
+        ('Buddhist', 'Buddhist'),
+        ('Parsi', 'Parsi'),
+        ('Jain', 'Jain'),
+        ('Other', 'Other')
+    )   
+
+    response = {}
+    context = {
+        'year_choices': year_choices,
+        'class': class_choices,
+        'selected_year': None
+    }
+    if request.method=="POST":
+        if request.POST['academic_year']:
+            for choice in class_choices:
+                if not RepeatersByGrade.objects.filter(class_name=choice[0], academic_year=request.POST['academic_year'], rbg_school = request.user.school):
+                    RepeatersByGrade.objects.create(class_name=choice[0], academic_year=request.POST['academic_year'],
+                        rbg_school = request.user.school
+                    )
+                response.update({
+                    choice[0]: RepeatersByGrade.objects.get(class_name=choice[0], academic_year=request.POST['academic_year'], rbg_school = request.user.school)
+                })
+            context.update({
+                'rows': response,
+                'selected_year': request.POST['academic_year']
+            })    
+    return render(request, template_name, context)
+
+def SaveRepeatersByGradeView(request):
+    data = json.loads(request.body)
+    rows = data['table']
+    academic_year = data['academic_year'][:5] + '-' + data['academic_year'][5:]
+    print("In")
+    for row in rows:
+        try:
+            class_val = RepeatersByGrade.objects.get(academic_year=academic_year, class_name=row['class_name'])
+            class_val.class_I_B = row['boys_1'] or None
+            class_val.class_I_G = row['girls_1'] or None
+            class_val.class_II_B = row['boys_2'] or None
+            class_val.class_II_G = row['girls_2'] or None
+            class_val.class_III_B = row['boys_3'] or None
+            class_val.class_III_G = row['girls_3'] or None
+            class_val.class_IV_B = row['boys_4'] or None
+            class_val.class_IV_G = row['girls_4'] or None
+            class_val.class_V_B = row['boys_5'] or None
+            class_val.class_V_G = row['girls_5'] or None
+            class_val.class_VI_B = row['boys_6'] or None
+            class_val.class_VI_G = row['girls_6'] or None
+            class_val.class_VII_B = row['boys_7'] or None
+            class_val.class_VII_G = row['girls_7'] or None
+            class_val.class_VIII_B = row['boys_8'] or None
+            class_val.class_VIII_G = row['girls_8'] or None
+            class_val.class_IX_B = row['boys_9'] or None
+            class_val.class_IX_G = row['girls_9'] or None
+            class_val.class_X_B = row['boys_10'] or None
+            class_val.class_X_G = row['girls_10'] or None
+            class_val.class_XI_B = row['boys_11'] or None
+            class_val.class_XI_G = row['girls_11'] or None
+            class_val.class_XII_B = row['boys_12'] or None
+            class_val.class_XII_G = row['girls_12'] or None
+            # Validating and Saving the new Instance
+            class_val.full_clean()
+            class_val.rbg_school = request.user.school
+            class_val.save()
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
+
+    return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
+    
 class PhysicalFacilitiesView(FormView):
     model = PhysicalFacilities
     form_class = PhysicalFacilitiesForm
     template_name = 'schoolinfo/physical_facilities.html'
-    success_url = reverse_lazy('schoolinfo:sections_home')
+    success_url = reverse_lazy('schoolinfo:physical_facilities')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            obj = PhysicalFacilities.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
+            # obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school, academic_year = academic_year())
+            obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school)
             return obj
         except:
             return None 
@@ -86,9 +175,9 @@ class PhysicalFacilitiesView(FormView):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.pf_school = self.request.user.school
+        # self.object.academic_year = academic_year()
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
-        else:                                   # Create new record.
-            self.object.academic_year = academic_year()
         self.object.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
         return super().form_valid(form)
