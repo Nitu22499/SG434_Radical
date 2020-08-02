@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+  <h2> Form</h2>
+
+  <form method="post" id="sisForm" data-blocks-url="{% url 'misc:ajax_load_blocks' %}">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+  </form>
+
+  {% include 'misc/blocks_script.html' with district_field_id='id_report_districts' block_field_id='id_report_blocks' %}
+
+{% endblock %}

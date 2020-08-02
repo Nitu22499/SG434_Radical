@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from profiles.models import District, Block
+from django.shortcuts import render
 
 class Home(TemplateView):
     template_name = 'base.html'

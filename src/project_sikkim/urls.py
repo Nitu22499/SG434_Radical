@@ -9,3 +9,7 @@ urlpatterns = [
     path('exams/', include('exams.urls')),
     path('schoolinfo/', include('schoolinfo.urls')),
 ]
+
+admin.site.site_header = "Sikkim S.I.S"
+admin.site.site_title = "Sikkim S.I.S"
+admin.site.index_title = ""

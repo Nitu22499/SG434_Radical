@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import Home
+from .views import Home, load_blocks
 
 app_name = 'misc'
 

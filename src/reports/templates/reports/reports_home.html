@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+<h3 class = "card-header text-center bg-primary text-white">Schools</h3>
+<div class = "card-body">
+    <table class="table table-bordered border-primary table-hover text-center">
+        <thead>
+            <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Report</th>
+              <th scope="col">View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">1</td>
+              <td>Schools by Management</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#schoolsByMgmtModal">View Report</button></a></td>
+                {% url 'reports:schools_by_mgmt' as schools_by_mgmt_url %}
+                {% include 'reports/modal_template.html' with view_url=schools_by_mgmt_url modal_id='schoolsByMgmtModal' title='Schools by Management' %}
+            </tr>
+            <tr>
+              <td scope="row">2</td>
+              <td>Schools by Category</td>
+              <td><a href = "#"><button class="btn btn-primary">View Report</button></a></td>              
+            </tr>
+            <tr>
+              <td scope="row">3</td>
+              <td>Type of Schools (Boys, Girls, Co-Educational)</td>
+              <td><a href = "#"><button class="btn btn-primary">View Report</button></a></td>              
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Modals -->
+        
+        
+
+</div>
+</div>
+</div>
+
+
+{% endblock %}
