@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Add new Employee
+{% endblock title %}
+
+{% block body %}
+
+    <div class="container" style="padding-top: 2%; padding-bottom: 4%;">
+        <div class="card border border-primary shadow-2-strong col-md-8 mx-auto">
+            <h2 class="card-header text-center bg-primary text-white">{{ form_title }} Profile</h2>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {% for field in form %}
+
+                        <div class="form-group row mb-3">
+                            <div class="col-auto align-self-center"></div>
+                            {% if field.label != '' %}
+                                <label class="col-sm-3 col-form-label">{{ field.label }}</label>
+                            {% endif %}
+                            <div class="col-sm-8 align-self-center">{{ field }}
+                            </div>
+                            <span class="text-danger small">{{ field.errors }}</span>
+                        </div>
+                    {% endfor %}
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock body %}
