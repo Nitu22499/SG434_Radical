@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <form action="" method="POST" class="text-center border border-light p-5" >
+        {% csrf_token %}
+        <p class="h4 mb-5">Students Enrolled under Section 12 of RTE Act</p>
+        {% if error_msg %}
+            <span class="text-left text-danger large">
+                <ul class="errorlist">
+                    <li>{{ error_msg }}</li>
+                </ul>
+            </span>
+        {% endif %}
+        <div class="form-group">
+            <select  name="academic_year" class="form-control browser-default custom-select mb-4" id="academic_year">
+                <option value="">SELECT ACADEMIC YEAR</option>
+                {% for cls in year_choices %}
+                <option value="{{ cls.0}}" {% if selected_year == cls.0 %} selected {% endif %}>{{ cls.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>   
+        <button class="btn btn-info btn-block" type="submit">Generate</button>
+    </form>
+
+
+    <div class="msg"></div>
+    <div class="row mt-4">
+        <div class="col">
+            
+            <div class="table-responsive">
+                <table  class="table text-center table-bordered">
+                    <thead>
+                        <tr class="table-light align-middle">
+                            <th scope="col" data-override="class_name">Classes</th>
+                            <th scope="col" colspan="2">Pre-Primary</th>
+                            <th scope="col" colspan="2">I</th>
+                            <th scope="col" colspan="2">II</th>
+                            <th scope="col" colspan="2">III</th>
+                            <th scope="col" colspan="2">IV</th>
+                            <th scope="col" colspan="2">V</th>
+                            <th scope="col" colspan="2">VI</th>
+                            <th scope="col" colspan="2">VII</th>
+                            <th scope="col" colspan="2">VIII</th>
+                        </tr>   
+                        <tr>
+                            <th></th>
+                            <th scope="col" data-override="boys_pre">Boys</th>
+                            <th scope="col" data-override="girls_pre">Girls</th>
+                            <th scope="col" data-override="boys_1">Boys</th>
+                            <th scope="col" data-override="girls_1">Girls</th>
+                            <th scope="col" data-override="boys_2">Boys</th>
+                            <th scope="col" data-override="girls_2">Girls</th>
+                            <th scope="col" data-override="boys_3">Boys</th>
+                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_4">Boys</th>
+                            <th scope="col" data-override="girls_4">Girls</th>
+                            <th scope="col" data-override="boys_5">Boys</th>
+                            <th scope="col" data-override="girls_5">Girls</th>
+                            <th scope="col" data-override="boys_6">Boys</th>
+                            <th scope="col" data-override="girls_6">Girls</th>
+                            <th scope="col" data-override="boys_7">Boys</th>
+                            <th scope="col" data-override="girls_7">Girls</th>
+                            <th scope="col" data-override="boys_8">Boys</th>
+                            <th scope="col" data-override="girls_8">Girls</th>
+                        </tr>                     
+                    </thead>
+                    <tbody>
+                        {% for key, values in rows.items %}
+                        <tr>                            
+                            <th scope="row" >{{ key }}</th> 
+                            <td >{{ values.srte_class_pre_B|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_pre_G|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_I_B|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_I_G|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_II_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_II_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_III_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_III_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_IV_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_IV_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_V_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_V_G|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_VI_B|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_VI_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_VII_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_VII_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_VIII_B|default_if_none:"-" }}</td>
+                            <td >{{ values.srte_class_VIII_G|default_if_none:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+        
+<hr>
+
+
+
+<div>
+    <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+
+    <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
+
+    <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+
+    <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/{{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button>
+
+
+</div>     
+                
+<hr>     
+    </div>
+</div>
+
+{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My attendance record
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1>{{ user.last_name|title }} {{ user.first_name|title }} {{ user.middle_name|title }}</h1>
+        <p class="text-muted">{{ display.subject }} • {{ display.start_date }} - {{ display.end_date }}</p>
+        <p class="text-muted">Roll no: <b>{{ display.student.stud_rollno }}</b></p>
+        <div>
+            <p class="text-muted">Class:
+                <b>{{ display.student.stud_class }}
+
+                    {% ifnotequal display.student.stud_section 'NA' %}
+                        - {{ display.student.stud_section }}
+                    {% endifnotequal %}
+                </b>
+            </p>
+        </div>
+
+        <a class="btn text-muted" href="{% url 'attendance:my_home' %}"><i class="fas fa-chevron-left"></i> return
+            Home</a>
+
+        <br><br>
+
+
+        <table class="table table-responsive table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col" class="text-center">Attendance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in attendance %}
+
+                <tr>
+                    <th scope="row">{{ student.student_attendance_date }}</th>
+                    <td class="text-{% if student.student_attendance_is_present %}success{% else %}danger{% endif %} text-center">
+                        {% if student.student_attendance_is_present %}
+                            P
+                        {% else %}
+                            A
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+        <br>
+
+        <table class="table table-responsive table-hover text-center    ">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Classes Present</th>
+                <th scope="col">Classes Absent</th>
+                <th scope="col">Total Classes</th>
+                <th scope="col">Present Percent</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="text-success">{{ attendance_stat.present }}</td>
+                <td class="text-danger">{{ attendance_stat.absent }}</td>
+                <td>{{ attendance_stat.total }}</td>
+                <td>{{ attendance_stat.present_percent }}%</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <a class="btn text-muted" href="{% url 'attendance:my_home' %}"><i class="fas fa-chevron-left"></i> &nbsp;
+            return Home</a>
+
+    </div>
+{% endblock body %}

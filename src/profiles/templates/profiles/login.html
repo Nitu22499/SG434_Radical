@@ -1,5 +1,21 @@
 {% extends 'base.html' %}
 
+{% block navbar %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style = "background-color: #222831;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="font-family: Pacifico;">Sikkim S.I.S</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            
+          </div>
+        </div>
+      </nav>
+    <!-- </Navbar> -->
+    {% endblock %}
+
 {% block body %}
 
 <div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
@@ -8,14 +24,11 @@
 <div class = "card-body">
 <form method = "POST" action = "">
     {% csrf_token %}
+    <span class="text-danger small">{{ form.non_field_errors }}</span>
     {% for field in form %}
-    
-    <span class="text-danger small">{{ field.errors }}</span>
-    <div class="{% if field.field.widget.input_type == 'text' %} form-outline {% endif %} mb-3">
-        {{ field }}
-        {% if field.label != '' %}
+    <div class="mb-3">
         <label class="form-label">{{ field.label }}</label>
-        {% endif %}
+        {{ field }}
     </div>
     {% endfor %}
     <div class = "text-center">
@@ -25,6 +38,10 @@
 </div>
 </div>
 </div>
+
+{% block uppercase %}
+
+{% endblock %}
 
 
 {% endblock %}
