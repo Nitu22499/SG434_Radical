@@ -9,7 +9,7 @@ class Home(TemplateView):
         elif self.request.user.is_student:
             self.template_name = 'misc/student_home.html'
         elif self.request.user.is_block_admin:
-            self.template_name = 'misc/student_home.html'
+            self.template_name = 'misc/block_home.html'
         elif self.request.user.is_district_admin:
-            self.template_name = 'misc/student_home.html'
+            self.template_name = 'misc/district_home.html'
         return [self.template_name]
