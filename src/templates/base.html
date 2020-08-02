@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>
         {% block title %}
@@ -22,7 +22,9 @@
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-  </head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">  
+    </head>
 
   <body>
       {% block navbar %}
@@ -37,10 +39,10 @@
             <ul class="navbar-nav mr-auto mb-2 mb-lg-0 font-weight-bold">
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'misc:home' %}">Home</a>
-              </li>            
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'schoolinfo:sections_home' %}">School Info</a>
-              </li> 
+              </li>   
+              {% block schoolinfo_link %}         
+              
+              {% endblock %}
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="#">Students</a>
               </li> 
@@ -53,6 +55,18 @@
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Academic Records</a>
               </li> 
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Staff
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{% url 'teach_staff:Teacher_List' %}">Teaching</a>
+                  <a class="dropdown-item" href="{% url 'teach_staff:NonTeachers_List' %}">Non Teaching</a>
+                  
+                </div>
+              </li> 
+                         
               
             </ul>
             <div class="navbar-nav nav-item font-weight-bold d-flex w-auto">

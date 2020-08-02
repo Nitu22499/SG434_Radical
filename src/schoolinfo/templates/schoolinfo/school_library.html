@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block body %}
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+<h2 class = "card-header text-center bg-primary text-white">School Profile</h2>
+<div class = "card-body">
+<form method = "POST" action = "">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th colspan="1">Available</th>
+                <th colspan="1">Total Number of books</th>
+                <th colspan="1">Total Number of books from NCERT, NBT or any other Government publisher</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Library</b></td>
+                <td>{{form.sli_lib_avai}}</td>
+                <td>{{form.sli_lib_books}}</td>
+                <td>{{form.sli_lib_ncert}}</td>
+            </tr>
+            <tr>
+                <td><b>Book Bank</b></td>
+                <td>{{form.sli_book_avai}}</td>
+                <td>{{form.sli_book_books}}</td>
+                <td>{{form.sli_book_ncert}}</td>
+            </tr>
+            <tr>
+                <td><b>Reading Corner</b></td>
+                <td>{{form.sli_reading_avai}}</td>
+                <td>{{form.sli_reading_books}}</td>
+                <td>{{form.sli_reading_ncert}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class = "text-center">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -42,6 +42,30 @@ def get_student_attendance(create_date, subject, section, school) -> StudentAtte
     )
 
 
+def get_my_attendance(start_date, end_date, subject, section, school, student) -> StudentAttendance.objects.filter:
+    """
+    it returns the student attendance specific to the student accessing it.
+    """
+    return StudentAttendance.objects.filter(
+        student_attendance_date__range=(start_date, end_date),
+        student_attendance_subject_id=subject,
+        student_attendance_section=section,
+        student_attendance_school=school,
+        student_attendance_student=student
+    )
+
+
+def get_student_attendance_dates(start_date, end_date, subject_id, section, school) -> StudentAttendance.objects.filter:
+    return StudentAttendance.objects.values_list(
+        'student_attendance_date', flat=True
+    ).order_by(
+        'student_attendance_date'
+    ).filter(
+        student_attendance_date__range=(start_date, end_date), student_attendance_school=school,
+        student_attendance_subject_id=subject_id, student_attendance_section=section,
+    ).distinct()
+
+
 class EmployeeAttendance(models.Model):
     """model for individual employee attendance
 

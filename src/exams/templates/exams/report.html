@@ -35,7 +35,37 @@
                     </select>
                 </div>
             </div>
-            <div class="col-3"><button class="btn btn-info btn-block" type="submit">Submit</button></div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="stream" class="form-control browser-default custom-select mb-4" id="stream">
+                        <option value="">SELECT STREAM</option>
+                        {% for stm in stream %}
+                        <option value="{{ stm.0 }}" {% if selected_stream == stm.0 %}selected{% endif %}>{{ stm.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="section" class="form-control browser-default custom-select mb-4" id="section">
+                        <option value="">SELECT SECTION</option>
+                        {% for sec in section %}
+                        <option value="{{ sec.0 }}" {% if selected_section == sec.0 %}selected{% endif %}>{{ sec.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="year" class="form-control browser-default custom-select mb-4" id="year">
+                        <option value="">SELECT ACADEMIC YEAR</option>
+                        {% for yr in year %}
+                        <option value="{{ yr.0 }}" {% if selected_year == yr.0 %}selected{% endif %}>{{ yr.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="offset-md-3 col-3"><button class="btn btn-info btn-block" type="submit">Submit</button></div>
         </div>
     </form>
     <div class="msg mt-4"></div>

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block body %}
+
+
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class = 'btn btn-primary' href = "{% url 'teach_staff:Teacher_Create' %}"><i class="fa fa-plus" aria-hidden="true">   </i>   Create New Record</a>
+ 
+ 
+ <div class = "card border border-primary shadow-2-strong  col-md-10 mx-auto" style="margin-top:20px">
+            
+            <h2 class = "card-header text-center bg-primary text-white">List of All Teaching Staff</h2>
+            <div class = "card-body">
+                <table class="table table-bordered border-primary table-hover text-center">
+                    <thead>
+                        <tr>
+                        <th scope="col">Name</th>
+                          <th scope="col">Contact Number</th>                      
+                          <th scope="col">GENDER</th>
+                          <th scope="col">Joining Year</th>
+                          <th scope="col">Highest Professional Qualification</th>
+                          <th scope="col">Nature of Appointment</th>
+                          
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for teacher_name in Teaching_Staff_Info_List_Object %}
+                        <tr>
+                            
+                            <td><a href = '{{teacher_name.id}}'>{{teacher_name.Teacher_Name}}</a></td>
+                            <td>{{ teacher_name.Teacher_Contact_Number }}</td>
+                            <td>{{ teacher_name.Teacher_Gender }}</td>
+                            <td>{{ teacher_name.Teacher_Joining_Year }}</td>
+                            <td>{{ teacher_name.Teacher_Highest_Qualification_Professional }}</td>
+                            <td>{{ teacher_name.Teacher_Nature_Of_Appointment }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+
+
+{% endblock body %}
+        
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

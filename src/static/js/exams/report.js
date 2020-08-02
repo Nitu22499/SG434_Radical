@@ -20,7 +20,7 @@ function getSubjects(cls) {
     fetch(`${window.location.origin}/exams/subject/class/${cls.value}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            
             let select_subject = document.getElementById('subject');
             while (select_subject.hasChildNodes()) {  
                 select_subject.removeChild(select_subject.firstChild);
@@ -37,6 +37,7 @@ function getSubjects(cls) {
             })            
         })
 }
+
 
 if($('#class')[0].value && !$('#subject')[0].value) {
     getSubjects($('#class')[0]);
@@ -133,11 +134,15 @@ $('#co-scholastic').click( function() {
         })
         .then((res) => res.json())
         .then(function(data) {
+            console.log(data)
             if (data['err'] == undefined) {
                 localStorage.setItem("Success", "1")
                 window.location.reload()
             }else{
+                data['err'] = data['err'].replace(/'(.)'/g, '`$1`')
+                console.log(data['err'])
                 data['err'] = data['err'].replace(/'/g, '"')
+                console.log(data['err'])
                 data['err'] = JSON.parse(data['err'])
                 
                 for(let [key, val] of Object.entries(data['err'])) {
@@ -153,4 +158,20 @@ $('#co-scholastic').click( function() {
         })
 });
 
+// For HIDING and SHOWING stream option menu
+let ele_class = $('#class')[0];
 
+if (ele_class.value != '11' && ele_class.value != '12') {
+    document.getElementsByClassName('stream-column')[0].style.display = "none";
+    $('form .offset-md-4.col-4:last-child').attr('class', 'col-md-4')
+}
+
+$('#class').on('change', function () {
+    if(this.value == '11' || this.value=='12') {
+        document.getElementsByClassName('stream-column')[0].style.display = "block";
+        $('form .col-md-4:last-child').attr('class', 'offset-md-4 col-4')   
+    }else{
+        document.getElementsByClassName('stream-column')[0].style.display = "none";
+        $('form .offset-md-4.col-4:last-child').attr('class', 'col-md-4')
+    }
+})

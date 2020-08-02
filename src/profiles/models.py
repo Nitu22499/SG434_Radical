@@ -5,18 +5,17 @@ class_choices = (('1', 'CLASS 1'), ('2', 'CLASS 2'), ('3', 'CLASS 3'), ('4', 'CL
 section_choices = (('', 'SECTION'), ('NA', 'NA'), ('A', 'SECTION A'), ('B', 'SECTION B'), ('C', 'SECTION C'), ('D', 'SECTION D'), ('E', 'SECTION E'), ('F', 'SECTION F'), )
 stream_choices = (('', 'STREAM'), ('NA', 'NA'), ('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM'))
 district_choices = (('EAST SIKKIM', 'EAST SIKKIM'), ('WEST SIKKIM', 'WEST SIKKIM'), ('NORTH SIKKIM', 'NORTH SIKKIM'), ('SOUTH SIKKIM', 'SOUTH SIKKIM'))
-board_choices = (('', 'Board'), ('NA', 'NA'), ('CBSE', 'CBSE'), ('State Board', 'State Board'), ('ICSE', 'ICSE'))
+board_choices = (('', 'BOARD'), ('NA', 'NA'), ('CBSE', 'CBSE'), ('STATE BOARD', 'STATE BOARD'), ('ICSE', 'ICSE'))
 religion_choices = (('HINDU','HINDU'), ('MUSLIM','MUSLIM'), ('CHRISTIAN','CHRISTIAN'), ('SIKH','SIKH'), ('BUDDHIST', 'BUDDHIST'), ('PARSI','PARSI'), ('JAIN', 'JAIN'), ('OTHER','OTHER'))
 socialCategory_choices = (('GENERAL','GENERAL'), ('SC','SC'), ('ST','ST'), ('OBC','OBC'), ('MBC', 'MBC'), ('OTHER','OTHER'))
 caste_choices = (('RAI','RAI'),('BAHUN','BAHUN'),('SUBBA','SUBBA'),('TAMANG','TAMANG'),('KAMI','KAMI'),('CHHETRI','CHHETRI'),('LEPCHA','LEPCHA'),('GURUNG','GURUNG'),('PRADHAN','PRADHAN'),('MANGER','MANGER'),('DAMAI','DAMAI'),('LOHAR','LOHAR'),('BHUTIA','BHUTIA'),('KHAWAS','KHAWAS'),('OTHER','OTHER'))
 disability_choices = (('NA','NA'),('BLINDNESS','BLINDNESS'),('LOW VISION','LOW VISION'),('HEARING IMPAIRMENT','HEARING IMPAIRMENT'),('SPEECH & LANGUAGE','SPEECH & LANGUAGE'),('LOCOMOTOR DISABILITY','LOCOMOTOR DISABILITY'),('MENTAL ILLNESS','MENTAL ILLNESS'),('SPECIFIC LEARNING DISABILITY','SPECIFIC LEARNING DISABILITY'),('CEREBRAL PALSY','CEREBRAL PALSY'),('AUTISM SPECTRUM DISORDER','AUTISM SPECTRUM DISORDER'),('MULTIPLE DISABILITY INCLUDING DEAF, BLINDNESS','MULTIPLE DISABILITY INCLUDING DEAF, BLINDNESS'),('LEPROSY CURED STUDENTS','LEPROSY CURED STUDENTS'),('DWARFISM','DWARFISM'),('INTELLECTUAL DISABILITY','INTELLECTUAL DISABILITY'),('MUSCULAR DYSTROPHY','MUSCULAR DYSTROPHY'),('CHRONIC NEUROLOGICAL COND','CHRONIC NEUROLOGICAL COND'),('MULTIPLE SCLEROSIS','MULTIPLE SCLEROSIS'),('THALASSEMIA','THALASSEMIA'),('HEMOPHILLIA','HEMOPHILLIA'),('SICKLE CELl DISEASE','SICKLE CELL DISEASE'),('ACID ATTACK VICTIM','ACID ATTACK VICTIM'),("PARKINSON's DISEASE","PARKINSON's DISEASE"))
 
 
-
 class User(AbstractUser):
     middle_name = models.CharField(max_length=200, blank=True)
     date_of_birth = models.DateField(null = True)
-    gender = models.CharField(max_length=10, default='Male', choices=(('Male', 'Male'), ('Female', 'Female')))
+    gender = models.CharField(max_length=10, default='Male', choices=(('MALE', 'MALE'), ('FEMALE', 'FEMALE')))
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=False)
@@ -26,12 +25,12 @@ class User(AbstractUser):
     is_state_admin = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name
+        return self.username
 
 
 class District(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    district_name = models.CharField(max_length=250, choices=district_choices)
+    district_name = models.CharField(max_length=250, choices=district_choices, verbose_name='District')
     
     def __str__(self):
         return self.district_name
@@ -39,8 +38,8 @@ class District(models.Model):
 
 class Block(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    block_name = models.CharField(max_length=250)
-    block_district = models.ForeignKey(District, on_delete=models.CASCADE)
+    block_name = models.CharField(max_length=250, verbose_name='Block')
+    block_district = models.ForeignKey(District, on_delete=models.CASCADE, verbose_name='District')
 
     def __str__(self):
         return self.block_name
@@ -54,6 +53,7 @@ class School(models.Model):
     school_board = models.CharField(max_length=50, default = 'CBSE', choices=board_choices)
     school_block = models.ForeignKey(Block, on_delete=models.CASCADE)
     school_district = models.ForeignKey(District, on_delete=models.CASCADE)
+    school_cluster = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
         return self.school_name

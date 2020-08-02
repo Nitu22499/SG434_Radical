@@ -32,7 +32,44 @@ ul.no-style > li {
 div [class="card-body-info"]{
     padding:40px 100px;
 }
-.btn {
+/* .btn {
     line-height:2.0;
     font-size: 15px;
+}
+*/
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    flex-wrap: wrap;
+  }
+  .row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+.bg-blue-100 {
+    background: #e3f2fd ;
+}
+
+.bg-indigo-100 {
+    background: #e8eaf6;
+}
+
+.bg-red-100 {
+    background: #ffebee ;
+}
+
+.bg-grey-100 {
+    background: #fafafa;
+}
+
+.school_dashboard .material-icons{
+    font-size: 3rem;
+}
+
+.school_dashboard .card h2 {
+    font-size: 3rem;
 }

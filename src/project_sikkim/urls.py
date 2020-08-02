@@ -8,4 +8,11 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('exams/', include('exams.urls')),
     path('schoolinfo/', include('schoolinfo.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('teach_staff/', include('teach_staff.urls')),
+    path('report/', include('reports.urls')),
 ]
+
+admin.site.site_header = "Sikkim S.I.S"
+admin.site.site_title = "Sikkim S.I.S"
+admin.site.index_title = ""

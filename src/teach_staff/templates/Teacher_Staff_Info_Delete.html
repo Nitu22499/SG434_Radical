@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class = 'container'>
+<br/>
+<div class = 'card'>
+<div class= 'card-body'>
+<h1> Delete {{Teacher_Staff_Info_Delete_Object}} ?</h1>
+<p>Deleting this is an irreversible change.</p>
+<form method = "POST">
+{% csrf_token %}
+<button type = 'submit' class = 'btn btn-danger'>Delete</button> 
+
+
+<a class = 'btn' href = "{% url 'teach_staff:Teacher_Detail' pk=Teacher_Staff_Info_Delete_Object.pk %}">Cancel</a>
+</div>
+</div>
+</form>
+</div>
+{% endblock  %}

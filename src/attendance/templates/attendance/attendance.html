@@ -7,10 +7,11 @@
 
 {% block body %}
     <div class="container">
+        <br>
         <div class="text-center">
             <h1>Attendance Manager</h1>
-            <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user }} &nbsp; <i
-                    class="fas fa-school"></i>&nbsp; {{ user.school }}</p>
+            <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user|title }} &nbsp; <i
+                    class="fas fa-school"></i>&nbsp; {{ display.school }}</p>
         </div>
         <div class="row">
             <section class="card col-5">
@@ -28,5 +29,6 @@
                 </div>
             </section>
         </div>
+
     </div>
 {% endblock body %}
