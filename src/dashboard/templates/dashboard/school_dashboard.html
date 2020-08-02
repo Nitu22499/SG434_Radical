@@ -6,33 +6,42 @@
 
 
 {% block body %}
-    <div class="container">
-        <form class='row mt-4' method='GET'>
-            <div class="form-group col-md-2">
-                <select class="form-control browser-default custom-select" name="year" id="academic_year">
-                    <option selected value=''>Choose Academic Year</option>
-                    {% for year in years %}
-                        <option value={{year.0}}>{{year.1}}</option>
+    <div class="container" >
+        <form class='row mt-4' method='GET' id='form'>
+            <div class="form-group col-md-3">
+                <select class="form-control" name="year" id="academic_year">
+                    {% for y in years %}
+                        {% if y.0 == year %}
+                            <option selected value={{y.0}}>{{y.1}}</option>
+                        {% else %}
+                            <option value={{y.0}}>{{y.1}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
-             <div class="form-group col-md-2">
-                <select class="form-control browser-default custom-select" name="district" id="district">
-                    <option selected value=''>Choose District</option>
+             <div class="form-group col-md-3">
+                <select class="form-control browser-default custom-select" name="district" id="district" >
                     {% for district in districts %}
-                        <option value={{district.0}}>{{district.1}}</option>
+                        {% if district.0|stringformat:'i' == district_id %}
+                            <option selected value={{district.0}}>{{district.1}}</option>
+                        {% else %}
+                            <option value={{district.0}}>{{district.1}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
-             <div class="form-group col-md-2">
+             <div class="form-group col-md-3">
                 <select class="form-control browser-default custom-select" name="block" id="block">
-                    <option selected value=''>Choose Block</option>
                     {% for block in blocks %}
-                        <option value={{block.0}}>{{block.1}}</option>
+                        {% if block.0|stringformat:'i' == block_id %}
+                            <option selected value={{block.0}}>{{block.1}}</option>
+                        {% else %}
+                            <option value={{block.0}}>{{block.1}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-3">
                 <input class='btn btn-primary' type='submit' value='Get Info'></input>
             </div>
         </form>
@@ -237,7 +246,7 @@
             let academic_year = "{{year}}";
             let district = "{{district_id}}"
             let block = "{{block_id}}"
-            console.log(district, academic_year, block)
+            
             fetch(`${route}?year=${academic_year}&district=${district}&block=${block}&field=${field}&value=${value}`)
             .then(res => res.json())
             .then(res => {
@@ -277,11 +286,13 @@
             })
         }
 
-        var district = document.getElementById('district');
-        var blocks_element = document.getElementById('block');
-
-        district.addEventListener('change', function(event) {
-            let district_id = event.target.value;
+        function filterBlocks(event) {
+            let district_id = "{{district_id}}";
+            let block_id = "{{block_id}}"
+            if(event) {
+                district_id = event.target.value;
+            }
+            console.log(event, district_id)
             let endpoint = "{% url 'get_blocks' %}"
             
             fetch(`${endpoint}?district_id=${district_id}`)
@@ -297,10 +308,23 @@
                 blocks.map(block => {
                     var option = document.createElement('option')
                     option.value = block[0]
+                    if(block[0] == block_id) 
+                        option.selected = true;
                     option.appendChild( document.createTextNode(block[1]) );
                     blocks_element.appendChild(option)
                 });
             })
+        }
+
+        var district = document.getElementById('district');
+        var blocks_element = document.getElementById('block');
+
+        district.addEventListener('change', filterBlocks)
+        window.onload = filterBlocks();
+
+        let dashboard_form = document.getElementById('form');
+        dashboard_form.addEventListener('submit', (event) => {
+            
         })
     </script>
 {% endblock body %}

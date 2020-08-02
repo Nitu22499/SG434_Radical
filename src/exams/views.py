@@ -22,8 +22,8 @@ def reportView(request):
         'selected_class': None,
         'selected_subject': None,
         'year': year_choices,
-        'section': list(section_choices)[2:],
-        'stream': list(stream_choices)[2:]
+        'section': list(section_choices)[1:],
+        'stream': list(stream_choices)[1:]
     }
     if request.method=="POST":
         if not request.POST['class']:
@@ -75,29 +75,31 @@ def reportView(request):
                 context.update({
                     'selected_stream': request.POST['stream']
                 })
-        if request.POST['class'] and request.POST['subject'] and request.POST['year'] and request.POST['stream'] and request.POST['section']:
-            # New Strategy
-            subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
-            students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'])
-            if subject.subject_type != "Co -Scholastic":
-                exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'], exam_year=request.POST['year'])
-                if (not exams) and academic_year() == request.POST['year']:
-                    exams = []
-                    for stud in students:
-                        e = Exam(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
-                        e.save()
-                        exams.append(e)
-            else:
-                context.update({
-                    'has_co_scholastic_subject': True
-                })
-                exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'], exam_cs_year=request.POST['year'])
-                if (not exams) and academic_year() == request.POST['year']:
-                    exams = []
-                    for stud in students:
-                        e = ExamCoScholastic(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
-                        e.save()
-                        exams.append(e)
+        else:
+            stream = False
+        # New Strategy
+        subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
+        students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA')
+        print(students)
+        if subject.subject_type != "Co -Scholastic":
+            exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'], exam_year=request.POST['year'])
+            if (not exams) and academic_year() == request.POST['year']:
+                exams = []
+                for stud in students:
+                    e = Exam(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
+                    e.save()
+                    exams.append(e)
+        else:
+            context.update({
+                'has_co_scholastic_subject': True
+            })
+            exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'], exam_cs_year=request.POST['year'])
+            if (not exams) and academic_year() == request.POST['year']:
+                exams = []
+                for stud in students:
+                    e = ExamCoScholastic(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
+                    e.save()
+                    exams.append(e)
         if not exams:
             context.update({'no_record': True})
         context.update({

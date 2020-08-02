@@ -47,9 +47,10 @@ class DashboardView(generic.TemplateView):
         else:
             block = Q()
 
-        context['years'] = year_choices()
-        context['blocks'] = get_blocks()
-        context['districts'] = get_districts()
+        context['years'] = (('', 'Choose Academic Year'),) + year_choices()
+        context['blocks'] = (('', 'Choose Block'),) + get_blocks()
+        context['districts'] = (('', 'Choose District'),) + get_districts()
+        
         
         context['no_of_school'] = PhysicalFacilities.objects.filter(year).filter(district).filter(block).count()
         context['no_of_government_schools'] = PhysicalFacilities.objects.filter(pf_status='Government').filter(year).filter(district).filter(block).count()
@@ -77,8 +78,6 @@ def chart(request, *args, **kwargs):
     data = []
     query = {}
     
-    if 'year' in request.GET and request.GET['year'] != '':
-        query['academic_year'] = request.GET['year']
     if 'district' in request.GET and request.GET['district'] != '':
         query['pf_school__school_district'] = int(request.GET['district'])
     if 'block' in request.GET and request.GET['block'] != '':
@@ -107,3 +106,7 @@ def get_blocks_by_district(request):
     return JsonResponse(data = {
         'blocks' : blocks
     })
+
+
+def home_view(request):
+    return render(request, 'dashboard/home.html', {})
