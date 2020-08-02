@@ -89,7 +89,7 @@
 
         <h3>Employment Details</h3>
         <div>
-            <a href="#" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
+            <a href="{% url 'employee:update' employee.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
         </div>
         <br>
         <table class="table table-bordered table-responsive table-striped">
@@ -129,20 +129,21 @@
                 <td>{{ employee.employee_disability|default:'---' }}</td>
             </tr>
             <tr>
-                <td><b>Other Info</b></td>
-                <td>{{ employee.employee_social_category|default:'---'|truncatechars:50 }}</td>
-            </tr>
-            <tr>
                 <td><b>Date of Joining</b></td>
                 <td>{{ employee.employee_date_of_joining }}</td>
             </tr>
             </tbody>
         </table>
+        <br>
+
+        <h3><b>Other Information</b></h3>
+        <p>{{ employee.employee_other_info|default:'---' }}</p>
+
         {% if teacher %}
             <br><br>
             <h3>Teaching Details</h3>
             <div>
-                <a href="#" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
+                <a href="{% url 'employee:teacher_update' employee.teacher.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
             </div>
             <br>
             <table class="table table-bordered table-responsive table-striped">

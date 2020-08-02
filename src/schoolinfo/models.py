@@ -39,22 +39,23 @@ type_of_school=(
 )
 
 management_school_code=(
-    ('Department of Education',('Department of Education')),
-    ('Tribal Welfare Department',('Tribal Welfare Department')),
+    ('State Govt.',('State Govt.')),
+    ('Central Govt.',('Central Govt.')),
+    ('Private',('Private')),
     ('Local Body',('Local Body')),
-    ('Government Aided',('Government Aided')),
-    ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
-    ('Other Govt. managed schools',('Other Govt. managed schools')),
-    ('Unrecognized',('Unrecognized')),
-    ('Social Welfare Department',('Social Welfare Department')),
-    ('Ministry of Labour',('Ministry of Labour')),
-    ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
-    ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
-    ('Sainik School',('Sainik School')),
-    ('RailwaySchool',('RailwaySchool')),
-    ('Central Tibetan School',('Central Tibetan School')),
-    ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
-    ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
+    ('Other',('Other')),
+    # ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
+    # ('Other Govt. managed schools',('Other Govt. managed schools')),
+    # ('Unrecognized',('Unrecognized')),
+    # ('Social Welfare Department',('Social Welfare Department')),
+    # ('Ministry of Labour',('Ministry of Labour')),
+    # ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
+    # ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
+    # ('Sainik School',('Sainik School')),
+    # ('RailwaySchool',('RailwaySchool')),
+    # ('Central Tibetan School',('Central Tibetan School')),
+    # ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
+    # ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
 )
 
 residential_type=(

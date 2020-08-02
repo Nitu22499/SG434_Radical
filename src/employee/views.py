@@ -5,18 +5,20 @@ from django.views.generic import FormView, UpdateView, ListView, DetailView, Del
 from django.utils.translation import gettext as _
 
 from profiles.models import User
-from .forms import EmployeeCreateForm, TeacherCreateForm
+from .forms import EmployeeCreateForm, TeacherCreateForm, EmployeeUpdateForm
 from .models import Teacher, Employee
 
 
 class EmployeeCreateView(FormView):
     form_class = EmployeeCreateForm
     template_name = 'employee/employee_create_form.html'
-    success_url = reverse_lazy('employee:add')
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeCreateView, self).get_context_data(**kwargs)
-        context['form_title'] = 'Employee'
+        context['display'] = {
+            'page_action': 'Add New',
+            'form_title': 'Employee'
+        }
         return context
 
     def form_valid(self, form):
@@ -30,23 +32,29 @@ class EmployeeCreateView(FormView):
             teacher = Teacher(teacher_employee=employee)
             teacher.save()
             return redirect('employee:teacher_add', pk=teacher.id)
-        return super().form_valid(form)
+        return redirect('employee:detail', pk=employee.pk)
 
 
 class TeacherCreateView(UpdateView):
     form_class = TeacherCreateForm
     model = Teacher
     template_name = 'employee/employee_create_form.html'
-    success_url = reverse_lazy('employee:add')
 
     def get_context_data(self, **kwargs):
         context = super(TeacherCreateView, self).get_context_data(**kwargs)
-        context['form_title'] = 'Teacher'
+        context['display'] = {
+            'page_action': 'Add new',
+            'form_title': 'Teacher'
+        }
+
+        if 'update' in self.request.path.split('/'):
+            context['display']['page_action'] = 'Update'
         return context
 
     def form_valid(self, form):
+        teacher = form.save()
         messages.success(self.request, _('Teacher data updated successfully'))
-        return super().form_valid(form)
+        return redirect('employee:detail', teacher.teacher_employee_id)
 
 
 class EmployeeListView(ListView):
@@ -65,11 +73,9 @@ class EmployeeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(EmployeeDetailView, self).get_context_data(**kwargs)
-        print(context)
         employee = context['employee']
         if employee.employee_user.is_teacher:
             context['teacher'] = employee.teacher
-        print(context)
 
         return context
 
@@ -77,3 +83,23 @@ class EmployeeDetailView(DetailView):
 class EmployeeDeleteView(DeleteView):
     model = User
     success_url = reverse_lazy('employee:list')
+
+
+class EmployeeUpdateView(UpdateView):
+    form_class = EmployeeUpdateForm
+    model = Employee
+    template_name = 'employee/employee_create_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EmployeeUpdateView, self).get_context_data(**kwargs)
+
+        context['display'] = {
+            'page_action': 'Update',
+            'form_title': 'Employee'
+        }
+
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('employee:detail', pk=self.object.pk)

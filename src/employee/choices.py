@@ -32,7 +32,7 @@ PROFESSIONAL_QUALIFICATION = (
     ('B.Ed or equivalent', 'B.Ed or equivalent'),
     ('M.Ed or equivalent', 'M.Ed or equivalent'),
     ('Others', 'Others'),
-    ('None', 'None'),
+    ('None applicable', 'None applicable'),
     ('Diploma or Degree in special Education', 'Diploma or Degree in special Education'),
     ('Pursuing a relevant course', 'Pursuing a relevant course')
 )

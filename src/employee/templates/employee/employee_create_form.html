@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block title %}
-    Add new Employee
+    {{ display.page_action }} {{ display.form_title }}
 {% endblock title %}
 
 {% block body %}
 
     <div class="container" style="padding-top: 2%; padding-bottom: 4%;">
         <div class="card border border-primary shadow-2-strong col-md-8 mx-auto">
-            <h2 class="card-header text-center bg-primary text-white">{{ form_title }} Profile</h2>
+            <h2 class="card-header text-center bg-primary text-white">{{ display.form_title }} Profile</h2>
             <div class="card-body">
                 <form method="POST" action="">
                     {% csrf_token %}

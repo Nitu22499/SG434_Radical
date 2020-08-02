@@ -8,9 +8,7 @@ from .validators import validate_phone_number
 class Employee(models.Model):
     employee_user = models.OneToOneField(User, on_delete=models.CASCADE)
     employee_school = models.ForeignKey(School, on_delete=models.CASCADE)
-    # already there is user
-    # employee_gender = models.CharField(choices=choices.GENDER, max_length=20, verbose_name='Gender')
-    employee_social_category = models.CharField(choices=choices.SOCIAL_CATEGORY, max_length=30, blank=True,
+    employee_social_category = models.CharField(choices=choices.SOCIAL_CATEGORY, max_length=30, default='OPEN',
                                                 verbose_name='Social Category')
     employee_nature_of_appointment = models.CharField(choices=choices.NATURE_OF_APPOINTMENT, max_length=256, blank=True,
                                                       verbose_name='Nature of Appointment')
@@ -41,7 +39,7 @@ class Teacher(models.Model):
     teacher_type = models.CharField(choices=choices.TEACHER_TYPE, max_length=256, blank=True,
                                     verbose_name='Type of Teacher')
     teacher_highest_professional_qualification = models.CharField(choices=choices.PROFESSIONAL_QUALIFICATION,
-                                                                  max_length=256, blank=True,
+                                                                  max_length=256, default='None applicable',
                                                                   verbose_name='Highest Professional Qualification')
     teacher_classes_taught = models.CharField(choices=choices.CLASSES_TAUGHT, max_length=256, blank=True,
                                               verbose_name='Classes Taught')
