@@ -14,7 +14,7 @@
         <form method="post" action="{% url 'attendance:employee_mark_attendance' create_date %}">
             {% csrf_token %}
             <button class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
-            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date %}"><i
+            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date school %}"><i
                     class="fas fa-chevron-left"></i> return back</a>
             <br><br>
 
@@ -50,7 +50,7 @@
             </table>
 
             <button class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
-            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date %}"><i
+            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date school %}"><i
                     class="fas fa-chevron-left"></i> &nbsp;
                 return back</a>
         </form>
