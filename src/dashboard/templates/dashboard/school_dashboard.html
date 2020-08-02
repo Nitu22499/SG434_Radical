@@ -7,22 +7,38 @@
 
 {% block body %}
     <div class="container">
-
         <form class='row mt-4' method='GET'>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
                 <select class="form-control browser-default custom-select" name="year" id="academic_year">
-                    <option selected disabled>Choose Academic Year</option>
-                    <option value="2020-2021">2020-2021</option>
-                    <option value="2019-2020">2019-2020</option>
+                    <option selected value=''>Choose Academic Year</option>
+                    {% for year in years %}
+                        <option value={{year.0}}>{{year.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+             <div class="form-group col-md-2">
+                <select class="form-control browser-default custom-select" name="district" id="district">
+                    <option selected value=''>Choose District</option>
+                    {% for district in districts %}
+                        <option value={{district.0}}>{{district.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+             <div class="form-group col-md-2">
+                <select class="form-control browser-default custom-select" name="block" id="block">
+                    <option selected value=''>Choose Block</option>
+                    {% for block in blocks %}
+                        <option value={{block.0}}>{{block.1}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <input class='btn btn-primary btn-sm' type='submit' value='Get Info'></input>
+                <input class='btn btn-primary' type='submit' value='Get Info'></input>
             </div>
         </form>
         <div class="row mt-4 school_dashboard">
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-blue-100">
+                <div class="card px-2 py-3 bg-blue-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('academic_year', '', 'Number of Schools')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>
@@ -42,7 +58,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-red-100">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_status', 'Government', 'Number of Government School')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Government Schools</strong>
@@ -60,7 +76,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-indigo-100">
+                <div class="card px-2 py-3 bg-indigo-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_drinking_water_available', 'Yes', 'Number of school with Drinking water')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Drinking Water</strong>
@@ -79,7 +95,7 @@
 
             <div class="col-lg-4 col-md-6 mb-5">
                 <div class="card px-2 py-3 bg-grey-100">
-                    <div class="card-body">
+                    <div class="card-body" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_playground_facility', 'Yes','Number of Schools with Playgorund')">
                         <div class="card-title">
                             <strong>% of Schools with Playground</strong>
                         </div>
@@ -96,7 +112,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-red-100">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_electricity_connection', 'Yes','Number of Schools with Electricity')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Electricity</strong>
@@ -114,7 +130,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3  bg-blue-100">
+                <div class="card px-2 py-3  bg-blue-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_librarian', 'Yes','Number of Schools with Library')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Library</strong>
@@ -132,7 +148,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-indigo-100">
+                <div class="card px-2 py-3 bg-indigo-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_sep_girls_sec', 'Yes','Number of Schools with Seperate Girl Common Room')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Seperate Girl Common Room</strong>
@@ -150,7 +166,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-grey-100">
+                <div class="card px-2 py-3 bg-grey-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_ramp_disabled', 'Yes','Number of School with Ramp')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Ramp</strong>
@@ -168,7 +184,7 @@
             </div>
 
             <div class="col-lg-4 col-md-6 mb-5">
-                <div class="card px-2 py-3 bg-red-100">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_schools_toilet', 'Yes','Number of School with Toilet')">
                     <div class="card-body">
                         <div class="card-title">
                             <strong>% of Schools with Toilet</strong>
@@ -186,4 +202,105 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Number of Schools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        function setData(field, value, title) {
+            if(window.chart !== undefined) {
+                window.chart.destroy();
+            }
+            let route = "{% url 'chart' %}";
+            let academic_year = "{{year}}";
+            let district = "{{district_id}}"
+            let block = "{{block_id}}"
+            console.log(district, academic_year, block)
+            fetch(`${route}?year=${academic_year}&district=${district}&block=${block}&field=${field}&value=${value}`)
+            .then(res => res.json())
+            .then(res => {
+                window.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: res['label'],
+                        datasets: [{
+                            label: title,
+                            data: res['data']
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            colorschemes: {
+                                scheme: 'brewer.PastelTwo8'
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                            beginAtZero: true,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                            stepsize:1
+                            }
+                        }],
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                            beginAtZero: true
+                            }
+                        }]
+                    }
+                });
+            })
+        }
+
+        var district = document.getElementById('district');
+        var blocks_element = document.getElementById('block');
+
+        district.addEventListener('change', function(event) {
+            let district_id = event.target.value;
+            let endpoint = "{% url 'get_blocks' %}"
+            
+            fetch(`${endpoint}?district_id=${district_id}`)
+            .then(res => res.json())
+            .then(data => {
+                blocks_element.innerHTML = null
+                blocks = data['blocks']
+                var option = document.createElement('option')
+                option.value = ''
+                option.selected = true;
+                option.appendChild( document.createTextNode('Choose Block') );
+                blocks_element.appendChild(option)
+                blocks.map(block => {
+                    var option = document.createElement('option')
+                    option.value = block[0]
+                    option.appendChild( document.createTextNode(block[1]) );
+                    blocks_element.appendChild(option)
+                });
+            })
+        })
+    </script>
 {% endblock body %}
