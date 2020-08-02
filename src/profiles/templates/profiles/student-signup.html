@@ -10,14 +10,14 @@
     {% csrf_token %}
     {% for field in form %}
     
-    <div class="form-group row mb-3">
-        <div class="col-auto align-self-center"></div>
+    <span class="text-danger small">{{ field.errors }}</span>
+    <div class="{% if field.field.widget.input_type == 'text' %} form-outline {% endif %} mb-3">
+    
+        {{ field }}
         {% if field.label != '' %}
-          <label class="col-sm-3 col-form-label">{{ field.label }}</label>
-          {% endif %}
-          <div class="col-sm-8 align-self-center">{{ field }}</div>
-          <span class="text-danger small">{{ field.errors }}</span>
-      </div>
+        <label class="form-label">{{ field.label }}</label>
+        {% endif %}
+    </div>
     {% endfor %}
     <div class = "text-center">
     <button class="btn btn-primary" type="submit">Submit</button>
