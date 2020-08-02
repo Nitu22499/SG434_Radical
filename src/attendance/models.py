@@ -2,8 +2,7 @@ from django.db import models
 from django.utils.timezone import now as today_date
 from django.utils.translation import gettext as _
 
-from employee.models import Employee
-from profiles.models import Student, Subject, section_choices, School
+from profiles.models import Student, Subject, section_choices, School, User
 from .validators import validate_no_future_date
 
 
@@ -26,7 +25,7 @@ class StudentAttendance(models.Model):
     student_attendance_is_present = models.BooleanField(_('is present'), default=False)
 
     class Meta:
-        ordering = ['-student_attendance_date', 'student_attendance_subject', 'student_attendance_student__stud_rollno']
+        ordering = ['-student_attendance_date', 'student_attendance_subject']
         unique_together = ('student_attendance_date', 'student_attendance_subject', 'student_attendance_section',
                            'student_attendance_school', 'student_attendance_student')
 
@@ -77,14 +76,14 @@ class EmployeeAttendance(models.Model):
     """
     employee_attendance_date = models.DateField(_('Date'), default=today_date, validators=(validate_no_future_date,), )
     employee_attendance_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name=_('school'))
-    employee_attendance_employee = models.ForeignKey(Employee, on_delete=models.CASCADE,
-                                                     verbose_name=_('Employee'))
+    employee_attendance_employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
+                                                     verbose_name=_('Employee'), limit_choices_to={'is_employee': True})
     employee_attendance_is_present = models.BooleanField(_('is present'), default=False)
     employee_attendance_reason_for_absence = models.CharField(_('Reason for absence'), max_length=500, default='')
 
     class Meta:
-        ordering = ['-employee_attendance_date', 'employee_attendance_employee__employee_user__first_name',
-                    'employee_attendance_employee__employee_user__last_name']
+        ordering = ['-employee_attendance_date', 'employee_attendance_employee__first_name',
+                    'employee_attendance_employee__last_name']
         unique_together = ('employee_attendance_date', 'employee_attendance_school', 'employee_attendance_employee',)
 
     def __str__(self):

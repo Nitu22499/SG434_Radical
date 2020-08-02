@@ -22,7 +22,6 @@
               <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
                 data-target="#schoolsByMgmtModal">View Report</button></a></td>
                 {% url 'reports:schools_by_mgmt' as schools_by_mgmt_url %}
-                <!-- generate view url and pass to modal template -->
                 {% include 'reports/modal_template.html' with view_url=schools_by_mgmt_url modal_id='schoolsByMgmtModal' title='Schools by Management' %}
             </tr>
             <tr>
