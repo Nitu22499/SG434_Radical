@@ -13,7 +13,7 @@ class StudentSignUpForm(UserCreationForm):
     middle_name = forms.CharField(widget=forms.TextInput())
     stud_mother_name = forms.CharField(label="Mother Name",widget=forms.TextInput())
     last_name = forms.CharField(widget=forms.TextInput())
-    gender = forms.CharField(widget=forms.Select(choices=(('Male', 'Male'), ('Female', 'Female')), attrs={'class':'form-select'}))
+    gender = forms.CharField(widget=forms.Select(choices=(('MALE', 'MALE'), ('FEMALE', 'FEMALE')), attrs={'class':'form-select'}))
     date_of_birth = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'DD/MM/YYYY'}))
     stud_class = forms.CharField(label='Class', widget=forms.Select(choices=class_choices, attrs={'class':'form-select'}))
     stud_section = forms.CharField(label='Section', required = False, widget=forms.Select(choices=section_choices, attrs={'class':'form-select'}))
@@ -27,8 +27,8 @@ class StudentSignUpForm(UserCreationForm):
     stud_address = forms.CharField(label='Address', widget=forms.TextInput())
     stud_parentContact = forms.IntegerField(label='Parents Contact No (Primary)', required=True, widget=forms.TextInput())
     stud_parentSecContact = forms.IntegerField(label='Parents Contact No (Secondary)', required=False, widget=forms.TextInput())
-    password1 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'SegY8bH4harr'}))
-    password2 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'SegY8bH4harr'}))
+    password1 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'Pass@123'}))
+    password2 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'Pass@123'}))
 
 
     class Meta(UserCreationForm.Meta):

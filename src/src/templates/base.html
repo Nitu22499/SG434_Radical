@@ -48,7 +48,7 @@
                 <a class="nav-link" aria-current="page" href="#">Staff</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Attendance</a>
+                <a class="nav-link" aria-current="page" href="{% url 'attendance:index' %}">Attendance</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Academic Records</a>
@@ -56,7 +56,7 @@
               
             </ul>
             <div class="navbar-nav nav-item font-weight-bold d-flex w-auto">
-              <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Logout</a>
+              <a class="nav-link" aria-current="page" href="{% url 'profiles:logout' %}">Logout</a>
             </div>
           </div>
         </div>
