@@ -3,7 +3,7 @@ from datetime import date as datetime_date
 from django import forms
 from django.utils.translation import gettext as _
 
-from profiles.models import Subject, section_choices
+from profiles.models import Subject, section_choices, District, Block, School
 from .utils import ERROR_MESSAGES
 from .validators import validate_no_future_date_form
 
@@ -136,3 +136,60 @@ class MyAttendanceFetchForm(forms.Form):
 
     def clean_student_fetch_end_date(self):
         return convert_future_date_today_if_future(self.cleaned_data['student_fetch_end_date'])
+
+
+# authorities view forms
+
+class BlockAdminAttendanceFetchForm(forms.Form):
+    school = forms.ModelChoiceField(queryset=School.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}
+    ))
+    block = forms.IntegerField(widget=forms.HiddenInput(), label='')
+    district = forms.IntegerField(widget=forms.HiddenInput(), label='')
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request', None)
+        super(BlockAdminAttendanceFetchForm, self).__init__(*args, **kwargs)
+
+        if request:
+            user = request.user
+            self.fields['school'].queryset = School.objects.filter(school_block=user.block)
+            self.fields['block'].initial = user.block.id
+            self.fields['district'].initial = user.block.block_district_id
+
+
+class DistrictAdminAttendanceFetchForm(forms.Form):
+    block = forms.ModelChoiceField(queryset=Block.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}
+    ), required=False)
+    school = forms.ModelChoiceField(queryset=School.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}
+    ))
+    district = forms.IntegerField(widget=forms.HiddenInput(), label='')
+
+    class Meta:
+        fields = ('block', 'school')
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop('request', None)
+        super(DistrictAdminAttendanceFetchForm, self).__init__(*args, **kwargs)
+        if request:
+            user = request.user
+            self.fields['school'].queryset = School.objects.filter(school_district=user.district)
+            self.fields['block'].queryset = Block.objects.filter(block_district=user.district)
+            self.fields['district'].initial = user.district.id
+
+
+class StateAdminAttendanceFetchForm(forms.Form):
+    district = forms.ModelChoiceField(queryset=District.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'},
+    ), required=False)
+    block = forms.ModelChoiceField(queryset=Block.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}
+    ), required=False)
+    school = forms.ModelChoiceField(queryset=School.objects.all(), widget=forms.Select(
+        attrs={'class': 'form-control'}
+    ))
+
+    class Meta:
+        fields = ('district', 'block', 'school')

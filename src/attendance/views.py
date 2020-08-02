@@ -3,14 +3,18 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, FormView
 
-from attendance.forms import StudentFetchForm, EmployeeFetchForm, StudentAttendanceCreateForm, \
-    EmployeeAttendanceCreateForm, MyAttendanceFetchForm
+from attendance.forms import (
+    StudentFetchForm, EmployeeFetchForm, StudentAttendanceCreateForm, EmployeeAttendanceCreateForm,
+    MyAttendanceFetchForm, StateAdminAttendanceFetchForm, DistrictAdminAttendanceFetchForm,
+    BlockAdminAttendanceFetchForm
+)
 from attendance.models import StudentAttendance, get_employee_attendance, EmployeeAttendance, get_my_attendance
-from profiles.models import Student, Subject, User
+from employee.models import Employee
+from profiles.models import Student, Subject, School, Block
 from .models import get_student_attendance, get_student_attendance_dates
 
 
@@ -24,12 +28,24 @@ class AttendanceIndexView(LoginRequiredMixin, TemplateView):
             return super(AttendanceIndexView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        school = None
-        if self.request.user.is_student:
-            school = Student.objects.get(user=self.request.user).stud_school
+        location = None
+        authority_type = None
+        if self.request.user.is_school_admin:
+            location = self.request.user.school
+            authority_type = 'School Admin'
+        elif self.request.user.is_block_admin:
+            location = self.request.user.block
+            authority_type = 'Block Admin'
+        elif self.request.user.is_district_admin:
+            location = self.request.user.district
+            authority_type = 'District Admin'
+        elif self.request.user.is_state_admin:
+            location = 'Sikkim'
+            authority_type = 'State Admin'
 
         kwargs['display'] = {
-            'school': school
+            'location': location,
+            'authority_type': authority_type
         }
 
         return kwargs
@@ -58,11 +74,17 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/student_attendance_list.html'
 
     def get_context_data(self, **kwargs):
+        print(kwargs)
+        school = None
+        if self.request.user.is_employee:
+            school = Employee.objects.get(employee_user=self.request.user).employee_school
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
+        if not self.request.user.is_student:
+            school = School.objects.get(pk=kwargs['school'])
 
         date_header = get_student_attendance_dates(kwargs['start_date'], kwargs['end_date'], kwargs['subject'],
-                                                   kwargs['section'], self.request.user.school)
-
-        # print(self.request.user.)
+                                                   kwargs['section'], school)
 
         header = ['Roll no', 'First name', 'Last name', *date_header, 'present percent']
 
@@ -73,7 +95,7 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
         ).order_by(
             'stud_rollno'
         ).filter(
-            stud_class=subject.subject_class, stud_section=kwargs['section'], stud_school=self.request.user.school
+            stud_class=subject.subject_class, stud_section=kwargs['section'], stud_school=school
         ).distinct()
 
         field_value = []
@@ -97,6 +119,7 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
 
         kwargs['header'] = header
         kwargs['field_values'] = field_value
+        kwargs['school'] = school.id
 
         # info display inside template
         subject = Subject.objects.get(pk=kwargs['subject'])
@@ -114,18 +137,40 @@ class StudentAttendanceHomeView(LoginRequiredMixin, FormView):
     form_class = StudentFetchForm
     template_name = 'attendance/student_attendance_home.html'
 
+    # noinspection DuplicatedCode
+    def get_context_data(self, **kwargs):
+        context = super(StudentAttendanceHomeView, self).get_context_data(**kwargs)
+        context['authority_form'] = None
+
+        if self.request.user.is_state_admin:
+            context['authority_form'] = StateAdminAttendanceFetchForm
+        elif self.request.user.is_district_admin:
+            context['authority_form'] = DistrictAdminAttendanceFetchForm(request=self.request)
+        elif self.request.user.is_block_admin:
+            context['authority_form'] = BlockAdminAttendanceFetchForm(request=self.request)
+        return context
+
     def form_valid(self, form):
+        school = None
+        if self.request.user.is_employee:
+            logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+            school = logged_in_employee.employee_school
+        elif self.request.user.is_school_admin:
+            school = self.request.user.school
+        elif not self.request.user.is_student:
+            school = School.objects.get(id=self.request.POST.get('school'))
+
         parameter = {
             'start_date': str(form.cleaned_data.get('student_fetch_start_date')),
             'end_date': str(form.cleaned_data.get('student_fetch_end_date')),
             'subject': form.cleaned_data.get('subject').pk,
             'section': form.cleaned_data.get('section'),
+            'school': school.id
         }
-
         section = parameter['section'] if parameter['section'] != 'NA' else ''
 
         date = get_student_attendance_dates(parameter['start_date'], parameter['end_date'], parameter['subject'],
-                                            parameter['section'], self.request.user.school)
+                                            parameter['section'], school)
 
         if not date.count():
             messages.warning(
@@ -145,7 +190,7 @@ class StudentAttendanceDetailView(LoginRequiredMixin, TemplateView):
         context = super(StudentAttendanceDetailView, self).get_context_data(**kwargs)
 
         context['attendance'] = get_student_attendance(context['create_date'], context['subject'], context['section'],
-                                                       self.request.user.school)
+                                                       context['school'])
 
         # info display inside template
         subject = Subject.objects.get(pk=context['subject'])
@@ -266,18 +311,27 @@ class EmployeeAttendanceListView(LoginRequiredMixin, TemplateView):
         ).order_by(
             'employee_attendance_date'
         ).filter(
-            employee_attendance_date__range=(kwargs['start_date'], kwargs['end_date'])
+            employee_attendance_date__range=(kwargs['start_date'], kwargs['end_date']),
+            employee_attendance_school_id=kwargs['school']
         ).distinct()
 
         header = ['First name', 'Last name', *date_header, 'Present percent']
 
-        employees = User.objects.values_list(
-            'first_name', 'last_name', 'pk'
+        school = None
+        if self.request.user.is_employee:
+            school = Employee.objects.get(employee_user=self.request.user).employee_school
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
+        if not self.request.user.is_student:
+            school = School.objects.get(pk=kwargs['school'])
+
+        employees = Employee.objects.values_list(
+            'employee_user__first_name', 'employee_user__last_name', 'pk'
         ).order_by(
-            'first_name', 'last_name'
+            'employee_user__last_name', 'employee_user__last_name'
         ).filter(
-            is_employee=True
-        ).distinct()
+            employee_school=school
+        )
 
         field_value = []
         for first_name, last_name, pk in employees:
@@ -314,10 +368,34 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
     form_class = EmployeeFetchForm
     template_name = 'attendance/employee_attendance_home.html'
 
+    # noinspection DuplicatedCode
+    def get_context_data(self, **kwargs):
+        context = super(EmployeeAttendanceHomeView, self).get_context_data(**kwargs)
+        context['authority_form'] = None
+
+        if self.request.user.is_state_admin:
+            context['authority_form'] = StateAdminAttendanceFetchForm
+        elif self.request.user.is_district_admin:
+            context['authority_form'] = DistrictAdminAttendanceFetchForm(request=self.request)
+        elif self.request.user.is_block_admin:
+            context['authority_form'] = BlockAdminAttendanceFetchForm(request=self.request)
+        return context
+
     def form_valid(self, form):
+
+        school = None
+        if self.request.user.is_employee:
+            logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+            school = logged_in_employee.employee_school
+        elif self.request.user.is_school_admin:
+            school = self.request.user.school
+        elif not self.request.user.is_student:
+            school = School.objects.get(id=self.request.POST.get('school'))
+
         parameter = {
             'start_date': str(form.cleaned_data.get('employee_fetch_start_date')),
             'end_date': str(form.cleaned_data.get('employee_fetch_end_date')),
+            'school': school.id
         }
 
         dates = EmployeeAttendance.objects.values_list(
@@ -325,7 +403,8 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
         ).order_by(
             'employee_attendance_date'
         ).filter(
-            employee_attendance_date__range=(parameter['start_date'], parameter['end_date'])
+            employee_attendance_date__range=(parameter['start_date'], parameter['end_date']),
+            employee_attendance_school=school
         ).distinct()
 
         if not dates.count():
@@ -340,7 +419,7 @@ class EmployeeAttendanceDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/employee_attendance_detail.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['attendance'] = get_employee_attendance(kwargs['create_date'], self.request.user.school)
+        kwargs['attendance'] = get_employee_attendance(kwargs['create_date'], kwargs['school'])
 
         # info display inside template
         kwargs['display'] = {
@@ -358,9 +437,8 @@ class EmployeeAttendanceCreateView(LoginRequiredMixin, FormView):
         school = self.request.user.school
         create_date = form.cleaned_data['create_date']
 
-        # todo add school when employee has that
-        employees = User.objects.filter(
-            is_employee=True,
+        employees = Employee.objects.filter(
+            employee_school=school
         )
 
         if get_employee_attendance(create_date, school).count():
@@ -378,7 +456,6 @@ class EmployeeAttendanceCreateView(LoginRequiredMixin, FormView):
 
         EmployeeAttendance.objects.bulk_create(attendance_object_list)
 
-        # todo add school when employee has that
         parameters = {
             'create_date': create_date,
         }
@@ -470,3 +547,34 @@ class MyAttendanceDetailView(LoginRequiredMixin, TemplateView):
         }
 
         return kwargs
+
+
+# authority fetch view data loads
+def load_school(request):
+    data_type = request.GET.get('data_type')
+    block_id = request.GET.get('block_id')
+    district_id = request.GET.get('district_id')
+    schools = School.objects.all()
+
+    if data_type == 'district' and district_id:
+        schools = School.objects.filter(school_district_id=district_id)
+    elif data_type == 'block':
+        if block_id:
+            schools = School.objects.filter(school_block_id=block_id)
+        elif district_id:
+            schools = School.objects.filter(school_district_id=district_id)
+
+    print(schools)
+
+    return render(request, 'attendance/dropdown_list_options.html', {'type': 'school', 'schools': schools})
+
+
+def load_block(request):
+    district_id = request.GET.get('district_id')
+    blocks = Block.objects.all()
+    if district_id:
+        blocks = Block.objects.filter(block_district_id=district_id)
+
+    print(blocks)
+
+    return render(request, 'attendance/dropdown_list_options.html', {'type': 'block', 'blocks': blocks})
