@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Staff detail
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1>Staff Detail</h1>
+        <br>
+
+        <div>
+            <a href="{% url 'employee:list' %}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+            <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                    class="far fa-trash-alt"></i>&nbsp;Delete
+            </button>
+        </div>
+        <br>
+
+        <!-- Delete Modal -->
+        <div
+                class="modal fade"
+                id="deleteModal"
+                tabindex="-1"
+                aria-labelledby="deleteModal"
+                aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-light">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle"></i>&nbsp;Delete
+                            record?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure, you want to <span class="text-danger">delete</span> Employee record
+                            for <b>{{ employee.employee_user.get_full_name }} ({{ employee.employee_user }})</b>
+                            ?</p>
+                        <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
+                    </div>
+                    <form class="modal-footer" method="post"
+                          action="{% url 'employee:delete' employee.employee_user_id %}">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fas fa-chevron-left"></i>&nbsp;return back
+                        </button>
+                        <button type="submit" class="btn btn-outline-danger">delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End of Delete Modal -->
+
+        <h3>Personal Information</h3>
+        <table class="table table-bordered table-responsive table-striped">
+            <tbody>
+            <tr>
+                <td><b>Full name</b></td>
+                <td>{{ employee.employee_user.get_full_name }}</td>
+            </tr>
+            <tr>
+                <td><b>Username</b></td>
+                <td>{{ employee.employee_user.username }}</td>
+            </tr>
+            <tr>
+                <td><b>Date of Birth</b></td>
+                <td>{{ employee.employee_user.date_of_birth }}</td>
+            </tr>
+            <tr>
+                <td><b>Gender</b></td>
+                <td>{{ employee.employee_user.gender }}</td>
+            </tr>
+            <tr>
+                <td><b>School admin?</b></td>
+                <td>{% if employee.employee_user.is_school_admin %}YES {% else %}NO {% endif %}</td>
+            </tr>
+            <tr>
+                <td><b>Teacher?</b></td>
+                <td>{% if employee.employee_user.is_teacher %}YES {% else %}NO {% endif %}</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <br><br>
+
+        <h3>Employment Details</h3>
+        <div>
+            <a href="{% url 'employee:update' employee.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
+        </div>
+        <br>
+        <table class="table table-bordered table-responsive table-striped">
+            <tbody>
+            <tr>
+                <td><b>Contact number</b></td>
+                <td>{{ employee.employee_contact_number|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Email</b></td>
+                <td>{{ employee.employee_email_address|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Martial status</b></td>
+                <td>
+                    {% if employee.employee_is_married %}
+                        Married
+                    {% else %}
+                        Unmarried
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Social Category</b></td>
+                <td>{{ employee.employee_social_category|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Nature of Appointment</b></td>
+                <td>{{ employee.employee_nature_of_appointment|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Highest Academic Qualification</b></td>
+                <td>{{ employee.employee_highest_academic_qualification|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Disability</b></td>
+                <td>{{ employee.employee_disability|default:'---' }}</td>
+            </tr>
+            <tr>
+                <td><b>Date of Joining</b></td>
+                <td>{{ employee.employee_date_of_joining }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <h3><b>Other Information</b></h3>
+        <p>{{ employee.employee_other_info|default:'---' }}</p>
+
+        {% if teacher %}
+            <br><br>
+            <h3>Teaching Details</h3>
+            <div>
+                <a href="{% url 'employee:teacher_update' employee.teacher.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
+            </div>
+            <br>
+            <table class="table table-bordered table-responsive table-striped">
+                <tbody>
+                <tr>
+                    <td><b>Teacher Code</b></td>
+                    <td>{{ employee.teacher.teacher_code|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Type of Teacher</b></td>
+                    <td>{{ employee.teacher.teacher_type|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Highest Professional Qualification</b></td>
+                    <td>{{ employee.teacher.teacher_highest_professional_qualification|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Classes Taught</b></td>
+                    <td>{{ employee.teacher.teacher_classes_taught|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Appointed Subject</b></td>
+                    <td>{{ employee.teacher.teacher_appointed_subject|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Main Subject Taught 1</b></td>
+                    <td>{{ employee.teacher.teacher_main_subject_taught_1|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Main Subject Taught 2</b></td>
+                    <td>{{ employee.teacher.teacher_main_subject_taught_2|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Training received (BRC)</b></td>
+                    <td>{{ employee.teacher.teacher_brc }}</td>
+                </tr>
+                <tr>
+                    <td><b>Training received (CRC)</b></td>
+                    <td>{{ employee.teacher.teacher_crc }}</td>
+                </tr>
+                <tr>
+                    <td><b>Training received (DIET)</b></td>
+                    <td>{{ employee.teacher.teacher_diet }}</td>
+                </tr>
+                <tr>
+                    <td><b>Training Received</b></td>
+                    <td>{{ employee.teacher.teacher_training_received|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Training Need</b></td>
+                    <td>{{ employee.teacher.teacher_training_need|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Number of days spent on non teaching assignments</b></td>
+                    <td>{{ employee.teacher.teacher_number_of_days_spent_on_non_teaching_assignment|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Maths studied up to</b></td>
+                    <td>{{ employee.teacher.teacher_math_studied_up_to|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Science studied up to</b></td>
+                    <td>{{ employee.teacher.teacher_science_studied_up_to|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>English studied up to</b></td>
+                    <td>{{ employee.teacher.teacher_english_studied_up_to|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Language studied up to</b></td>
+                    <td>{{ employee.teacher.teacher_language_studied_up_to|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Social Study studied up to</b></td>
+                    <td>{{ employee.teacher.teacher_social_studies_studied_up_to|default:'---' }}</td>
+                </tr>
+                <tr>
+                    <td><b>Trained for CWSN
+                    </b></td>
+                    <td>{% if employee.teacher.teacher_trained_for_teaching_cwsn %}YES {% else %}NO {% endif %}</td>
+                </tr>
+                <tr>
+                    <td><b>Can Teach through computer?</b></td>
+                    <td>{% if employee.teacher.teacher_trained_for_use_of_computer %}YES {% else %}NO {% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+{% endblock body %}

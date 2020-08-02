@@ -10,7 +10,8 @@ from django.views.generic import TemplateView, FormView
 from attendance.forms import StudentFetchForm, EmployeeFetchForm, StudentAttendanceCreateForm, \
     EmployeeAttendanceCreateForm, MyAttendanceFetchForm
 from attendance.models import StudentAttendance, get_employee_attendance, EmployeeAttendance, get_my_attendance
-from profiles.models import Student, Subject, User
+from employee.models import Employee
+from profiles.models import Student, Subject
 from .models import get_student_attendance, get_student_attendance_dates
 
 
@@ -18,6 +19,7 @@ class AttendanceIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/attendance.html'
 
     def get(self, request, *args, **kwargs):
+        print(self.request.user.school)
         if request.user.is_student:
             return redirect('attendance:my_home')
         else:
@@ -25,8 +27,8 @@ class AttendanceIndexView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         school = None
-        if self.request.user.is_student:
-            school = Student.objects.get(user=self.request.user).stud_school
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
 
         kwargs['display'] = {
             'school': school
@@ -271,13 +273,17 @@ class EmployeeAttendanceListView(LoginRequiredMixin, TemplateView):
 
         header = ['First name', 'Last name', *date_header, 'Present percent']
 
-        employees = User.objects.values_list(
-            'first_name', 'last_name', 'pk'
+        # if school employee is logged in
+        # todo: similar logic for state and other admins
+        logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+
+        employees = Employee.objects.values_list(
+            'employee_user__first_name', 'employee_user__last_name', 'pk'
         ).order_by(
-            'first_name', 'last_name'
+            'employee_user__last_name', 'employee_user__last_name'
         ).filter(
-            is_employee=True
-        ).distinct()
+            employee_school=logged_in_employee.employee_school
+        )
 
         field_value = []
         for first_name, last_name, pk in employees:
@@ -320,12 +326,15 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
             'end_date': str(form.cleaned_data.get('employee_fetch_end_date')),
         }
 
+        logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+
         dates = EmployeeAttendance.objects.values_list(
             'employee_attendance_date', flat=True
         ).order_by(
             'employee_attendance_date'
         ).filter(
-            employee_attendance_date__range=(parameter['start_date'], parameter['end_date'])
+            employee_attendance_date__range=(parameter['start_date'], parameter['end_date']),
+            employee_attendance_school=logged_in_employee.employee_school
         ).distinct()
 
         if not dates.count():
@@ -340,7 +349,8 @@ class EmployeeAttendanceDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/employee_attendance_detail.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['attendance'] = get_employee_attendance(kwargs['create_date'], self.request.user.school)
+        logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+        kwargs['attendance'] = get_employee_attendance(kwargs['create_date'], logged_in_employee.employee_school)
 
         # info display inside template
         kwargs['display'] = {
@@ -358,9 +368,8 @@ class EmployeeAttendanceCreateView(LoginRequiredMixin, FormView):
         school = self.request.user.school
         create_date = form.cleaned_data['create_date']
 
-        # todo add school when employee has that
-        employees = User.objects.filter(
-            is_employee=True,
+        employees = Employee.objects.filter(
+            employee_school=school
         )
 
         if get_employee_attendance(create_date, school).count():
@@ -378,7 +387,6 @@ class EmployeeAttendanceCreateView(LoginRequiredMixin, FormView):
 
         EmployeeAttendance.objects.bulk_create(attendance_object_list)
 
-        # todo add school when employee has that
         parameters = {
             'create_date': create_date,
         }

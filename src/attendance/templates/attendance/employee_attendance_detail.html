@@ -73,8 +73,8 @@
             {% for employee in attendance %}
 
                 <tr>
-                    <td>{{ employee.employee_attendance_employee.first_name }}</td>
-                    <td>{{ employee.employee_attendance_employee.last_name }}</td>
+                    <td>{{ employee.employee_attendance_employee.employee_user.first_name }}</td>
+                    <td>{{ employee.employee_attendance_employee.employee_user.last_name }}</td>
                     <td class="text-{% if employee.employee_attendance_is_present %}success{% else %}danger{% endif %} text-center">
                         {% if employee.employee_attendance_is_present %}
                             P

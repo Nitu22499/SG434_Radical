@@ -2,7 +2,7 @@
 
 {% block body %}
 <script>
-    function manage(txt) {
+    function manage() {
         var bt = document.getElementById('stream');
         if (input.value != 11 && input.value != 12) {
             console.log(input.value)
@@ -25,7 +25,7 @@
                 <form class="form-inline input-lg" action="#" method="get" accept-charset="utf-8">
                     <div class="row">
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg" name="input_class" id="input" onchange="manage(this)">
+                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_class" id="input" onchange="manage()">
                                 <option>Select Class</option>
                                 {% for class in class_list %}
                                 <option value="{{ class }}">Class-{{ class }} </option>
@@ -34,7 +34,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg" name="input_section">
+                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_section">
                                     <option>Select Section</option>
                                     {% for section in section_list %}
                                     <option value="{{ section }}">Section-{{ section }}</option>
@@ -43,28 +43,30 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="custom-select form-control form-control-lg" name="input_stream" id="stream"  disabled>
+                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_stream" id="stream"  disabled>
                                     <option>Select Stream</option>
                                     {% for stream in stream_list %}
-                                    <option value="{{ stream }}">{{ stream }}</option>
+                                    <option value="{{ stream.0 }}">{{ stream.1 }}</option>
                                     {% endfor %}
                                     
                             </select>
                         </div>
-                       
-                            <button class="btn btn-primary col-md-2" type="submit" style="margin-right:20px">Search</button>
-                        
-                            <a href = "{% url 'profiles:student-signup' %}" class="btn col-md-2 "><i class="fa fa-plus" aria-hidden="true">   </i> Add Student</a>
-                        
+                        <div class="col-md-2 py-1">
+                            <button class="btn btn-primary w-100 h-100" type="submit" style="margin-right:20px; font-size: 15px; ">Search</button>
+                        </div>
+                        <div class="col-md-2 py-1">
+                            <a href = "{% url 'profiles:student-signup' %}" class="btn w-100 h-100" style="font-size: 15px; "><i class="fa fa-plus" aria-hidden="true">   </i> Add Student</a>
+                        </div>
                     </div>            
                 </form> 
-            </div>
+            </div> 
             </div>
         </div>
         <div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" style="margin-top:20px">
             {% if currentclass is not None and currentsection is not None %}
+            
 
-            <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }}</h2>
+            <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }} Stream-{{ currentstream }}</h2>
             <div class = "card-body">
                 <table class="table table-bordered border-primary table-hover text-center">
                     <thead>
@@ -88,7 +90,7 @@
                             <td>{{ stud.user.date_of_birth }}</td>
                             <td>{{ stud.stud_admissionDate }}</td>
                             <td>{{ stud.stud_parentContact }}</td>
-                            <td></td>
+                            <td><a href="{% url 'exams:student-report-id' stud.id %}">View</a></td>
                             <td></td>
                         </tr>
                         {% endfor %}

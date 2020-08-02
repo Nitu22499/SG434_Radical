@@ -1,7 +1,12 @@
 from django.db import models
+from django.db.models import Q
+from django.utils.functional import cached_property
+
+
 from profiles.models import School
 
 school_located_choices = (('Rural', 'Rural'), ('Urban', 'Urban'))
+
 
 class TimeStampMixin(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
@@ -34,22 +39,23 @@ type_of_school=(
 )
 
 management_school_code=(
-    ('Department of Education',('Department of Education')),
-    ('Tribal Welfare Department',('Tribal Welfare Department')),
+    ('State Govt.',('State Govt.')),
+    ('Central Govt.',('Central Govt.')),
+    ('Private',('Private')),
     ('Local Body',('Local Body')),
-    ('Government Aided',('Government Aided')),
-    ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
-    ('Other Govt. managed schools',('Other Govt. managed schools')),
-    ('Unrecognized',('Unrecognized')),
-    ('Social Welfare Department',('Social Welfare Department')),
-    ('Ministry of Labour',('Ministry of Labour')),
-    ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
-    ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
-    ('Sainik School',('Sainik School')),
-    ('RailwaySchool',('RailwaySchool')),
-    ('Central Tibetan School',('Central Tibetan School')),
-    ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
-    ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
+    ('Other',('Other')),
+    # ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
+    # ('Other Govt. managed schools',('Other Govt. managed schools')),
+    # ('Unrecognized',('Unrecognized')),
+    # ('Social Welfare Department',('Social Welfare Department')),
+    # ('Ministry of Labour',('Ministry of Labour')),
+    # ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
+    # ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
+    # ('Sainik School',('Sainik School')),
+    # ('RailwaySchool',('RailwaySchool')),
+    # ('Central Tibetan School',('Central Tibetan School')),
+    # ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
+    # ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
 )
 
 residential_type=(
@@ -107,13 +113,26 @@ class SchoolProfile(TimeStampMixin):
     sp_repondent_contact_no=models.CharField(max_length=18,blank=True,verbose_name='(c)Respondent Contact No.')
     sp_school_email=models.CharField(max_length=20,blank=True,verbose_name='(d)Email Of School')
     sp_school_website=models.CharField(max_length=25,blank=True,verbose_name='(e)Website Of School')
-    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True,verbose_name='School Category')
+    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True, verbose_name='School Category')
 
     sp_lowest_class=models.CharField(max_length=10,blank=True,verbose_name='(a)Lowest Class in the School ')
     sp_highest_class=models.CharField(max_length=10,blank=True,verbose_name='(b)Highest Class in the School ')
     sp_school_type=models.CharField(max_length=15,choices=type_of_school,blank=True,verbose_name='Type of School')
 
     #1.18
+    sp_pre_pri=models.IntegerField(blank=True, null=True,verbose_name="(a) Pre-Primary")
+    sp_one=models.IntegerField(blank=True, null=True,verbose_name='(b) I')
+    sp_two=models.IntegerField(blank=True, null=True,verbose_name='(c) II')
+    sp_three=models.IntegerField(blank=True, null=True,verbose_name='(d) III')
+    sp_four=models.IntegerField(blank=True, null=True,verbose_name='(e) IV')
+    sp_five=models.IntegerField(blank=True, null=True,verbose_name='(f) V')
+    sp_six=models.IntegerField(blank=True, null=True,verbose_name='(g) VI')
+    sp_seven=models.IntegerField(blank=True, null=True,verbose_name='(h) VII')
+    sp_eight=models.IntegerField(blank=True, null=True,verbose_name='(i) VIII')
+    sp_nine=models.IntegerField(blank=True, null=True,verbose_name='(j) IX')
+    sp_ten=models.IntegerField(blank=True, null=True,verbose_name='(k) X')
+    sp_eleven=models.IntegerField(blank=True, null=True,verbose_name='(l) XI')
+    sp_twelve=models.IntegerField(blank=True, null=True,verbose_name='(m) XII')
 
     sp_management_code=models.CharField(max_length=50,choices=management_school_code,blank=True,verbose_name='Management of the school')
     sp_establishment_year = models.CharField(max_length=10,blank=True,verbose_name='Year of establishment of School')
@@ -136,8 +155,18 @@ class SchoolProfile(TimeStampMixin):
     sp_majority=models.CharField(max_length=10,blank=True,choices=yn,verbose_name='Are majority of the pupils taught through their mother tongure at the primary level?')
 
     #1.28
+    sp_medium_1=models.CharField(max_length=30,blank=True,verbose_name='(a)Medium 1')
+    sp_medium_2=models.CharField(max_length=30,blank=True,verbose_name='(a)Medium 2')
+    sp_medium_3=models.CharField(max_length=30,blank=True,verbose_name='(a)Medium 3')
+    sp_medium_4=models.CharField(max_length=30,blank=True,verbose_name='(a)Medium 4')
 
     #1.29
+    sp_language_1=models.CharField(max_length=30,blank=True,verbose_name='(a)Language 1')
+    sp_language_2=models.CharField(max_length=30,blank=True,verbose_name='(a)Language 2')
+    sp_language_3=models.CharField(max_length=30,blank=True,verbose_name='(a)Language 3')
+
+
+
 
     sp_pre_vocational_course=models.CharField(max_length=10,blank=True,choices=yn,verbose_name='Does the school offer any pre-vocational course(s) at the Upper-Primary stage?')
     sp_counseling=models.CharField(max_length=10,blank=True,choices=yn,verbose_name='Does the school provide educational and vocational guidance/counseling to students?')
@@ -197,7 +226,7 @@ class SchoolProfile(TimeStampMixin):
 
     #1.42(b)
 
-    sp_special_training=models.CharField(max_length=20,blank=True,choices=yn,verbose_name='Whether an out of School Shildren enrolled in the school are attending Special Training?')
+    sp_special_training=models.CharField(max_length=20,blank=True,choices=yn,verbose_name='Whether an out of School Children enrolled in the school are attending Special Training?')
     sp_special_training_current=models.CharField(max_length=10,blank=True,verbose_name='(a) No. of children enrolled for Special Training in current year:')
     sp_special_training_previous=models.CharField(max_length=10,blank=True,verbose_name='(b) No. of children enrolled for Special Training in previous academic year:')
     sp_special_training_com_previous=models.CharField(max_length=10,blank=True,verbose_name='(c) No. of children completed Special Training in previous academic year:')
@@ -249,8 +278,27 @@ class SchoolProfile(TimeStampMixin):
     sp_ac_constituted=models.CharField(max_length=8,blank=True,choices=yn,verbose_name='(e) Whether the school has constitued its Academic Committee(AC)?')
     sp_pta_constituted=models.CharField(max_length=8,blank=True,choices=yn,verbose_name='(f) Whether the school has constitued its Parent-Teacher Association(PTA)?')
     sp_pta_meetings_last=models.CharField(max_length=8,blank=True,verbose_name='1. Number of PTA meetings held during the last academic year')
+    
+    sp_parents = models.CharField(max_length=5,blank=True,verbose_name="(a)Number of Representatives of Parent/Guardians/PTA")
+    sp_ewschildren = models.CharField(max_length=5,blank=True,verbose_name="(b)Number of Representatives of parents of EWS children")
+    sp_localgovernment = models.CharField(max_length=5,blank=True,verbose_name="(c)Number of Representatives/Nominees from local government/urban local body")
+    sp_backward = models.CharField(max_length=5,blank=True,verbose_name="(d)Number of members from Educationally Backward Minority Community")
+    sp_womens = models.CharField(max_length=5,blank=True,verbose_name="(e)Number of members from any Womens Group")
+    sp_scst = models.CharField(max_length=5,blank=True,verbose_name="(f)Number of members from SC/ST community")
+    sp_deo = models.CharField(max_length=5,blank=True,verbose_name="(g)Number of nominees of the District Education Officer(DEO)")
+    sp_aad = models.CharField(max_length=5,blank=True,verbose_name="(h)Number of members from Audit and Accounts Department(AAD)")
+    sp_experts = models.CharField(max_length=5,blank=True,verbose_name="(i)Number of Subject experts nominated by District Programme Co-ordinator")
+    sp_teachers = models.CharField(max_length=5,blank=True,verbose_name="(j)Number of members teachers(one each from Social Science,Science and Mathematics)of the School")
+    sp_viceprincipal = models.CharField(max_length=5,blank=True,verbose_name="(k)Vice Principal/Asst. Head Teacher,as member")
+    sp_chairperson = models.CharField(max_length=5,blank=True,verbose_name="(l)Principal/Head Teacher, as Chairperson")
+    sp_chairperson_if = models.CharField(max_length=5,blank=True,verbose_name="(m)Chairperson(If Principal/Head Teacher is not the Chairperson)")
+    sp_training = models.CharField(max_length=5,blank=True,verbose_name="(n)Number of members provided training")
+    
     def __str__(self):
         return self.sp_school_name
+
+
+
 
 class_choices = (
     ('General', 'General'),
@@ -265,6 +313,13 @@ class_choices = (
     ('Jain', 'Jain'),
     ('Other', 'Other')
 )
+
+
+
+
+
+
+
 
 class RepeatersByGrade(TimeStampMixin):
     # academic_year = models.CharField(max_length=50, blank=True)
@@ -340,6 +395,18 @@ class PhysicalFacilities(TimeStampMixin):
     
     #2.2
 
+    pf_no_blocks = models.CharField(max_length=20, blank=True, null=True, verbose_name="Total Number of building blocks of the school")
+    pf_pucca = models.CharField(max_length=20,  blank=True, null=True, verbose_name="(a)Pucca building")
+    pf_partially_pucca = models.CharField(max_length=20,  blank=True, null=True, verbose_name="(b)Partially pucca(building with pucca walls and floor without concrete roof")
+    pf_kuchcha = models.CharField(max_length=20,  blank=True, null=True, verbose_name="(c)Kuchcha building")
+    pf_tent = models.CharField(max_length=20,  blank=True, null=True, verbose_name="(d)Tent")
+    pf_dilapidated = models.CharField(max_length=20,  blank=True, null=True, verbose_name="(e)Dilapidated Building")
+    pf_construction =  models.CharField(max_length=20,  blank=True, null=True, verbose_name="(f)Building Under Construction")
+
+
+
+
+
     pf_boundary_type=models.CharField(max_length=50,choices=type_boundary_wall, blank=True,verbose_name='Type of boundary wall')
     pf_classrooms_instructional=models.CharField(max_length=50, blank=True,verbose_name='(a1) No. of Classrooms used for instructional purposes')
     pf_classrooms_construction=models.CharField(max_length=50, blank=True,verbose_name='(a2) No. of Classrooms under construction')
@@ -353,8 +420,8 @@ class PhysicalFacilities(TimeStampMixin):
 
     #2.3(c)
 
-    pf_land_available=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Whether land is available for expansion of school facilities')
-    pf_separate_head_available=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Whether separate room for Head Teacher/Principle available')
+    pf_land_available=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Whether land is available for expansion of school facilities?')
+    pf_separate_head_available=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Whether separate room for Head Teacher/Principle is available?')
     pf_schools_toilet=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Does the school have toilet?')
 
     #2.7(a)
@@ -403,15 +470,7 @@ class PhysicalFacilities(TimeStampMixin):
     pf_dustbins_kitchen=models.CharField(max_length=41,choices=yn,blank=True,verbose_name='(c) kitchen')
     pf_students_furniture=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='No. of Students for whom furniture is available?')
 
-    pf_sep_room_head_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(a) Separate Room for Assistant Head Teacher/Vice principal')
-    pf_sep_girls_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(b) Separate common room for girls')
-    pf_staff_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(c) Staffroom for teachers')
-    pf_arts_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(d) Co-curricular activity room/arts and crafts room')
-    pf_staff_quarters_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(e) Staff quarters(including residential quarters for Head Teacher/Principal and Asst. Head Teacher/Vice Principal)')
-    pf_science_lab_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(f) Integrated Science laboratory(integrated laboratory is the one in which Physics,Chemistry and Biology practical are held)for Secondary sections only')
-    pf_lib_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(g) Library room')
-    pf_comp_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(h) Computer room')
-    pf_tinkering_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(i) Tinkering Lab')
+    
 
     #2.21
 
@@ -435,6 +494,32 @@ class PhysicalFacilities(TimeStampMixin):
 
     pf_ict_for_teaching=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='Whether ICT based tools are used for teaching?')
     pf_ict_for_teaching_hours=models.CharField(max_length=10,blank=True,verbose_name='(a) If yes, Number of Hours spent per week')
+
+
+    pf_sep_room_head_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(a) Separate Room for Assistant Head Teacher/Vice principal')
+    pf_sep_girls_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(b) Separate common room for girls')
+    pf_staff_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(c) Staffroom for teachers')
+    pf_arts_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(d) Co-curricular activity room/arts and crafts room')
+    pf_staff_quarters_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(e) Staff quarters(including residential quarters for Head Teacher/Principal and Asst. Head Teacher/Vice Principal)')
+    pf_science_lab_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(f) Integrated Science laboratory(integrated laboratory is the one in which Physics,Chemistry and Biology practical are held)for Secondary sections only')
+    pf_lib_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(g) Library room')
+    pf_comp_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(h) Computer room')
+    pf_tinkering_sec=models.CharField(max_length=10,choices=yn,blank=True,verbose_name='(i) Tinkering Lab')
+    
+    schoollab_choices=(('Not Applicable',('Not Applicable')),('Fully equipped',('Fully equipped')),
+    ('Partially equipped',('Partially equipped')),('Not equipped',('Not equipped')))
+    pf_physics_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(a)Physics")
+    pf_physics_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(a1)Physics Lab Present Condition")
+    pf_chemistry_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(b)Chemistry")
+    pf_chemistry_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(b1)Chemistry Lab Present Condition")
+    pf_bio_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(c)Biology")
+    pf_bio_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(c1)Biology Lab Present Condition")
+    pf_maths_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(d)Mathematics")
+    pf_maths_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(d1)Mathematics Lab Present Condition")
+    pf_geog_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(e)Geography")
+    pf_geog_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(e1)Geography Lab Present Condition")
+    pf_home_sci_sep = models.CharField(max_length=20,  blank=True,choices=yn,  verbose_name="(f)Home Science")
+    pf_home_sci_condition = models.CharField(max_length=20,  blank=True,choices=schoollab_choices,  verbose_name="(f1)Home Science Lab Present Condition")
 
     def __str__(self):
         return str(self.pf_school)

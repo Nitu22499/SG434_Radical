@@ -1,24 +1,32 @@
 from django import forms
 from profiles.models import District, Block
-from misc.utilities import get_districts
+from misc.utilities import get_districts, year_choices, get_blocks
+from schoolinfo.models import school_category_code
 
 class ReportForm(forms.Form):
-    report_districts = forms.ChoiceField()
-    report_blocks = forms.ChoiceField()
+    academic_year_field = forms.ChoiceField(label = 'Academic Year', required=True, widget=forms.Select(attrs={'class':'form-select'}))
+    districts_field = forms.ChoiceField(label = 'District', required=False, widget=forms.Select(attrs={'class':'form-select'}))
+    blocks_field = forms.ChoiceField(label='Block', required=False, widget=forms.Select(attrs={'class':'form-select'}))
+    categories_field = forms.ChoiceField(label='Category', required=False, widget=forms.Select(attrs={'class':'form-select'}))
 
     class Meta:
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['report_districts'].choices = get_districts()
-        self.fields['report_blocks'].choices = (('', '-----'), )
+        self.fields['academic_year_field'].choices = year_choices()
+        self.fields['districts_field'].choices = (('', 'All'), ) + get_districts()
+        self.fields['blocks_field'].choices = (('', 'All'), ) + get_blocks()
+        self.fields['categories_field'].choices = (('', 'All'), ) + school_category_code
 
-        # if 'report_districts' in self.data:
-        #     try:
-        #         district_id = int(self.data.get('report_districts'))
-        #         self.fields['report_blocks'].queryset = Block.objects.filter(block_district_id=district_id).order_by('block_name')
-        #     except (ValueError, TypeError):
-        #         print("Exception")  # invalid input from the client; ignore and fallback to empty City queryset
-        # elif self.instance.pk:
-        #     self.fields['report_blocks'].queryset = self.instance.block_district.block_set.order_by('block_name')
+        if 'districts_field' in self.data:
+            try:
+                if self.data.get('districts_field'):
+                    district_id = int(self.data.get('districts_field'))
+                    self.fields['blocks_field'].choices = (('', 'All'), ) + get_blocks(district_id)
+                else:
+                    self.fields['blocks_field'].choices = (('', 'All'), ) + get_blocks()
+            except (ValueError, TypeError):
+                print("Exception")  # invalid input from the client; ignore and fallback to empty City queryset
+        # else:
+        #     self.fields['blocks_field'].choices = (('', 'All'), ) + get_blocks()

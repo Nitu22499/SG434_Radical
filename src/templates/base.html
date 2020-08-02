@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>
         {% block title %}
@@ -22,7 +22,9 @@
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-  </head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">  
+    </head>
 
   <body>
       {% block navbar %}
@@ -42,10 +44,10 @@
               
               {% endblock %}
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Students</a>
+                <a class="nav-link" aria-current="page" href="{% url 'profiles:student-list' %}">Students</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Staff</a>
+                <a class="nav-link" aria-current="page" href="{% url 'employee:list' %}">Staff</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'attendance:index' %}">Attendance</a>
@@ -53,6 +55,17 @@
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Academic Records</a>
               </li> 
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Staff
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Employee</a>
+                  
+                </div>
+              </li> 
+                         
               
             </ul>
             <div class="navbar-nav nav-item font-weight-bold d-flex w-auto">
@@ -121,6 +134,8 @@
 
   <!-- MDB -->
   <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+  <!-- Official CDN for Jquery -->
+  <script src="{% static 'js/vendor/jquery-3.5.1.min.js' %}"></script>
   <!-- Custom scripts -->
   {% block scripts %}
 
