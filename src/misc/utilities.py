@@ -1,5 +1,5 @@
 from datetime import date
-from profiles.models import District
+from profiles.models import District,Block
 
 def get_districts():
     districts_choices = tuple()
@@ -33,3 +33,12 @@ def academic_year():
         return str(year) + "-" + str(year + 1)
 
     
+def get_blocks(district_id=None):
+    blocks_choices = tuple()
+    if district_id:
+        for obj in Block.objects.filter(block_district=district_id).order_by('block_name'):
+            blocks_choices += ((obj.id, obj.block_name), )
+    else:
+        for obj in Block.objects.all().order_by('block_name'):
+            blocks_choices += ((obj.id, obj.block_name), )
+    return blocks_choices

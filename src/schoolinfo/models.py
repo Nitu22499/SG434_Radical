@@ -112,7 +112,7 @@ class SchoolProfile(TimeStampMixin):
     sp_repondent_contact_no=models.CharField(max_length=18,blank=True,verbose_name='(c)Respondent Contact No.')
     sp_school_email=models.CharField(max_length=20,blank=True,verbose_name='(d)Email Of School')
     sp_school_website=models.CharField(max_length=25,blank=True,verbose_name='(e)Website Of School')
-    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True,verbose_name='School Category')
+    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True, verbose_name='School Category')
 
     sp_lowest_class=models.CharField(max_length=10,blank=True,verbose_name='(a)Lowest Class in the School ')
     sp_highest_class=models.CharField(max_length=10,blank=True,verbose_name='(b)Highest Class in the School ')
