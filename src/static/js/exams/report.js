@@ -20,7 +20,6 @@ function getSubjects(cls) {
     fetch(`${window.location.origin}/exams/subject/class/${cls.value}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             let select_subject = document.getElementById('subject');
             while (select_subject.hasChildNodes()) {  
                 select_subject.removeChild(select_subject.firstChild);
@@ -38,24 +37,11 @@ function getSubjects(cls) {
         })
 }
 
-if($('#class')[0].value && !$('#subject')[0].value) {
-    getSubjects($('#class')[0]);
-}
-if(localStorage.getItem("Success")) {
-    $(".msg").append(`<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Saved Successfully!</strong> 
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  </div>`); 
-  localStorage.removeItem("Success")
-}
-
 $('td[contenteditable=true]').on('click', function(){
     document.execCommand('selectAll',false,null);
 })
 
-$('#scholastic').click( function() {
+$('#convert-table').click( function() {
     var table = $('#table').tableToJSON({
         ignoreRows: [0,1],  // To Ignore the first two rows consisting of table heading
 
@@ -87,7 +73,6 @@ $('#scholastic').click( function() {
         .then((res) => res.json())
         .then(function(data) {
             if (data['err'] == undefined) {
-                localStorage.setItem("Success", "1")
                 window.location.reload()
             }else{
                 data['err'] = data['err'].replace(/'/g, '"')
@@ -104,53 +89,4 @@ $('#scholastic').click( function() {
                 }
             }
         })
-});
-
-$('#co-scholastic').click( function() {
-    var table = $('#table').tableToJSON({
-        ignoreRows: [0,1],  // To Ignore the first two rows consisting of table heading
-
-        headings: ['first_name',  // Array of Column Header names
-        'id',    // Added ID for faster access
-        'grade_1',
-        'grade_2']
-    }); // Convert the table into a javascript object
-    // console.log(JSON.stringify(table));
-    console.log(table);
-
-    // Clean table values before sending
-    table = JSON.stringify(table)
-    table = table.replace(/--/g,'')
-
-    // AJAX req to save changes in exam form
-    fetch(`${window.location.origin}/exams/exam_form_co_scholastic/save`, {
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken"),
-            'Content-Type': 'application/json'
-        },
-        body: table
-        })
-        .then((res) => res.json())
-        .then(function(data) {
-            if (data['err'] == undefined) {
-                localStorage.setItem("Success", "1")
-                window.location.reload()
-            }else{
-                data['err'] = data['err'].replace(/'/g, '"')
-                data['err'] = JSON.parse(data['err'])
-                
-                for(let [key, val] of Object.entries(data['err'])) {
-                    console.log(val);
-                    $(".msg").append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong> ${key} - </strong> ${val}.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>`);
-                }
-            }
-        })
-});
-
-
+  });

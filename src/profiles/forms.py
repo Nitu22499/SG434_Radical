@@ -17,8 +17,8 @@ class StudentSignUpForm(UserCreationForm):
     stud_class = forms.CharField(label='Class', widget=forms.Select(choices=class_choices, attrs={'class':'form-select'}))
     stud_section = forms.CharField(label='Section', required = False, widget=forms.Select(choices=section_choices, attrs={'class':'form-select'}))
     stud_rollno = forms.CharField(label = "Roll No.", widget=forms.TextInput())
-    password1 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'SegY8bH4harr'}))
-    password2 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'SegY8bH4harr'}))
+    password1 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'Pass@123'}))
+    password2 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'Pass@123'}))
 
 
     class Meta(UserCreationForm.Meta):

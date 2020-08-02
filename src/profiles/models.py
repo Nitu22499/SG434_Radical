@@ -16,6 +16,25 @@ class User(AbstractUser):
     def __str__(self):
         return self.first_name
 
+district_choices = (('EAST SIKKIM', 'EAST SIKKIM'), ('WEST SIKKIM', 'WEST SIKKIM'), ('NORTH SIKKIM', 'NORTH SIKKIM'), ('SOUTH SIKKIM', 'SOUTH SIKKIM'))
+
+class District(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    district_name = models.CharField(max_length=250, choices=district_choices)
+    
+    def __str__(self):
+        return self.district_name
+
+
+class Block(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    block_name = models.CharField(max_length=250)
+    block_district = models.CharField(max_length=250, choices=district_choices)
+
+    def __str__(self):
+        return self.block_name
+
+
 class_choices = (('1', 'Class 1'), ('2', 'Class 2'), ('3', 'Class 3'), ('4', 'Class 4'), ('5', 'Class 5'), ('6', 'Class 6'), ('7', 'Class 7'), ('8', 'Class 8'), ('9', 'Class 9'), ('10', 'Class 10'), ('11', 'Class 11'), ('12', 'Class 12'), ('LKG', 'LKG'), ('UKG', 'UKG'))
 section_choices = (('', 'Section'), ('NA', 'NA'), ('A', 'Section A'), ('B', 'Section B'), ('C', 'Section C'), ('D', 'Section D'), ('E', 'Section E'), ('F', 'Section F'), )
 stream_choices = (('', 'Stream'), ('NA', 'NA'), ('Commerce', 'Commerce'), ('Electrical Technology', 'Electrical Technology'), ('Humanities', 'Humanities'), ('Information Technology', 'Information Technology'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('Tourism', 'Tourism'))
@@ -26,9 +45,8 @@ class School(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school_name = models.CharField(max_length=250)
     school_board = models.CharField(max_length=50, default = 'CBSE', choices=board_choices)
-    # school_brc = models.CharField(max_length=250, blank=True, choices=brc_choices)
-    # school_crc = models.CharField(max_length=250, blank=True)
-    # school_level = models.CharField(max_length=20, choices=school_level_choices)
+    # school_block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    # school_district = models.ForeignKey(District, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.school_name
@@ -67,6 +85,8 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.subject_class + " " + self.subject_name
+
+
     
 
 
