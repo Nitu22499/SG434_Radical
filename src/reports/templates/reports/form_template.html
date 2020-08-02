@@ -9,9 +9,12 @@
       </div>
       {% endfor %}
       <div class="col mt-auto p-1">
-        <button type="submit" class="btn btn-primary">SUBMIT</button>
-        <button class="btn btn-success"
-          onclick=exportTableToCSV("Report-{{ report_title }}-{% now 'd-M-Y' %}.csv")>&#8681; Download CSV
+        <button type="submit" class="btn btn-primary font-weight-bold">SUBMIT</button>
+        <button class="btn btn-success font-weight-bold"
+          onclick=exportTableToCSV("Report-{{ report_title }}-{% now 'd-M-Y' %}.csv")>
+          <!-- &#8681;  -->
+          {% load static %}
+          <img src="{% static 'fonts/caret-square-down-solid.svg' %}" width="20px" height="20px" class="mx-1" alt="download icon"> Download CSV
         </button>
       </div>
     </div>

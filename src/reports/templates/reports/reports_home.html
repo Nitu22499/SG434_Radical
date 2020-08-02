@@ -27,13 +27,45 @@
             </tr>
             <tr>
               <td scope="row">2</td>
-              <td>Schools by Category</td>
-              <td><a href = "#"><button class="btn btn-primary">View Report</button></a></td>              
+              <td>Type of Schools (Boys, Girls, Co-Educational)</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#schoolsByTypeModal">View Report</button></a></td>
+                {% url 'reports:schools_by_type' as schools_by_type_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=schools_by_type_url modal_id='schoolsByTypeModal' title='Type of Schools (Boys, Girls, Co-Educational)' %}            
             </tr>
             <tr>
               <td scope="row">3</td>
-              <td>Type of Schools (Boys, Girls, Co-Educational)</td>
+              <td>Schools by category</td>
               <td><a href = "#"><button class="btn btn-primary">View Report</button></a></td>              
+            </tr>
+
+            <tr>
+              <td scope="row">4</td>
+              <td>Schools in Rural & Urban Area</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#schoolsByAreaModal">View Report</button></a></td>
+                {% url 'reports:schools_by_area' as schools_by_area_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=schools_by_area_url modal_id='schoolsByAreaModal' title='Schools in Rural & Urban Area' %}            
+            </tr>
+            <tr>
+              <td scope="row">5</td>
+              <td>Teachers by School Category</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#teachersBySchoolCategory">View Report</button></a></td>
+                {% url 'reports:teachers_by_school_category' as teachers_by_school_category_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=teachers_by_school_category_url modal_id='teachersBySchoolCategory' title='Teachers by School Category' %}            
+            </tr>
+            <tr>
+              <td scope="row">6</td>
+              <td>Teachers by Social Category</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#teachersBySocialCategory">View Report</button></a></td>
+                {% url 'reports:teachers_by_social_category' as teachers_by_social_category_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=teachers_by_social_category_url modal_id='teachersBySocialCategory' title='Teachers by Social Category' %}            
             </tr>
           </tbody>
         </table>

@@ -4,8 +4,8 @@
 <script>
     function manage() {
         var bt = document.getElementById('stream');
-        if (input.value != 11 && input.value != 12) {
-            console.log(input.value)
+        if (class.value != 11 && class.value != 12) {
+            console.log(class.value)
             bt.disabled = true;
             console.log(bt.disabled)
         }
@@ -21,11 +21,23 @@
         <div class = "card border border-primary shadow-2-strong col-md-11 mx-auto">
             <h2 class = "card-header text-center bg-primary text-white">Student List</h2>
             <div class = "card-body">
-            <div class="container-fluid my-5">
+            <div class="container-fluid">
                 <form class="form-inline input-lg" action="#" method="get" accept-charset="utf-8">
                     <div class="row">
+                        {% if not request.user.is_school_admin %}
+
+                        <div class="col-md-3">
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_school" id="school_id" >
+                                <option>Select School</option>
+                                {% for school in school_list %}
+                                <option value="{{ school.id }}">{{ school }} </option>
+                                {% endfor %}
+                                           
+                            </select>
+                        </div>
+                        {% endif %}
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_class" id="input" onchange="manage()">
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_class" id="class" onchange="manage()">
                                 <option>Select Class</option>
                                 {% for class in class_list %}
                                 <option value="{{ class }}">Class-{{ class }} </option>
@@ -34,7 +46,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_section">
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_section">
                                     <option>Select Section</option>
                                     {% for section in section_list %}
                                     <option value="{{ section }}">Section-{{ section }}</option>
@@ -42,27 +54,34 @@
                                     <option>NA</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <select class="custom-select form-control form-control-lg h-100 w-100" name="input_stream" id="stream"  disabled>
-                                    <option>Select Stream</option>
-                                    {% for stream in stream_list %}
-                                    <option value="{{ stream.0 }}">{{ stream.1 }}</option>
-                                    {% endfor %}
-                                    
-                            </select>
+                   
+                            <div class="col-md-3" >
+                                <select class="custom-select form-control form-control-lg  w-100" name="input_stream" id="stream"  disabled>
+                                        <option>Select Stream</option>
+                                        {% for stream in stream_list %}
+                                        <option value="{{ stream.0 }}">{{ stream.1 }}</option>
+                                        {% endfor %}
+                                        
+                                </select>
+                            </div>
+                        
+                            <div class="col-md-2 py-1" >
+                                <button class="btn btn-primary  w-100 " type="submit" style="margin-right:20px; font-size: 15px;line-height:2.0 ">Search</button>
+                            </div>
+                            {% if request.user.is_school_admin %}
+                            <div class="col-md-2 col-sm-3 py-1" >
+                                <a href = "{% url 'profiles:student-signup' %}" class="btn w-100 " style="font-size: 15px;line-height:2.0 "><i class="fa fa-plus" aria-hidden="true">   </i> Add Student</a>
+                            </div>
+                            {% endif %}
                         </div>
-                        <div class="col-md-2 py-1">
-                            <button class="btn btn-primary w-100 h-100" type="submit" style="margin-right:20px; font-size: 15px; ">Search</button>
-                        </div>
-                        <div class="col-md-2 py-1">
-                            <a href = "{% url 'profiles:student-signup' %}" class="btn w-100 h-100" style="font-size: 15px; "><i class="fa fa-plus" aria-hidden="true">   </i> Add Student</a>
-                        </div>
+                           
+                    </form> 
                     </div>            
-                </form> 
+                
             </div> 
             </div>
         </div>
-        <div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" style="margin-top:20px">
+        <div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" >
             {% if currentclass is not None and currentsection is not None %}
             
 
