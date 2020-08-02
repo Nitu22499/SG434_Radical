@@ -75,4 +75,8 @@ $('#convert-table').click( function() {
                 }
             }
         })
+    // Clean table values before sending
+    table = JSON.stringify(table)
+    table = table.replace(/--/g,'')
+
 })

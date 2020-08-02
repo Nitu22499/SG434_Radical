@@ -77,30 +77,30 @@
                         {% for key, values in rows.items %}
                         <tr>                            
                             <th scope="row" >{{ key }}</th> 
-                            <td contenteditable="true">{{ values.class_I_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_I_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_II_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_II_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_III_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_III_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_IV_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_IV_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_V_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_V_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VI_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VI_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VII_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VII_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VIII_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_VIII_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_IX_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_IX_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_X_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_X_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_XI_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_XI_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_XII_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.class_XII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_1">{{ values.class_I_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_1">{{ values.class_I_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_2">{{ values.class_II_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_2">{{ values.class_II_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_3">{{ values.class_III_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_3">{{ values.class_III_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_4">{{ values.class_IV_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_4">{{ values.class_IV_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_5">{{ values.class_V_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_5">{{ values.class_V_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_6">{{ values.class_VI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_6">{{ values.class_VI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_7">{{ values.class_VII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_7">{{ values.class_VII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_8">{{ values.class_VIII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_8">{{ values.class_VIII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_9">{{ values.class_IX_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_9">{{ values.class_IX_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_10">{{ values.class_X_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_10">{{ values.class_X_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_11">{{ values.class_XI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_11">{{ values.class_XI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="boys_12">{{ values.class_XII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true" data-override="girls_12">{{ values.class_XII_G|default_if_none:"-" }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

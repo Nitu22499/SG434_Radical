@@ -37,12 +37,7 @@ class SchoolProfileView(FormView):
 
     def get_context_data(self, **kwargs):
         """Insert the numbering into the context"""
-        kwargs['numbering'] = [1.1, 1.2, 1.3, 1.4,1.5,1.6,1.7,1.8,1.9,1.10,1.11,1.12,1.13,1.14,' ',' ',' ',' ',1.15,1.16,' ',' ',1.17,1.19,1.20,1.21,' ',' ',' ',' ',
-        1.22,' ',' ',' ',1.23,1.24,1.25,' ',1.26,' ',1.27,1.30,1.31,1.32,' ',' ',' ',' ',' ',' ',
-        1.33,' ',' ',' ',' ',1.34,1.35,1.36,' ',' ',' ',' ',1.37,' ',' ',' ',' ',' ',1.38,' ',' ',' ',' ',' ',1.39,' ',' ',' ',' ',' ',
-        1.41,' ',' ',' ',' ',9999,' ',' ',1.42,' ',' ',1.43,99999,' ',' ',' ',' ',' ',' ',1.44,1.45,1.46,' ',1.47,1.49,' ',' ',' ',' ',1.51,
-        999999,' ',' ',' ',' ',' ',' ',' ',' ',999999,' ',' ',' ',' ',' ',1.52,88888,' ',999999,' ',' ',' ',999999,' ',' ',' ',' ',' ',
-        ' ',' ',' ',999999,' ']
+        kwargs['numbering'] = [1.1, 1.2, 1.3, '']
         return super().get_context_data(**kwargs)
 
 
@@ -56,6 +51,7 @@ class SchoolProfileView(FormView):
         self.object.save()
         return super().form_valid(form)
 
+<<<<<<< HEAD
 def RepeatersByGradeView(request):
     template_name = 'schoolinfo/repeaters-by-grade.html'
 
@@ -173,3 +169,5 @@ class PhysicalFacilitiesView(FormView):
             self.object.pk = self.get_object().pk
         self.object.save()
         return super().form_valid(form)
+=======
+>>>>>>> upstream/master

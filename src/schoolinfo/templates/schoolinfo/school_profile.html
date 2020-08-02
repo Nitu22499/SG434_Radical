@@ -10,132 +10,16 @@
     {% csrf_token %}
     {% with count=0 %}   
       {% for field in form %}
-      {% if numbering|index:forloop.counter0 == 1.14 %}
+      {% if numbering|index:forloop.counter0 == 1.3 %}
       <div class="row">
       <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Contact Details:</p></div>
+      <div class="col-sm-11 align-self-center"><p>Extra lines</p></div>
       </div>
       {{ numbering|increment }}
       {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.16 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Lowest and highest classes in the school(For Pre-primary enter 0):</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.21 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Year of Recognition of School(Only for Govt. Aided and Private Unaided School):</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.22 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Year of upgradation of the School(if applicable):</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.32 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Affiliation Board of School:</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.33 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Distance of the school(in km.) from the nearest Govt./Aided school:</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.36 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Whether Anganwadi Centre is located inside school premises(For Govt. and Aided Schools)?</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.37 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Number of instructional days(previous academic year):</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.38 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Average school hours for children(per day)-Number of hours children stay in school e.g. for five hours and forty minutes write 5:40:</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.39 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Average school hours for Teachers(per day)-Number of hours teacher stay in school e.g. for five hours and forty minutes write 5:40:</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.41 %}
-      <div class="row">
-      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
-      <div class="col-sm-11 align-self-center"><p>Is CCE being implemented in school?</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 9999 %}
-      <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-11 align-self-center"><p>if yes,</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.42 %}
-      <div class="row">
-      <div class="col-sm-1">1.42</div>
-      <div class="col-sm-11 align-self-center"><p>For Private Unaided and Aided Schools</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 99999 %}
-      <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-11 align-self-center"><p>If yes, details of Special training</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 1.49 %}
-      <div class="row">
-      <div class="col-sm-1">1.49</div>
-      <div class="col-sm-11 align-self-center"><p>
-        Details of visits to the school during the previous academic year:</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 999999 %}
-      <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-11 align-self-center"><p>
-        If Yes,</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      {% if numbering|index:forloop.counter0 == 88888 %}
-      <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-11 align-self-center"><p>
-        If No,</p></div>
-      </div>
-      {{ numbering|increment }}
-      {% endif %}
-      
       <div class="form-group row mb-3">
           <div class="col-sm-1 align-self-center">{{ numbering|index:forloop.counter0 }}</div>
-          {% if field.label != '' %}
+            {% if field.label != '' %}
             <label class="col-sm-5 col-form-label">{{ field.label }}</label>
             {% endif %}
             <div class="col-sm-6 align-self-center">{{ field }}</div>

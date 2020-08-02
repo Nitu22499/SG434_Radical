@@ -1,0 +1,33 @@
+{% if form.non_field_errors %}
+    <ul class="text-danger form-text" style="list-style: none">
+        {% for error in form.non_field_errors %}
+            <li class="alert alert-danger">{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <br>
+{% endif %}
+
+{% for field in form.visible_fields %}
+    <div>
+        <label class="label">
+            {{ field.label_tag }}
+        </label>
+
+        <div>{{ field }}</div>
+
+        {% if field.errors %}
+            <div>
+                <span class="text-danger form-text small">{{ field.errors.as_text }}</span>
+                {% if field.help_text %}
+                    <small class="text-danger form-text">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% else %}
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            <br>
+        {% endif %}
+    </div>
+{% endfor %}
