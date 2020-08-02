@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <form action="" method="POST" class="text-center border border-light p-5" >
+        {% csrf_token %}
+        <p class="h4 mb-5">No. of Economically Weaker Section(EWS)students enrolled</p>
+        {% if error_msg %}
+            <span class="text-left text-danger large">
+                <ul class="errorlist">
+                    <li>{{ error_msg }}</li>
+                </ul>
+            </span>
+        {% endif %}
+        <div class="form-group">
+            <select  name="academic_year" class="form-control browser-default custom-select mb-4" id="academic_year">
+                <option value="">SELECT ACADEMIC YEAR</option>
+                {% for cls in year_choices %}
+                <option value="{{ cls.0}}" {% if selected_year == cls.0 %} selected {% endif %}>{{ cls.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>   
+        <button class="btn btn-info btn-block" type="submit">Generate</button>
+    </form>
+
+
+    <div class="msg"></div>
+    <div class="row mt-4">
+        <div class="col">
+            
+            <div class="table-responsive">
+                <table id="table" class="table text-center table-bordered">
+                    <thead>
+                        <tr class="table-light align-middle">
+                            <th scope="col" data-override="class_name">Classes</th>
+                            <th scope="col" colspan="2">IX</th>
+                            <th scope="col" colspan="2">X</th>
+                            <th scope="col" colspan="2">XI</th>
+                            <th scope="col" colspan="2">XII</th>
+                        </tr>   
+                        <tr>
+                            <th></th>
+                            <th scope="col" data-override="boys_1">Boys</th>
+                            <th scope="col" data-override="girls_1">Girls</th>
+                            <th scope="col" data-override="boys_3">Boys</th>
+                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_3">Boys</th>
+                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_4">Boys</th>
+                            <th scope="col" data-override="girls_4">Girls</th>
+                        </tr>                     
+                    </thead>
+                    <tbody>
+                        {% for key, values in rows.items %}
+                        <tr>                            
+                            <th scope="row" >{{ key }}</th> 
+                            <td >{{ values.sews_class_IX_B|default_if_none:"-" }}</td>
+                            <td>{{ values.sews_class_IX_G|default_if_none:"-" }}</td>
+                            <td>{{ values.sews_class_X_B|default_if_none:"-" }}</td>
+                            <td>{{ values.sews_class_X_G|default_if_none:"-" }}</td>
+                            <td>{{ values.sews_class_XI_B|default_if_none:"-" }}</td>
+                            <td>{{ values.sews_class_XI_G|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_XII_B|default_if_none:"-" }}</td>
+                            <td>{{ values.srte_class_XII_G|default_if_none:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+
+        <div>
+            <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+        
+            <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
+        
+            <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+        
+            <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/{{ request.resolver_match.kwargs.pk }}';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+
+
+        </div>     
+                        
+        <hr> 
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+
+
+
+{% endblock %}

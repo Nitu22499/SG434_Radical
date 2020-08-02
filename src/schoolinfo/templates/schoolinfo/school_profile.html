@@ -10,10 +10,38 @@
     {% csrf_token %}
     {% with count=0 %}   
       {% for field in form %}
+      {% if numbering|index:forloop.counter0 == 1.28 %}
+      <div class="row">
+      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
+      <div class="col-sm-11 align-self-center"><p>Medium Instruction(s)in the school:</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.29 %}
+      <div class="row">
+      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
+      <div class="col-sm-11 align-self-center"><p>Language(s)taught as a subject:</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
       {% if numbering|index:forloop.counter0 == 1.14 %}
       <div class="row">
       <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
       <div class="col-sm-11 align-self-center"><p>Contact Details:</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.18 %}
+      <div class="row">
+      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
+      <div class="col-sm-11 align-self-center"><p>Number of Sections by class(if the class is stand alone, has no section then enter 1):</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 2.28 %}
+      <div class="row">
+      <div class="col-sm-1">2.28</div>
+      <div class="col-sm-11 align-self-center"><p>Details of Members/Representatives in SMDC:</p></div>
       </div>
       {{ numbering|increment }}
       {% endif %}
