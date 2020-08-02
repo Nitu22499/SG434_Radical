@@ -1,7 +1,12 @@
 from django.db import models
+from django.db.models import Q
+from django.utils.functional import cached_property
+
+
 from profiles.models import School
 
 school_located_choices = (('Rural', 'Rural'), ('Urban', 'Urban'))
+
 
 class TimeStampMixin(models.Model):
     updated_at = models.DateTimeField(auto_now=True)

@@ -22,7 +22,9 @@
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
-  </head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">  
+    </head>
 
   <body>
       {% block navbar %}
@@ -45,7 +47,7 @@
                 <a class="nav-link" aria-current="page" href="#">Students</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'employee:list' %}">Staff</a>
+                <a class="nav-link" aria-current="page" href="#">Staff</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'attendance:index' %}">Attendance</a>
