@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class = "card border border-primary shadow-2-strong  col-md-10 mx-auto" style="margin-top:20px">
+            
+            <h2 class = "card-header text-center bg-primary text-white">List of All Teaching Staff</h2>
+            <div class = "card-body">
+                <table class="table table-bordered border-primary table-hover text-center">
+                    <thead>
+                        <tr>
+                        <th scope="col">Name</th>
+                          <th scope="col">Contact Number</th>                      
+                          <th scope="col">GENDER</th>
+                          <th scope="col">Joining Year</th>
+                          <th scope="col">Highest Professional Qualification</th>
+                          <th scope="col">Nature of Appointment</th>
+                          
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for NonTeachers in NonTeachers_list_obj %}
+                        <tr>
+                            
+                            <td><a href = '{{NonTeachers.id}}'>{{NonTeachers.NonTeachers_Name}}</a></td>
+                            <td>{{ NonTeachers.NonTeachers_Contact_Number }}</td>
+                            <td>{{ NonTeachers.NonTeachers_Gender }}</td>
+                            <td>{{ NonTeachers.NonTeachers_Joining_Year }}</td>
+                            <td>{{ NonTeachers.NonTeacher_Qualifications }}</td>
+                            <td>{{ NonTeachers.NonTeachers_Nature_Of_Appointment }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        </div>
+
+
+{% endblock %}

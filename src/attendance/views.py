@@ -1,21 +1,46 @@
 from datetime import datetime
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, FormView
 
 from attendance.forms import StudentFetchForm, EmployeeFetchForm, StudentAttendanceCreateForm, \
-    EmployeeAttendanceCreateForm
-from attendance.models import StudentAttendance, get_employee_attendance, EmployeeAttendance
+    EmployeeAttendanceCreateForm, MyAttendanceFetchForm
+from attendance.models import StudentAttendance, get_employee_attendance, EmployeeAttendance, get_my_attendance
 from profiles.models import Student, Subject, User
-from .models import get_student_attendance
+from .models import get_student_attendance, get_student_attendance_dates
 
 
-class AttendanceIndexView(TemplateView):
+class AttendanceIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/attendance.html'
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_student:
+            return redirect('attendance:my_home')
+        else:
+            return super(AttendanceIndexView, self).get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        school = None
+        if self.request.user.is_student:
+            school = Student.objects.get(user=self.request.user).stud_school
+
+        kwargs['display'] = {
+            'school': school
+        }
+
+        return kwargs
+
+
+"""
+Student from authority perspective
+"""
+
+
+@login_required()
 def student_mark_attendance(request, create_date, subject, section):
     attendance_item = get_student_attendance(create_date, subject, section, request.user.school)
     attendance_item.filter(pk__in=request.POST.getlist('present')).update(student_attendance_is_present=True)
@@ -29,17 +54,15 @@ def student_mark_attendance(request, create_date, subject, section):
     return redirect('attendance:student_detail', **parameter)
 
 
-class StudentAttendanceListView(TemplateView):
+class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/student_attendance_list.html'
 
     def get_context_data(self, **kwargs):
-        date_header = StudentAttendance.objects.values_list(
-            'student_attendance_date', flat=True
-        ).order_by(
-            'student_attendance_date'
-        ).filter(
-            student_attendance_date__range=(kwargs['start_date'], kwargs['end_date'])
-        ).distinct()
+
+        date_header = get_student_attendance_dates(kwargs['start_date'], kwargs['end_date'], kwargs['subject'],
+                                                   kwargs['section'], self.request.user.school)
+
+        # print(self.request.user.)
 
         header = ['Roll no', 'First name', 'Last name', *date_header, 'present percent']
 
@@ -87,7 +110,7 @@ class StudentAttendanceListView(TemplateView):
         return kwargs
 
 
-class StudentAttendanceHomeView(FormView):
+class StudentAttendanceHomeView(LoginRequiredMixin, FormView):
     form_class = StudentFetchForm
     template_name = 'attendance/student_attendance_home.html'
 
@@ -98,10 +121,24 @@ class StudentAttendanceHomeView(FormView):
             'subject': form.cleaned_data.get('subject').pk,
             'section': form.cleaned_data.get('section'),
         }
+
+        section = parameter['section'] if parameter['section'] != 'NA' else ''
+
+        date = get_student_attendance_dates(parameter['start_date'], parameter['end_date'], parameter['subject'],
+                                            parameter['section'], self.request.user.school)
+
+        if not date.count():
+            messages.warning(
+                self.request, _(
+                    f"There is no attendance record between {parameter['start_date']} -\
+                     {parameter['end_date']} for class {form.cleaned_data['subject'].subject_class} {section} and\
+                      subject: {form.cleaned_data['subject'].subject_name}"
+                ))
+            return redirect('attendance:student_home')
         return redirect('attendance:student_view', **parameter)
 
 
-class StudentAttendanceDetailView(TemplateView):
+class StudentAttendanceDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/student_attendance_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -121,7 +158,7 @@ class StudentAttendanceDetailView(TemplateView):
         return context
 
 
-class StudentAttendanceCreateView(FormView):
+class StudentAttendanceCreateView(LoginRequiredMixin, FormView):
     template_name = 'attendance/student_attendance_create_form.html'
     form_class = StudentAttendanceCreateForm
 
@@ -163,7 +200,7 @@ class StudentAttendanceCreateView(FormView):
         return redirect('attendance:student_update', **parameters)
 
 
-class StudentAttendanceUpdateView(TemplateView):
+class StudentAttendanceUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/student_attendance_update_form.html'
 
     def get_context_data(self, **kwargs):
@@ -182,6 +219,7 @@ class StudentAttendanceUpdateView(TemplateView):
         return context
 
 
+@login_required()
 def student_attendance_delete_view(request):
     attendances = get_student_attendance(request.POST['create_date'], request.POST['subject'], request.POST['section'],
                                          request.user.school)
@@ -189,6 +227,12 @@ def student_attendance_delete_view(request):
     return redirect('attendance:student_home')
 
 
+"""
+Employee from authority perspective
+"""
+
+
+@login_required()
 def employee_mark_attendance(request, create_date):
     attendance = get_employee_attendance(create_date, request.user.school)
     present_list = list(map(int, request.POST.getlist('present')))
@@ -213,7 +257,7 @@ def employee_mark_attendance(request, create_date):
     return redirect('attendance:employee_detail', **parameter)
 
 
-class EmployeeAttendanceListView(TemplateView):
+class EmployeeAttendanceListView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/employee_attendance_list.html'
 
     def get_context_data(self, **kwargs):
@@ -266,7 +310,7 @@ class EmployeeAttendanceListView(TemplateView):
         return kwargs
 
 
-class EmployeeAttendanceHomeView(FormView):
+class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
     form_class = EmployeeFetchForm
     template_name = 'attendance/employee_attendance_home.html'
 
@@ -292,7 +336,7 @@ class EmployeeAttendanceHomeView(FormView):
         return redirect('attendance:employee_view', **parameter)
 
 
-class EmployeeAttendanceDetailView(TemplateView):
+class EmployeeAttendanceDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/employee_attendance_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -306,7 +350,7 @@ class EmployeeAttendanceDetailView(TemplateView):
         return kwargs
 
 
-class EmployeeAttendanceCreateView(FormView):
+class EmployeeAttendanceCreateView(LoginRequiredMixin, FormView):
     template_name = 'attendance/employee_attendance_create_form.html'
     form_class = EmployeeAttendanceCreateForm
 
@@ -341,7 +385,7 @@ class EmployeeAttendanceCreateView(FormView):
         return redirect('attendance:employee_update', **parameters)
 
 
-class EmployeeAttendanceUpdateView(TemplateView):
+class EmployeeAttendanceUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/employee_attendance_update_form.html'
 
     def get_context_data(self, **kwargs):
@@ -355,7 +399,74 @@ class EmployeeAttendanceUpdateView(TemplateView):
         return kwargs
 
 
+@login_required()
 def employee_attendance_delete_view(request):
     attendances = get_employee_attendance(request.POST['create_date'], request.user.school)
     attendances.delete()
     return redirect('attendance:employee_home')
+
+
+"""
+Student from their perspective
+"""
+
+
+class MyAttendanceFetchView(LoginRequiredMixin, FormView):
+    form_class = MyAttendanceFetchForm
+    template_name = 'attendance/my_attendance_home.html'
+
+    def form_valid(self, form):
+        student = self.request.user.student
+
+        attendance = get_my_attendance(form.cleaned_data['student_fetch_start_date'],
+                                       form.cleaned_data['student_fetch_end_date'], form.cleaned_data['subject'],
+                                       student.stud_section, student.stud_school, student)
+
+        if not attendance.count():
+            messages.warning(self.request, 'No classes found between these dates')
+            return redirect('attendance:my_home')
+
+        parameters = {
+            'start_date': form.cleaned_data['student_fetch_start_date'],
+            'end_date': form.cleaned_data['student_fetch_end_date'],
+            'subject': form.cleaned_data['subject'].pk
+        }
+
+        return redirect('attendance:my_detail', **parameters)
+
+
+class MyAttendanceDetailView(LoginRequiredMixin, TemplateView):
+    template_name = 'attendance/my_attendance_detail.html'
+
+    def get_context_data(self, **kwargs):
+        student = self.request.user.student
+
+        # info display inside template
+        kwargs['display'] = {
+            'start_date': datetime.strptime(kwargs['start_date'], '%Y-%m-%d').date(),
+            'end_date': datetime.strptime(kwargs['end_date'], '%Y-%m-%d').date(),
+            'subject': Subject.objects.get(pk=kwargs['subject']).subject_name,
+            'student': student,
+        }
+
+        kwargs['attendance'] = get_my_attendance(kwargs['start_date'], kwargs['end_date'], kwargs['subject'],
+                                                 student.stud_section, student.stud_school, student)
+
+        # attendance stat footer info
+        total = kwargs['attendance'].count()
+        present = kwargs['attendance'].filter(student_attendance_is_present=True).count()
+        absent = total - present
+
+        try:
+            present_percent = '{:.2f}'.format(present / total * 100)
+        except ZeroDivisionError:
+            present_percent = '--'
+
+        kwargs['attendance_stat'] = {
+            'present': present,
+            'absent': absent,
+            'total': total,
+            'present_percent': present_percent
+        }
+
+        return kwargs

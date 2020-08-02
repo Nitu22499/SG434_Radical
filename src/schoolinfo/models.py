@@ -84,9 +84,8 @@ where_conducted=(('School premises',('School premises')),('other school premises
 
 training_type=(('Residential',('Residential')),('non-residential',('non-residential')),('both',('both')))
 
-class SchoolProfile(models.Model):
-    sp_school = models.OneToOneField(School, on_delete=models.CASCADE)
-    updated_at = models.DateTimeField(auto_now=True)
+class SchoolProfile(TimeStampMixin):
+    sp_school = models.ForeignKey(School, on_delete=models.CASCADE)
     sp_school_name = models.CharField(max_length=250, verbose_name='School Name (In Capital Letters)')
     sp_school_located = models.CharField(max_length=50, choices=school_located_choices, blank=True, verbose_name='Is the school located in Rural or Urban Area')
     sp_village_ward = models.CharField(max_length=250, blank=True, verbose_name='Village Name(for rural area)/Ward Number(for urban area)')
@@ -334,9 +333,9 @@ ict_model=(('BOOT Model',('BOOT Model')),('BOO Model',('BOO Model')),('Other',('
 
 ict_instructor=(('Full time',('Full time')),('Part Time',('Part Time')),('Not Available',('Not Available')))
 
-class PhysicalFacilities(models.Model):
-    pf_school = models.OneToOneField(School, on_delete=models.CASCADE)
-    updated_at = models.DateTimeField(auto_now=True)
+class PhysicalFacilities(TimeStampMixin):
+    pf_school = models.ForeignKey(School, on_delete=models.CASCADE)
+    # updated_at = models.DateTimeField(auto_now=True)
     pf_status=models.CharField(max_length=50,choices=status_of_building, blank=True,verbose_name='Status of the School building')
     
     #2.2
