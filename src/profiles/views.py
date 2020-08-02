@@ -37,7 +37,7 @@ class StudentList(ListView):
     def get_context_data(self, **kwargs):
         section_choices=['A','B','C', 'D', 'E','F']
         class_choices=['1','2','3','4','5','6','7', '8', '9', '10', '11', '12', 'LKG', 'UKG']
-        stream_choices=['Commerce','Electrical Technology','Humanities','Information Technology','PCM','PCB','Tourism','NA']
+        stream_choices=[('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM')]
         kwargs['stream_list'] = stream_choices
         kwargs['section_list'] = section_choices
         kwargs['class_list'] = class_choices
@@ -55,7 +55,6 @@ class StudentList(ListView):
         if(self.stud_section=="Select Section"):
             self.stud_section=None
         student=Student.objects.filter(stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
-        # print(student)
         # print(student.stud_rollno)
         # print(student)
         kwargs['currentclass']=self.stud_class

@@ -42,3 +42,4 @@ class SectionHomeForm(forms.Form):
         self.fields['academic_year_field'].choices = (('', 'Change Academic Year'), ) + year_choices()
 
 
+
