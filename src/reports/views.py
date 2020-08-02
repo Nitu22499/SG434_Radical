@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from misc.utilities import get_blocks
 from schoolinfo.models import SchoolProfile, PhysicalFacilities
 from profiles.models import Block, District
+from misc.utilities import academic_year
 
 
 class ReportHome(TemplateView):
@@ -65,6 +66,8 @@ class SchoolsByMgmt(FormView):
         else:
             for block in Block.objects.all():       # all inputs set to all.
                 blocks_list.append(block.block_name)
+
+        # print(objs)
 
         total_state_govt_schools = 0
         total_central_govt_schools = 0

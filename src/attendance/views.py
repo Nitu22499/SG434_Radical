@@ -22,6 +22,7 @@ class AttendanceIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/attendance.html'
 
     def get(self, request, *args, **kwargs):
+        print(self.request.user.school)
         if request.user.is_student:
             return redirect('attendance:my_home')
         else:
@@ -398,13 +399,15 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
             'school': school.id
         }
 
+        logged_in_employee = Employee.objects.get(employee_user=self.request.user)
+
         dates = EmployeeAttendance.objects.values_list(
             'employee_attendance_date', flat=True
         ).order_by(
             'employee_attendance_date'
         ).filter(
             employee_attendance_date__range=(parameter['start_date'], parameter['end_date']),
-            employee_attendance_school=school
+            employee_attendance_school=logged_in_employee.employee_school
         ).distinct()
 
         if not dates.count():
