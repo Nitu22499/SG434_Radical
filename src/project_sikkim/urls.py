@@ -9,7 +9,7 @@ urlpatterns = [
     path('exams/', include('exams.urls')),
     path('schoolinfo/', include('schoolinfo.urls')),
    
-    path('teach_staff/', include('teach_staff.urls')),
+    path('emp/', include('employee.urls')),
     
     path('report/', include('reports.urls')),
 ]

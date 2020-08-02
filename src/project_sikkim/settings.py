@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'exams',
     'profiles',
     'schoolinfo',
-    'teach_staff',
+    'employee',
     'reports'
 
 ]

@@ -45,7 +45,7 @@
                 <a class="nav-link" aria-current="page" href="#">Students</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Staff</a>
+                <a class="nav-link" aria-current="page" href="{% url 'employee:list' %}">Staff</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'attendance:index' %}">Attendance</a>
@@ -59,8 +59,7 @@
 Staff
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'teach_staff:Teacher_List' %}">Teaching</a>
-                  <a class="dropdown-item" href="{% url 'teach_staff:NonTeachers_List' %}">Non Teaching</a>
+                  <a class="dropdown-item" href="#">Employee</a>
                   
                 </div>
               </li> 
