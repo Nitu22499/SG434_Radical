@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!-- Table with panel -->
+
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
+        <div class="card card-cascade narrower">
+
+      
+            <div
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+          
+              
+          
+              <a href="" style="color:white" class="white-text mx-3 "><b>Details of Toilets :</b></a>
+          
+              
+          
+            </div>
+         
+         
+            <div class="px-4">
+        <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Grants under Samagra Shiksha</th>
+                    <th>Receipt(In Rs.)</th>
+                    <th>Expenditure(In Rs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Composite School Grant</td>
+                    <td>{{object.sre_re_composite}}</td>
+                    <td>{{object.sre_ex_composite}}</td>
+                </tr>
+                <tr>
+                    <td>Library Grant</td>
+                    <td>{{object.sre_re_lib}}</td>
+                    <td>{{object.sre_ex_lib}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for sports and physical Education </td>
+                    <td>{{object.sre_re_sports}}</td>
+                    <td>{{object.sre_ex_sports}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Media and Community Mobilization</td>
+                    <td>{{object.sre_re_media}}</td>
+                    <td>{{object.sre_ex_media}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Training of SMC/SMDC</td>
+                    <td>{{object.sre_re_smc}}</td>
+                    <td>{{object.sre_ex_smc}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for support at Preschool Level (Only for primary schools/sections)</td>
+                    <td>{{object.sre_re_pre}}</td>
+                    <td>{{object.sre_ex_pre}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Major Repair</td>
+                    <td>{{object.sre_re_repair}}</td>
+                    <td>{{object.sre_ex_repair}}</td>
+                </tr>
+            </tbody>
+            
+        </table>
+        <p><b>Financial Assistance received by the school</b></p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+            <th>Yes,No</th>
+            <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Yes,</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Name</th>
+                <th>Amount(in Rs.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Non - Govt. Organization (NGO)</td>
+                <td>{{object.sre_yes_non}}</td>
+                <td>{{object.sre_non_name}}</td>
+                <td>{{object.sre_non_amount}}</td>
+            </tr>
+            <tr>
+                <td>Public Sector Undertaking (PSU)</td>
+                <td>{{object.sre_yes_psu}}</td>
+                <td>{{object.sre_psu_name}}</td>
+                <td>{{object.sre_psu_amount}}</td>
+            </tr>
+            <tr>
+                <td>Community</td>
+                <td>{{object.sre_yes_community}}</td>
+                <td>{{object.sre_community_name}}</td>
+                <td>{{object.sre_community_amount}}</td>
+            </tr>
+            <tr>
+                <td>Other</td>
+                <td>{{object.sre_other_yes}}</td>
+                <td>{{object.sre_other_name}}</td>
+                <td>{{object.sre_other_amount}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+            
+            <hr>
+            <div>
+                
+                <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+            
+               
+
+                
+            </div>     
+                            
+            <hr>       
+                    
+                        
+
+                       
+                 
+        
+
+</div>
+</div>
+
+    </div>
+    </div>
+
+{% endblock %}

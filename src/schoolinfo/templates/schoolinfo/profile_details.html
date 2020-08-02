@@ -439,13 +439,20 @@
             
             <hr>
             <div>
-                <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
+                <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >For Government and Aided Schools</button>
                 
                 <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
-            
-                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/{{ request.resolver_match.kwargs.pk }}';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+                
 
-                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/{{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button>
+                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-safety-details/{{ request.resolver_match.kwargs.pk }}';" >School Safety</button>
+
+                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-receipt-details/{{ request.resolver_match.kwargs.pk }}';" >Receipts and Expenditure </button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/2020%20-%202021';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/2020%20-%202021';" >No. of Economically Weaker Section(EWS)students enrolled</button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-annual-details/2020%20-%202021';" >Annual Examination Result at Elementary Level</button>
 
             </div>     
                             

@@ -59,7 +59,8 @@
 Staff
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Employee</a>
+                  <a class="dropdown-item" href="{% url 'teach_staff:Teacher_List' %}">Teaching</a>
+                  <a class="dropdown-item" href="{% url 'teach_staff:NonTeachers_List' %}">Non Teaching</a>
                   
                 </div>
               </li> 

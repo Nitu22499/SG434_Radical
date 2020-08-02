@@ -1,6 +1,5 @@
-from .views import  SectionsHome,SchoolProfileView,PhysicalFacilitiesView,RepeatersByGradeView,SaveRepeatersByGradeView,SchoolRTEView,SaveSchoolRTEView,SchoolItemsView
-from .views import SchoolLibraryDetailView,ProfileDetailView,GovernmentDetailView,PhysicalDetailView,SchoolRTEDetailView,SchoolEWSView,SaveSchoolEWSView,SchoolEWSDetailView,SchoolLibraryView
-from .views import SchoolItemsDetailView,SchoolToiletView,SchoolToiletDetailView
+from .views import  *
+from .views2 import *
 from django.urls import path, include
 
 app_name = 'schoolinfo'
@@ -18,12 +17,22 @@ urlpatterns = [
     path('school-profile-details/<int:pk>',ProfileDetailView.as_view(),name='school_profile_details'),
     path('government-details/<int:pk>',GovernmentDetailView.as_view(),name='school_government_details'),
     path('physical-details/<int:pk>',PhysicalDetailView.as_view(),name='school_physical_details'),
-    path('school-rte-details/<int:pk>',SchoolRTEDetailView,name='school_rte_details'),
-    path('school-ews-details/<int:pk>',SchoolEWSDetailView,name='school_ews_details'),
+    path('school-rte-details/<str:ac_year>',SchoolRTEDetailView,name='school_rte_details'),
+    path('school-ews-details/<str:ac_year>',SchoolEWSDetailView,name='school_ews_details'),
+    path('school-incentives-details/<str:ac_year>',SchoolIncentivesDetailView,name='school_incentives_details'),
     path('school-library/<str:ac_year>',SchoolLibraryView.as_view(),name='school_library'),
     path('library-details/<int:pk>',SchoolLibraryDetailView.as_view(),name='library_details'),
     path('school-items/<str:ac_year>',SchoolItemsView.as_view(),name='school_items'),
     path('items-details/<int:pk>',SchoolItemsDetailView.as_view(),name='items_details'),
     path('school-toilets/<str:ac_year>',SchoolToiletView.as_view(),name='school_toilets'),
     path('school-toilet-details/<int:pk>',SchoolToiletDetailView.as_view(),name='toilet_details'),
+    path('school-safety/<str:ac_year>',SchoolSafetyView.as_view(),name='school_safety'),
+    path('school-safety-details/<int:pk>',SchoolSafetyDetailView.as_view(),name='safety_details'),
+    path('school-receipt/<str:ac_year>',SchoolReceiptView.as_view(),name='school_receipt'),
+    path('school-receipt-details/<int:pk>',SchoolReceiptDetailView.as_view(),name='receipt_details'),
+    path('school-incentives/',SchoolIncentivesView,name='school_incentives'),
+    path('school-incentives/save',SaveSchoolIncentivesView,name='school_incentives_save'),
+    path('school-annual/',SchoolAnnualView,name='school_annual'),
+    path('school-annual/save',SaveSchoolAnnualView,name='school_annual_save'),
+    path('school-annual-details/<str:ac_year>',SchoolAnnualDetailView,name='school_annual_details'),
 ]

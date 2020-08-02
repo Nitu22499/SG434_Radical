@@ -1,0 +1,72 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block body %}
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+<h2 class = "card-header text-center bg-primary text-white">School Profile</h2>
+<div class = "card-body">
+<form method = "POST" action = "">
+    {% csrf_token %}
+    <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Status of Implementation</th>
+                <th>Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% with count=0 %} 
+            {% for field in form %}
+                {% if numbering|index:forloop.counter0 == 12 %}
+                <tr>
+                    <td colspan="4"><b>If Yes, Whether the school has carried out the following Activities?</b></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{field.label}}</td>
+                    <td>{{field}}</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            {% endwith %}
+            
+        </tbody>
+        
+    </table>
+    <div class = "text-center">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+</form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
