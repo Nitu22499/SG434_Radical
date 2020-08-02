@@ -100,3 +100,17 @@ class Exam(models.Model):
 
     def __str__(self):
         return self.student.user.first_name + " ("+ self.student.stud_class + "-" + self.student.stud_section + "-" + self.student.stud_rollno + ") report"
+
+# 3-point Grading Scheme
+exam_cs_grade_choices = (
+    ('A','A'),
+    ('B','B'),
+    ('C','C'),
+    ('NA','NA')
+)
+
+class ExamCoScholastic(models.Model):
+    exam_cs_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    exam_cs_student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    exam_cs_grade_1 = models.CharField(max_length=5, default='NA', choices=exam_cs_grade_choices)
+    exam_cs_grade_2 = models.CharField(max_length=5, default='NA', choices=exam_cs_grade_choices)
