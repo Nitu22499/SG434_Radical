@@ -54,4 +54,3 @@ class SchoolReceiptForm(forms.ModelForm):
         model = SchoolReceipt
         exclude = ('sre_school_name','academic_year')
 
-
