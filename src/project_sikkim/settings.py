@@ -37,15 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'import_export',
 
     'misc',
     'attendance',
     'exams',
     'profiles',
     'schoolinfo',
-    'employee',
     'dashboard',
+    'teach_staff',
     'reports'
 
 ]
@@ -91,9 +90,9 @@ try:
     DATABASES = DB_CONFIG
 except ImportError:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 

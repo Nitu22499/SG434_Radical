@@ -39,23 +39,22 @@ type_of_school=(
 )
 
 management_school_code=(
-    ('State Govt.',('State Govt.')),
-    ('Central Govt.',('Central Govt.')),
-    ('Private',('Private')),
+    ('Department of Education',('Department of Education')),
+    ('Tribal Welfare Department',('Tribal Welfare Department')),
     ('Local Body',('Local Body')),
-    ('Other',('Other')),
-    # ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
-    # ('Other Govt. managed schools',('Other Govt. managed schools')),
-    # ('Unrecognized',('Unrecognized')),
-    # ('Social Welfare Department',('Social Welfare Department')),
-    # ('Ministry of Labour',('Ministry of Labour')),
-    # ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
-    # ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
-    # ('Sainik School',('Sainik School')),
-    # ('RailwaySchool',('RailwaySchool')),
-    # ('Central Tibetan School',('Central Tibetan School')),
-    # ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
-    # ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
+    ('Government Aided',('Government Aided')),
+    ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
+    ('Other Govt. managed schools',('Other Govt. managed schools')),
+    ('Unrecognized',('Unrecognized')),
+    ('Social Welfare Department',('Social Welfare Department')),
+    ('Ministry of Labour',('Ministry of Labour')),
+    ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
+    ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
+    ('Sainik School',('Sainik School')),
+    ('RailwaySchool',('RailwaySchool')),
+    ('Central Tibetan School',('Central Tibetan School')),
+    ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
+    ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
 )
 
 residential_type=(
@@ -113,7 +112,7 @@ class SchoolProfile(TimeStampMixin):
     sp_repondent_contact_no=models.CharField(max_length=18,blank=True,verbose_name='(c)Respondent Contact No.')
     sp_school_email=models.CharField(max_length=20,blank=True,verbose_name='(d)Email Of School')
     sp_school_website=models.CharField(max_length=25,blank=True,verbose_name='(e)Website Of School')
-    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True, verbose_name='School Category')
+    sp_school_category=models.CharField(max_length=50,choices=school_category_code,blank=True,verbose_name='School Category')
 
     sp_lowest_class=models.CharField(max_length=10,blank=True,verbose_name='(a)Lowest Class in the School ')
     sp_highest_class=models.CharField(max_length=10,blank=True,verbose_name='(b)Highest Class in the School ')

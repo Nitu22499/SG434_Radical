@@ -19,7 +19,6 @@
           <span class="text-danger small">{{ field.errors }}</span>
       </div>
     {% endfor %}
-    
     <div class = "text-center">
     <button class="btn btn-primary" type="submit">Submit</button>
     </div>
@@ -28,20 +27,5 @@
 </div>
 </div>
 
-<script>
-        function manage() {
-            var bt = document.getElementById('id_stud_stream');
-            if (id_stud_class.value != 11 && id_stud_class.value != 12) {
-                console.log(id_stud_class.value)
-                bt.disabled = true;
-                console.log(bt.disabled)
-            }
-            else {
-                
-                console.log(id_stud_class.value)
-                bt.disabled = false;
-                console.log(bt.disabled)
-            }
-        }
-    </script>
+
 {% endblock %}

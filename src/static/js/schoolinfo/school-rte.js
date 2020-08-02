@@ -49,7 +49,7 @@ $('#convert-table').click( function() {
     response = JSON.stringify(response).replace(/-/g, '')
    
     
-    fetch(`${window.location.origin}/schoolinfo/school-rte/{{ac_year}}/save`, {
+    fetch(`${window.location.origin}/schoolinfo/school-rte/${ac_year}/save`, {
         method: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),

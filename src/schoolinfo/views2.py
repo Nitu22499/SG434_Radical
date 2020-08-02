@@ -259,11 +259,11 @@ def SaveSchoolRTEView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
     # print(data)
-    academic_year = data['academic_year'][:4] + ' -' + data['academic_year'][5:]
+    
     # print(academic_year)
     for row in rows:
         try:
-            class_val = SchoolRTE.objects.get(srte_school=request.user.school,academic_year=academic_year,class_name=row['class_name'])
+            class_val = SchoolRTE.objects.get(srte_school=request.user.school,academic_year=ac_year,class_name=row['class_name'])
             class_val.srte_class_pre_B = row['boys_pre'] or None
             class_val.srte_class_pre_G = row['girls_pre'] or None
             class_val.srte_class_I_B = row['boys_1'] or None
@@ -286,11 +286,11 @@ def SaveSchoolRTEView(request,ac_year):
             class_val.full_clean()
             # class_val.srte_school = request.user.school
             class_val.save()
-            messages.success(request, 'Saved successfully')
+            
         except Exception as e:
             print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
-
+    messages.success(request, 'Saved successfully')
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
 
 
@@ -322,12 +322,11 @@ def SaveSchoolEWSView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
     # print(data)
-    academic_year = data['academic_year'][:4] + ' -' + data['academic_year'][5:]
-    print(academic_year)
+    
     for row in rows:
         try:
         
-            class_val = SchoolEWS.objects.get(sews_school=request.user.school,academic_year=academic_year, class_name=row['class_name'])
+            class_val = SchoolEWS.objects.get(sews_school=request.user.school,academic_year=ac_year, class_name=row['class_name'])
             class_val.sews_class_IX_B = row['boys_1'] or None
             class_val.sews_class_IX_G = row['girls_1'] or None
             class_val.sews_class_X_B = row['boys_2'] or None
@@ -341,11 +340,11 @@ def SaveSchoolEWSView(request,ac_year):
             class_val.full_clean()
             # class_val.sews_school = request.user.school
             class_val.save()
-            messages.success(request, 'Saved successfully')
+           
         except Exception as e:
             print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
-
+    messages.success(request, 'Saved successfully')
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
 
 

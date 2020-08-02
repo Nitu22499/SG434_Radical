@@ -22,14 +22,11 @@
 
         <a class="btn text-muted" href="{% url 'attendance:student_home' %}"><i class="fas fa-chevron-left"></i> return
             Home</a>
-        {% if user.is_school_admin %}
-
-            <a class="btn btn-outline-primary" href="{% url 'attendance:student_update' create_date subject section %}"><i
-                    class="far fa-edit"></i> edit</a>
-            <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
-                    class="far fa-trash-alt"></i>&nbsp;Delete
-            </button>
-        {% endif %}
+        <a class="btn btn-outline-primary" href="{% url 'attendance:student_update' create_date subject section %}"><i
+                class="far fa-edit"></i> edit</a>
+        <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                class="far fa-trash-alt"></i>&nbsp;Delete
+        </button>
         <br><br>
 
         <!-- Delete Modal -->
