@@ -8,14 +8,11 @@
 <div class = "card-body">
 <form method = "POST" action = "">
     {% csrf_token %}
+    <span class="text-danger small">{{ form.non_field_errors }}</span>
     {% for field in form %}
-    
-    <span class="text-danger small">{{ field.errors }}</span>
-    <div class="{% if field.field.widget.input_type == 'text' %} form-outline {% endif %} mb-3">
-        {{ field }}
-        {% if field.label != '' %}
+    <div class="mb-3">
         <label class="form-label">{{ field.label }}</label>
-        {% endif %}
+        {{ field }}
     </div>
     {% endfor %}
     <div class = "text-center">

@@ -40,12 +40,6 @@ class Student(models.Model):
     stud_class = models.CharField(max_length=5, choices=class_choices, blank=True)
     stud_section = models.CharField(max_length=5, choices=section_choices, default = 'NA', blank=True)
     stud_rollno = models.CharField(max_length=10)
-    stud_mother_name = models.CharField(max_length=200, blank=True)
-    stud_stream = models.CharField(max_length=30, choices=stream_choices, default = 'NA', blank=True)
-    stud_parents_no_primary = models.CharField(max_length=15, blank = True)
-    stud_parents_no_alternative = models.CharField(max_length=15, blank=True)
-    stud_admission_year = models.CharField(max_length=20, blank=True)
-    stud_disability = models.CharField(max_length=250, blank = True)
     stud_school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -58,19 +52,6 @@ class Teacher(models.Model):
     # teacher_school
     # teacher_subjects
 
-appointment_status_choices = (('', 'Appointment Status'), ('Regular', 'Regular'), ('Temporary', 'Temporary'), ('Contract', 'Contract'))
-
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    emp_designation = models.CharField(max_length=80, blank=True)
-    emp_appointment_status = models.CharField(max_length=30, choices=appointment_status_choices, blank=True)
-    emp_joining_date = models.DateField(null = True)
-    # emp_teacher_subjects
-    emp_school = models.ForeignKey(School, on_delete=models.CASCADE)
-    # emp_id
-
-    def __str__(self):
-        return self.user.first_name
 
 school_level_choices = (('', 'School Level'), ('PS', 'PS'), ('JHS', 'JHS'), ('SS', 'SS'), ('SSS', 'SSS'), ('Pre-Primary', 'Pre-Primary'))
 subject_type_choices = (('Scholastic', 'Scholastic'), ('Co -Scholastic', 'Co -Scholastic'))
