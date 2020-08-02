@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class = "container-fluid" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+
+        
+            <h2 class = "card-header text-center bg-primary text-white">Student Information</h2>
+
+    <div class = "card-body-info">
+                
+        <div class="row">
+            <div class="container col-md-6">
+                <label>Student Name:</label>  {{ stud}} {{ stud.user.middle_name}} {{ stud.user.last_name}}<br><br>
+                
+                <label>Class:</label>  {{ stud.stud_class }}<br><br>
+                <!-- <B>Stream :</B>{{ stud.stud_stream }}<br><br> -->
+                <label>Date Of Birth:</label>  {{ stud.user.date_of_birth }}<br><br>
+                
+                <label>Religion: </label>  {{ stud.stud_religion }}<br><br>
+                <label>Social Category:</label>  {{ stud.stud_socialCategory }}<br><br>
+                
+        
+            </div>
+            <div class="container col-md-6">
+                <label>Roll no:</label>  {{ stud.stud_rollno }}<br><br>
+                <label>Section:</label>  {{ stud.stud_section }}<br><br>
+                
+                <label>Gender:</label>  {{ stud.user.gender }}<br><br>
+                <label>Caste:</label>  {{ stud.stud_caste }}<br><br>
+                <label>Disability:</label>  {{ stud.stud_disability }}<br><br>
+                
+            </div>
+        </div>
+        <div class="row">
+            <U><h4 align="center"><B>Parents Information</B></h4></U><br><br>
+            <div class="container col-md-6">
+                
+                <label>Father's Name:</label>  {{ stud.user.middle_name}} {{ stud.user.last_name}}<br><br>
+                
+                <label>Parents Contact No (Primary):</label>  {{ stud.stud_parentContact}}<br><br>
+                <label>Address:</label>  {{ stud.stud_address }}<br><br>
+                
+            </div>
+            <div class="container col-md-6">
+                <label>Mother's Name:</label>  {{ stud.stud_mother_name}} {{ stud.user.last_name}}<br><br>
+                <label>Parents Contact No (Seconadry):</label>  {{ stud.stud_parentSecContact}}<br><br>
+            </div>
+        </div>
+        
+                      
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

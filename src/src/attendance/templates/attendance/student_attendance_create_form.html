@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Create student attendance
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1>Add new attendance</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% include 'forms.html' %}
+            <br>
+            <button class="btn btn-primary" type="submit">Save and fetch students</button>
+{#            <a href="{% url 'attendance:student_list' %}" class="btn">cancel</a>#}
+        </form>
+    </div>
+{% endblock body %}
