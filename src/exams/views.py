@@ -88,7 +88,6 @@ def saveExamForm(request):
             exam_marks.full_clean()
             exam_marks.save()
         except Exception as e:
-<<<<<<< HEAD
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
 
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
@@ -105,13 +104,10 @@ def saveExamFormCoScholastic(request):
             exam_marks.full_clean()
             exam_marks.save()
         except Exception as e:
-=======
->>>>>>> 5f4efb534685bc7d32325b0a9ecec487ebfda2fe
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
 
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
     
-<<<<<<< HEAD
 def studentReportView(request):
     template_name = 'exams/student-report.html'
 
@@ -128,5 +124,3 @@ def studentReportView(request):
     }
 
     return render(request, template_name, context)
-=======
->>>>>>> 5f4efb534685bc7d32325b0a9ecec487ebfda2fe
