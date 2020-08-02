@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-8 mx-auto">
+    <div class="card card-cascade narrower">
+    {% comment %} {% if not form.instance.pk %}
+
+          Create New Profile
+
+          {% else %}
+          Update Existing Profile
+
+          {% endif %} {% endcomment %}
+          <div class="card-header bg-primary text-white">
+              <h2>
+               Non Teaching Staff Profile
+                     </h2></div>
+          
+<div class = "card-body">
+
+<form method = "POST" action = "">
+<div class = 'row'>
+    {% csrf_token %}
+    {% for field in form %}
+    
+    <div class="form-group row mb-3">
+        <div class="col-auto align-self-center"></div>
+        {% if field.label != '' %}
+          <label class="col-sm-3 col-form-label">{{ field.label }}</label>
+          {% endif %}
+          <div class="col-sm-8 align-self-center">{{ field }}</div>
+          <span class="text-danger small">{{ field.errors }}</span>
+      </div>
+    {% endfor %}
+    </div>
+    <div class = "text-center">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+    
+</form>
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+
+{% comment %} 
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
+        <div class="card card-cascade narrower">
+
+            <!--Card image-->
+            <div
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+          
+              
+          
+              <a href="" style="color:white" class="white-text mx-3 "><b>Please fill your details  :</b></a>
+          
+              
+          
+            </div>
+            <!--/Card image-->
+         
+            <div class="px-4">
+        <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
+          <thead></thead>
+
+          <tbody>
+            
+            
+           {% if not form.instance.pk %}
+
+          Create Teaching_Staff_NonTeachers_Info
+
+          {% else %}
+          Update Teaching_Staff_NonTeachers_Info
+
+          {% endif %}
+           
+          
+          
+          
+          <form method = 'POST'>
+          {% csrf_token %}
+
+          {{ form.as_p }}
+
+          <input type = 'submit' value = 'Submit'/>
+
+          </form>
+            
+
+          </tbody>
+          <center>
+          
+          
+          
+          </table> {% endcomment %}

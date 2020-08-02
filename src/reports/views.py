@@ -22,10 +22,7 @@ class SchoolsByMgmt(FormView):
 
     def get(self, request, *args, **kwargs):
         """ Get inputs from form """
-        if self.academic_year_field:
-            self.academic_year_field = self.request.GET.get('academic_year_field')
-        else:
-            self.academic_year_field = academic_year()
+        self.academic_year_field = self.request.GET.get('academic_year_field')
         if self.request.GET.get('districts_field'):
             self.districts_field = int(self.request.GET.get('districts_field'))
         if self.request.GET.get('blocks_field'):
