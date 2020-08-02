@@ -25,15 +25,13 @@ $('#convert-table').click( function() {
 
         headings: [
             'class_name',
-            'boys_pre','girls_pre',
             'boys_1','girls_1',  // Array of Column Header names
             'boys_2','girls_2',
             'boys_3','girls_3',
             'boys_4','girls_4',
             'boys_5','girls_5',
             'boys_6','girls_6',
-            'boys_7','girls_7',
-            'boys_8','girls_8',      
+            'boys_7','girls_7',     
         ]
     }); // Convert the table into a javascript object
     // console.log(JSON.stringify(table));
@@ -41,7 +39,6 @@ $('#convert-table').click( function() {
     
     let response = {
         table,
-        academic_year: $('#year').text()
 
     }
     console.log($('#year').text())
@@ -49,7 +46,7 @@ $('#convert-table').click( function() {
     response = JSON.stringify(response).replace(/-/g, '')
    
     
-    fetch(`${window.location.origin}/schoolinfo/school-rte/{{ac_year}}/save`, {
+    fetch(`${window.location.origin}/schoolinfo/school-incentives/save`, {
         method: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),

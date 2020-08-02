@@ -2,28 +2,10 @@
 
 {% block body %}
 <div class="container" style = "padding-top: 2%; padding-bottom: 4%;">
-    <form action="" method="POST" class="text-center border border-light p-5" >
-        {% csrf_token %}
-        <p class="h4 mb-5">Students Enrolled under Section 12 of RTE Act</p>
-        {% if error_msg %}
-            <span class="text-left text-danger large">
-                <ul class="errorlist">
-                    <li>{{ error_msg }}</li>
-                </ul>
-            </span>
-        {% endif %}
-        <div class="form-group">
-            <select  name="academic_year" class="form-control browser-default custom-select mb-4" id="academic_year">
-                <option value="">SELECT ACADEMIC YEAR</option>
-                <!-- {% for cls in year_choices %}
-                <option value="{{ cls.0}}" {% if selected_year == cls.0 %} selected {% endif %}>{{ cls.1 }}</option>
-                {% endfor %}  -->
-                <option value={{year_choices}}>{{year_choices}}</option> 
-            </select>
-        </div>   
-        <button class="btn btn-info btn-block" type="submit">Generate</button>
-    </form>
-
+    
+        <p class="h4 mb-5">Students Enrolled under Section 12 of RTE Act({{academic_year}})</p>
+       
+        <p id="year" value={{academic_year}} hidden>{{academic_year}}</p>
 
     <div class="msg"></div>
     <div class="row mt-4">

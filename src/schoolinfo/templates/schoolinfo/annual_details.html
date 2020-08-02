@@ -3,10 +3,8 @@
 {% block body %}
 <div class="container" style = "padding-top: 2%; padding-bottom: 4%;">
     
-        <p class="h4 mb-5">No. of Economically Weaker Section(EWS)students enrolled({{academic_year}})</p>
-        
-     
-        <p id="year" value={{academic_year}} hidden>{{academic_year}}</p>
+        <p class="h4 mb-5">Annual Examination Result in Previous Year for Grade V </p>
+       
 
     <div class="msg"></div>
     <div class="row mt-4">
@@ -16,36 +14,43 @@
                 <table id="table" class="table text-center table-bordered">
                     <thead>
                         <tr class="table-light align-middle">
-                            <th scope="col" data-override="class_name">Classes</th>
-                            <th scope="col" colspan="2">IX</th>
-                            <th scope="col" colspan="2">X</th>
-                            <th scope="col" colspan="2">XI</th>
-                            <th scope="col" colspan="2">XII</th>
+                            <th scope="col" data-override="class_name"></th>
+                            <th scope="col" colspan="2">General Students</th>
+                            <th scope="col" colspan="2">SC Students</th>
+                            <th scope="col" colspan="2">ST Students</th>
+                            <th scope="col" colspan="2">OBC Students</th>
+                            <th scope="col" colspan="2">Total Students</th>
+
                         </tr>   
                         <tr>
-                            <th></th>
+                            <th>Examination Result</th>
                             <th scope="col" data-override="boys_1">Boys</th>
                             <th scope="col" data-override="girls_1">Girls</th>
-                            <th scope="col" data-override="boys_3">Boys</th>
-                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_2">Boys</th>
+                            <th scope="col" data-override="girls_2">Girls</th>
                             <th scope="col" data-override="boys_3">Boys</th>
                             <th scope="col" data-override="girls_3">Girls</th>
                             <th scope="col" data-override="boys_4">Boys</th>
                             <th scope="col" data-override="girls_4">Girls</th>
+                            <th scope="col" data-override="boys_5">Boys</th>
+                            <th scope="col" data-override="girls_5">Girls</th>
                         </tr>                     
                     </thead>
                     <tbody>
                         {% for key, values in rows.items %}
                         <tr>                            
                             <th scope="row" >{{ key }}</th> 
-                            <td contenteditable="true">{{ values.sews_class_IX_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.sews_class_IX_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.sews_class_X_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.sews_class_X_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.sews_class_XI_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.sews_class_XI_G|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.srte_class_XII_B|default_if_none:"-" }}</td>
-                            <td contenteditable="true">{{ values.srte_class_XII_G|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_boys_gen|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_girls_gen|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_boys_sc|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_girls_sc|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_boys_st|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_girls_st|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_boys_obc|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_girls_obc|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_boys_total|default_if_none:"-" }}</td>
+                            <td >{{ values.sa_girls_total|default_if_none:"-" }}</td>
+
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -55,6 +60,7 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% load static %}
@@ -66,6 +72,6 @@
 <!-- TableToJson jquery plugin CDN -->
 <script src="https://cdn.jsdelivr.net/npm/table-to-json@1.0.0/lib/jquery.tabletojson.min.js" integrity="sha256-H8xrCe0tZFi/C2CgxkmiGksqVaxhW0PFcUKZJZo1yNU=" crossorigin="anonymous"></script>
 <!-- Custom JS -->
-<script type="text/javascript" src="{% static 'js/schoolinfo/school-ews.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/schoolinfo/school-annual.js/' %}"></script>
 
 {% endblock %}

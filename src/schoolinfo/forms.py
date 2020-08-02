@@ -1,5 +1,6 @@
 from django import forms
-from .models import SchoolProfile,PhysicalFacilities,SchoolLibrary,SchoolItems,SchoolToilet
+from .models import *
+from .models2 import *
 from django.db import transaction
 from misc.utilities import year_choices
 
@@ -41,4 +42,15 @@ class SectionHomeForm(forms.Form):
         super(SectionHomeForm, self).__init__(*args, **kwargs)
         self.fields['academic_year_field'].choices = (('', 'Change Academic Year'), ) + year_choices()
 
+class SchoolSafetyForm(forms.ModelForm):
+
+    class Meta:
+        model = SchoolSafety
+        exclude = ('sst_school_name','academic_year')
+
+class SchoolReceiptForm(forms.ModelForm):
+
+    class Meta:
+        model = SchoolReceipt
+        exclude = ('sre_school_name','academic_year')
 
