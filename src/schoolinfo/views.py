@@ -1,10 +1,9 @@
 from django.views.generic import TemplateView, FormView
-from django.shortcuts import render
-from .models import SchoolProfile, RepeatersByGrade
+from .models import SchoolProfile
 from .forms import SchoolProfileForm
 from django.urls import reverse_lazy
 from django.forms.models import model_to_dict
-from misc.utilities import academic_year, year_choices
+from misc.utilities import academic_year
 
 class SectionsHome(TemplateView):
     template_name = 'schoolinfo/sections_home.html'
@@ -48,39 +47,3 @@ class SchoolProfileView(FormView):
         self.object.save()
         return super().form_valid(form)
 
-def RepeatersByGradeView(request):
-    template_name = 'schoolinfo/repeaters-by-grade.html'
-
-    class_choices = (
-        ('General', 'General'),
-        ('SC', 'SC'),
-        ('ST', 'ST'),
-        ('OBC', 'OBC'),
-        ('Muslim', 'Muslim'),
-        ('Christian', 'Christian'),
-        ('Sikh', 'Sikh'),
-        ('Buddhist', 'Buddhist'),
-        ('Parsi', 'Parsi'),
-        ('Jain', 'Jain'),
-        ('Other', 'Other')
-    )   
-
-    response = {}
-    context = {
-        'year_choices': year_choices,
-        'class': class_choices,
-        'selected_year': None
-    }
-    if request.method=="POST":
-        if request.POST['academic_year']:
-            for choice in class_choices:
-                if not RepeatersByGrade.objects.filter(class_name=choice[0], academic_year=request.POST['academic_year']):
-                    RepeatersByGrade.objects.create(class_name=choice[0], academic_year=request.POST['academic_year'])
-                response.update({
-                    choice[0]: RepeatersByGrade.objects.get(class_name=choice[0], academic_year=request.POST['academic_year'])
-                })
-            context.update({
-                'rows': response,
-                'selected_year': request.POST['academic_year']
-            })    
-    return render(request, template_name, context)
