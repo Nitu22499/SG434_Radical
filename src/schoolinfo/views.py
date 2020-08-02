@@ -11,6 +11,9 @@ from django.contrib import messages
 # Importing Libraries
 import json
 
+# Importing Libraries
+import json
+
 class SectionsHome(TemplateView):
     template_name = 'schoolinfo/sections_home.html'
 
@@ -52,7 +55,7 @@ class SchoolProfileView(FormView):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.sp_school = self.request.user.school
-        # self.object.academic_year = academic_year()
+        self.object.academic_year = academic_year()
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
         self.object.save()
@@ -102,7 +105,7 @@ def SaveRepeatersByGradeView(request):
     data = json.loads(request.body)
     rows = data['table']
     academic_year = data['academic_year'][:5] + '-' + data['academic_year'][5:]
-    print("In")
+    
     for row in rows:
         try:
             class_val = RepeatersByGrade.objects.get(academic_year=academic_year, class_name=row['class_name'])
@@ -132,7 +135,6 @@ def SaveRepeatersByGradeView(request):
             class_val.class_XII_G = row['girls_12'] or None
             # Validating and Saving the new Instance
             class_val.full_clean()
-            class_val.rbg_school = request.user.school
             class_val.save()
         except Exception as e:
             print(e)
@@ -144,13 +146,12 @@ class PhysicalFacilitiesView(FormView):
     model = PhysicalFacilities
     form_class = PhysicalFacilitiesForm
     template_name = 'schoolinfo/physical_facilities.html'
-    success_url = reverse_lazy('schoolinfo:physical_facilities')
+    success_url = reverse_lazy('schoolinfo:sections_home')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            # obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school, academic_year = academic_year())
-            obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school)
+            obj = PhysicalFacilities.objects.get(pf_school = self.request.user.school, academic_year = academic_year())
             return obj
         except:
             return None 
@@ -175,9 +176,8 @@ class PhysicalFacilitiesView(FormView):
         """Save to the database. If data exists, update else create new record"""
         self.object = form.save(commit=False)
         self.object.pf_school = self.request.user.school
-        # self.object.academic_year = academic_year()
+        self.object.academic_year = academic_year()
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
         self.object.save()
-        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
         return super().form_valid(form)
