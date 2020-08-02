@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block body %}
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+<h2 class = "card-header text-center bg-primary text-white">Physical Facilities and Equipments</h2>
+<div class = "card-body">
+<form method = "POST" action = "">
+    {% csrf_token %}
+    {% with count=0 %}   
+      {% for field in form %}
+      {% if numbering|index:forloop.counter0 == 2.4 %}
+      <div class="row">
+      <div class="col-sm-1">{{ numbering|index:forloop.counter0 }}</div>
+      <div class="col-sm-11 align-self-center"><p>Details of classrooms available in the schools(For classes Pre Primary to XII)</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.1 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>
+        (i) Out of the Total Classrooms used for instructional purposes,the details by stage/level:</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.2 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>
+        Out of the total number of functional toilets & urinals given in Table</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.3 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>
+        If Yes,</p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.4 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p></p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.5 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>
+          If Yes,
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.6 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 2.18 %}
+      <div class="row">
+      <div class="col-sm-1"><p>2.18</p></div>
+      <div class="col-sm-11 align-self-center"><p>Does the school have dustbins for collection of waste?
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 2.20 %}
+      <div class="row">
+      <div class="col-sm-1"><p>2.20</p></div>
+      <div class="col-sm-11 align-self-center"><p>Does the school have the following facilities(Secondary and Higher Secondary Sections)
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 2.21 %}
+      <div class="row">
+      <div class="col-sm-1"><p>2.21</p></div>
+      <div class="col-sm-11 align-self-center"><p>Does the school have the following equipment(s)?
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      {% if numbering|index:forloop.counter0 == 1.7 %}
+      <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-11 align-self-center"><p>If ICT Lab is available,
+      </p></div>
+      </div>
+      {{ numbering|increment }}
+      {% endif %}
+      
+      <div class="form-group row mb-3">
+          <div class="col-sm-1 align-self-center">{{ numbering|index:forloop.counter0 }}</div>
+            {% if field.label != '' %}
+            <label class="col-sm-5 col-form-label">{{ field.label }}</label>
+            {% endif %}
+            <div class="col-sm-6 align-self-center">{{ field }}</div>
+            <span class="text-danger small">{{ field.errors }}</span>
+        </div>
+    {% endfor %}
+    {% endwith %}
+    <div class = "text-center">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+@import url("fonts.css");
+
+td, label, p {
+    font-family: Roboto Slab; 
+    font-weight:400;
+}
+
+input, select {
+    width: 100%;
+}
+
+ul.no-style > li {
+    list-style-type: none;
+}
+
+div [class="card-body-info"]{
+    padding:40px 100px;
+}
+.btn {
+    line-height:2.0;
+    font-size: 15px;
+}
