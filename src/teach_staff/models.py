@@ -1,8 +1,4 @@
 from django.db import models
-from django.core.validators import RegexValidator
-from django.urls import reverse
-from profiles.models import School
-# Create your models here.
 
 class Teaching_Staff_NonTeachers_Info(models.Model):
     NonTeachers_School = models.ForeignKey(School, on_delete = models.CASCADE)
