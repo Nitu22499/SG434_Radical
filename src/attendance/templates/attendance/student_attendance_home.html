@@ -46,10 +46,13 @@
                     <br>
                 {% endif %}
             </div>
-            {% if forloop.counter|divisibleby:2 %}
+            {% if forloop.counter|divisibleby:2 or forloop.last %}
                 </div>
             {% endif %}
             {% endfor %}
+            {% with authority_form as form %}
+                {% include 'attendance/fetch_form.html' %}
+            {% endwith %}
             <button type="submit" class="btn btn-primary">Fetch students</button>
         </form>
     </div>

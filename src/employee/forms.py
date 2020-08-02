@@ -62,3 +62,9 @@ class TeacherCreateForm(forms.ModelForm):
     class Meta:
         model = Teacher
         exclude = ('teacher_employee',)
+
+
+class EmployeeUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        exclude = ('employee_user', 'employee_school')

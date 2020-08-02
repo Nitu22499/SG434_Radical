@@ -26,7 +26,7 @@
                         <th scope="col">{{ head_val }}</th>
                     {% else %}
                         <th scope="col" class="text-center"><a href="
-                                {% url 'attendance:employee_detail' head_val %}"
+                                {% url 'attendance:employee_detail' head_val school %}"
                                                                class="text-white">{{ head_val }} <i
                                 class="fas fa-external-link-alt"></i></a>
                         </th>
@@ -53,18 +53,6 @@
                                 {% endif %}
                             </td>
                         {% endif %}
-{#                        {% if forloop.counter0 >= 2 %}#}
-{#                            <td class="text-{% if value %}success{% else %}danger{% endif %} text-center">#}
-{#                                {% if value %}#}
-{#                                    P#}
-{#                                {% else %}#}
-{#                                    A#}
-{#                                {% endif %}#}
-{#                            </td>#}
-{#                        {% else %}#}
-{#                            <td>{{ value }}</td>#}
-{#                        {% endif %}#}
-
                     {% endfor %}
                 </tr>
             {% endfor %}

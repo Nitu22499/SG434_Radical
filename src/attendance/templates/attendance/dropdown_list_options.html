@@ -1,0 +1,12 @@
+<option value="0">---------</option>
+
+{% if type == 'school' %}
+    {% for school in schools %}
+        <option value="{{ school.id }}">{{ school.school_name }}</option>
+    {% endfor %}
+{% elif type == 'block' %}
+    {% for block in blocks %}
+        <option value="{{ block.id }}">{{ block.block_name }}</option>
+    {% endfor %}
+
+{% endif %}
