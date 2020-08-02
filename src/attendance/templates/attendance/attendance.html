@@ -2,32 +2,33 @@
 {% load static %}
 
 {% block title %}
-    Attendance
+    Attendance Manager
 {% endblock title %}
 
 {% block body %}
     <div class="container">
+        <br>
         <div class="text-center">
             <h1>Attendance Manager</h1>
-            <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user }} &nbsp; <i
-                    class="fas fa-school"></i>&nbsp; {{ user.school }}</p>
+            <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user|title }} &nbsp; <i
+                    class="fas fa-school"></i>&nbsp; {{ display.school }}</p>
         </div>
         <div class="row">
-            <div class="card col-5">
-                <div class="card-body">
-                    <h2 class="card-title"><a href="{% url 'attendance:student-list' %}">Student attendance</a></h2>
-                    <a href="{% url 'attendance:student-create' %}" class="btn"><i class="fas fa-plus"></i>&nbsp;Add
-                        new</a>
+            <section class="card col-5">
+                <div class="card-body text-center">
+                    <h2><a href="{% url 'attendance:student_home' %}">Student Attendance</a></h2>
+                    <a href="{% url 'attendance:student_add' %}" class="btn"><i class="fas fa-plus"></i> Add</a>
+                    <a href="{% url 'attendance:student_home' %}" class="btn btn-primary">Fetch</a>
                 </div>
-            </div>
-            <div class="card col-5 offset-2">
-                <div class="card-body">
-                    <h2 class="card-title"><a href="{% url 'attendance:employee-list' %}">Employee attendance</a></h2>
-                    <a href="{% url 'attendance:employee-create' %}" class="btn"><i class="fas fa-plus"></i>&nbsp;Add
-                        new</a>
+            </section>
+            <section class="card col-5 offset-2">
+                <div class="card-body text-center">
+                    <h2><a href="{% url 'attendance:employee_home' %}">Employee Attendance</a></h2>
+                    <a href="{% url 'attendance:employee_add' %}" class="btn"><i class="fas fa-plus"></i> Add</a>
+                    <a href="{% url 'attendance:employee_home' %}" class="btn btn-primary">Fetch</a>
                 </div>
-            </div>
-
+            </section>
         </div>
+
     </div>
 {% endblock body %}

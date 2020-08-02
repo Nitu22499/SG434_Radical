@@ -2,18 +2,19 @@
 {% load static %}
 
 {% block title %}
-    {{ attendance.employee_attendance_date }}
+    {{ display.date }}
 {% endblock title %}
 
 {% block body %}
     <div class="container">
+    <br>
         <br>
-        <h1>{{ attendance.employee_attendance_date }}</h1>
-    <p>school <b>{{ attendance.employee_attendance_school }}</b></p>
+        <h1>{{ display.date }}</h1>
 
-        <a class="btn text-muted" href="{% url 'attendance:employee-list' %}"><i class="fas fa-chevron-left"></i> return
-            back</a>
-        <a class="btn btn-outline-primary" href="{% url 'attendance:employee-update' attendance.id %}"><i
+
+        <a class="btn text-muted" href="{% url 'attendance:employee_home' %}"><i class="fas fa-chevron-left"></i> return
+            Home</a>
+        <a class="btn btn-outline-primary" href="{% url 'attendance:employee_update' create_date %}"><i
                 class="far fa-edit"></i> edit</a>
         <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
                 class="far fa-trash-alt"></i>&nbsp;Delete
@@ -39,13 +40,15 @@
                     </div>
                     <div class="modal-body">
                         <p>Are you sure, you want to <span class="text-danger">delete</span> employee attendance record
-                            dated- <span class="font-weight-bold"> {{ attendance.employee_attendance_date }}</span>
-                            ?</p>
+                            dated- <span class="font-weight-bold"> {{ display.date }}</span>?</p>
                         <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
                     </div>
                     <form class="modal-footer" method="post"
-                          action="{% url 'attendance:employee-delete' attendance.pk %}">
+                          action="{% url 'attendance:employee_delete' %}">
                         {% csrf_token %}
+                        <input type="hidden" name="create_date" value="{{ create_date }}">
+                        <input type="hidden" name="subject" value="{{ subject }}">
+                        <input type="hidden" name="section" value="{{ section }}">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">
                             <i class="fas fa-chevron-left"></i>&nbsp;return back
                         </button>
@@ -54,36 +57,42 @@
                 </div>
             </div>
         </div>
+        <!-- End of Delete Modal -->
+
 
         <table class="table table-responsive table-striped table-hover">
             <thead class="table-dark">
             <tr>
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
-                <th scope="col" class="text-center">attendance</th>
+                <th scope="col" class="text-center">Attendance</th>
+                <th scope="col">Reason for absence</th>
             </tr>
             </thead>
             <tbody>
-            {% for employee in employees %}
+            {% for employee in attendance %}
 
                 <tr>
-                    <td>{{ employee.employee_attendance_item_employee.user.first_name }}</td>
-                    <td>{{ employee.employee_attendance_item_employee.user.last_name }}</td>
-                    <td class="text-{% if employee.employee_attendance_item_is_present %}success{% else %}danger{% endif %} text-center">
-                        {% if employee.employee_attendance_item_is_present %}
+                    <td>{{ employee.employee_attendance_employee.first_name }}</td>
+                    <td>{{ employee.employee_attendance_employee.last_name }}</td>
+                    <td class="text-{% if employee.employee_attendance_is_present %}success{% else %}danger{% endif %} text-center">
+                        {% if employee.employee_attendance_is_present %}
                             P
                         {% else %}
                             A
                         {% endif %}
                     </td>
+                <td class="text-{% if employee.employee_attendance_reason_for_absence == 'NA' %}danger{% endif %}">
+                    {{ employee.employee_attendance_reason_for_absence|default:'--' }}
+                </td>
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
 
-        <a class="btn text-muted" href="{% url 'attendance:employee-list' %}"><i class="fas fa-chevron-left"></i> &nbsp;
-            return back</a>
+        <a class="btn text-muted" href="{% url 'attendance:employee_home' %}"><i class="fas fa-chevron-left"></i> &nbsp;
+            return Home</a>
 
     </div>
 

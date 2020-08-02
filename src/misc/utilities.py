@@ -1,4 +1,11 @@
 from datetime import date
+from profiles.models import District
+
+def get_districts():
+    districts_choices = tuple()
+    for obj in District.objects.all().order_by('district_name'):
+        districts_choices += ((obj.id, obj.district_name), )
+    return districts_choices
 
 def year_choices():
     today = date.today()
