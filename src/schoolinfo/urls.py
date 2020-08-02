@@ -1,3 +1,4 @@
+from .viewsk import *
 from .views import  *
 from .views2 import *
 from django.urls import path, include
@@ -5,10 +6,10 @@ from django.urls import path, include
 app_name = 'schoolinfo'
 
 urlpatterns = [
-    path('<str:ac_year>', SectionsHome.as_view(), name='sections_home'),
-    path('school-profile/<str:ac_year>', SchoolProfileView.as_view(), name='school_profile'),
     path('repeaters-by-grade', RepeatersByGradeView, name='repeaters_by_grade'),
     path('repeaters-by-grade/save', SaveRepeatersByGradeView, name='repeaters_by_grade_save'),
+    path('<str:ac_year>', SectionsHome.as_view(), name='sections_home'),
+    path('school-profile/<str:ac_year>', SchoolProfileView.as_view(), name='school_profile'),    
     path('physical-facilities/<str:ac_year>', PhysicalFacilitiesView.as_view(), name='physical_facilities'),    
     path('school-rte/<str:ac_year>',SchoolRTEView,name='school_rte'),
     path('school-rte/<str:ac_year>/save',SaveSchoolRTEView,name='school_rte_save'),
@@ -26,6 +27,12 @@ urlpatterns = [
     path('items-details/<int:pk>',SchoolItemsDetailView.as_view(),name='items_details'),
     path('school-toilets/<str:ac_year>',SchoolToiletView.as_view(),name='school_toilets'),
     path('school-toilet-details/<int:pk>',SchoolToiletDetailView.as_view(),name='toilet_details'),
+    path('enrolment-pre-primary/<str:ac_year>', enrolmentPrePrimaryView, name="enrolment_pre_primary"),
+    path('enrolment-pre-primary/<str:ac_year>/save', saveEnrolmentPrePrimaryView, name="save_enrolment_pre_primary"),
+    path('enrolment-social-category/<str:ac_year>', enrolmentBySocialCategoryView, name="enrolment_social_category"),
+    path('enrolment-by-age/<str:ac_year>', enrolmentByGradeView, name="enrolment_by_age"),
+    path('enrolment-social-category/<str:ac_year>/save', saveEnrolmentBySocialCategoryView, name="enrolment_social_category_save"),
+    path('enrolment-by-age/<str:ac_year>/save', saveEnrolmentByGradeView, name="enrolment_by_age_save"),
     path('school-safety/<str:ac_year>',SchoolSafetyView.as_view(),name='school_safety'),
     path('school-safety-details/<int:pk>',SchoolSafetyDetailView.as_view(),name='safety_details'),
     path('school-receipt/<str:ac_year>',SchoolReceiptView.as_view(),name='school_receipt'),

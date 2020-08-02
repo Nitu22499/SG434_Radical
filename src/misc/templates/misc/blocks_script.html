@@ -3,7 +3,7 @@
     $("#{{ district_field_id }}").change(function () {
       var url = $("#sisForm").attr("data-blocks-url");  // get the url of the `load_cities` view
       var districtID = $(this).val();  // get the selected country ID from the HTML input
-        // console.log(url, districtID);
+        console.log(url, districtID);
       $.ajax({                       // initialize an AJAX request
         url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
         data: {

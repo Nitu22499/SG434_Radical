@@ -1,0 +1,37 @@
+{% if form.non_field_errors %}
+    <ul class="text-danger form-text" style="list-style: none">
+        {% for error in form.non_field_errors %}
+            <li class="alert alert-danger">{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <br>
+{% endif %}
+{% for field in form %}
+    {% if not forloop.counter|divisibleby:2 %}
+        <div class="row mb-4">
+    {% endif %}
+
+
+<div class="col">
+    <label class="form-label">{{ field.label_tag }}</label>
+    {{ field }}
+
+    {% if field.errors %}
+        <div>
+            <span class="text-danger form-text small">{{ field.errors.as_text }}</span>
+            {% if field.help_text %}
+                <small class="text-danger form-text">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+    {% else %}
+        {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+        <br>
+    {% endif %}
+</div>
+{% if forloop.counter|divisibleby:2 or forloop.last %}
+    </div>
+{% endif %}
+{% endfor %}
