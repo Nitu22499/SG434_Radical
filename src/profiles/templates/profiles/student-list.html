@@ -46,7 +46,7 @@
                             <select class="custom-select form-control form-control-lg" name="input_stream" id="stream"  disabled>
                                     <option>Select Stream</option>
                                     {% for stream in stream_list %}
-                                    <option value="{{ stream }}">{{ stream }}</option>
+                                    <option value="{{ stream.0 }}">{{ stream.1 }}</option>
                                     {% endfor %}
                                     
                             </select>
@@ -88,7 +88,7 @@
                             <td>{{ stud.user.date_of_birth }}</td>
                             <td>{{ stud.stud_admissionDate }}</td>
                             <td>{{ stud.stud_parentContact }}</td>
-                            <td></td>
+                            <td><a href="{% url 'exams:student-report-id' stud.id %}">View</a></td>
                             <td></td>
                         </tr>
                         {% endfor %}

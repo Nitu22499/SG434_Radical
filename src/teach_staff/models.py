@@ -1,395 +1,87 @@
 from django.db import models
-from django.core.validators import RegexValidator
-from django.urls import reverse
-from profiles.models import School
-# Create your models here.
 
-class Teaching_Staff_NonTeachers_Info(models.Model):
-    NonTeachers_School = models.ForeignKey(School, on_delete = models.CASCADE)
-    NonTeachers_Name = models.CharField(max_length = 25)
+from profiles.models import School, User
+from . import choices
+from .validators import validate_phone_number
 
-    NonTeachers_Gender = models.CharField(choices = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-        ('Transgender', 'Transgender'),
-    ), max_length = 30)
 
-    NonTeachers_Date_of_birth = models.DateField()
+class Employee(models.Model):
+    employee_user = models.OneToOneField(User, on_delete=models.CASCADE)
+    employee_school = models.ForeignKey(School, on_delete=models.CASCADE)
+    employee_gender = models.CharField(choices=choices.GENDER, max_length=20, verbose_name='Gender')
+    employee_social_category = models.CharField(choices=choices.SOCIAL_CATEGORY, max_length=30, blank=True,
+                                                verbose_name='Social Category')
+    employee_nature_of_appointment = models.CharField(choices=choices.NATURE_OF_APPOINTMENT, max_length=256, blank=True,
+                                                      verbose_name='Nature of Appointment')
+    employee_highest_academic_qualification = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256,
+                                                               blank=True,
+                                                               verbose_name='Highest Academic Qualification')
+    employee_disability = models.CharField(choices=choices.DISABILITY, max_length=256, blank=True,
+                                           verbose_name='Disability')
+    employee_date_of_joining = models.DateField(verbose_name='Date of Joining')
 
-    NonTeachers_Social_Category = models.CharField(choices = (
-        ('OPEN', 'OPEN'),
-        ('SC', 'SC'),
-        ('ST', 'ST'),
-        ('OBC', 'OBC'),
-        ('ORC', 'ORC'),
-        ('OTHERS', 'OTHERS'),
-    ), max_length = 30)
-
-    NonTeachers_Nature_Of_Appointment = models.CharField(choices = (
-        ('Regular', 'Regular'),
-        ('Contract', 'Contract'),
-        ('Part-Time', 'Part-Time')
-    ), max_length = 30)
-
-    NonTeachers_Date_of_Joining = models.DateField()
-    NonTeachers_Joining_Year = models.IntegerField()
-
-    NonTeachers_Disability = models.CharField(choices = (
-        ('Not Applicable', 'Not Applicable'),
-        ('Loco motor', 'Loco motor'),
-        ('Visuals', 'Visuals'),
-        ('Other', 'Other'),
-        ('Hearing Impaired', 'Hearing Impaired'),
-    ), max_length=50)
-
-    NonTeacher_Qualifications = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate')
-        
-    ), max_length = 50)
-
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,10}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
-    NonTeachers_Contact_Number = models.CharField(validators=[phone_regex], max_length=17)
-
-    NonTeachers_Email = models.EmailField(max_length=254)
+    employee_is_married = models.BooleanField(default=False, max_length=25, verbose_name='Married?')
+    employee_contact_number = models.IntegerField(validators=(validate_phone_number,), blank=True,
+                                                  verbose_name='Contact Number')
+    employee_email_address = models.EmailField(max_length=254, blank=True, verbose_name='Email Address')
+    employee_other_info = models.TextField(blank=True, verbose_name='Other Information')
 
     def __str__(self):
-        return self.NonTeachers_Name
-
-    def get_absolute_url(self):
-        return reverse("teach_staff:NonTeachers_Detail", kwargs={"pk": self.pk})
-    
-    NonTeachers_Other_Info = models.TextField(blank = True)
+        return self.employee_user.get_full_name()
 
 
+class Teacher(models.Model):
+    teacher_employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    teacher_code = models.CharField(max_length=256, blank=True, null=True, verbose_name='Code')
 
-
-class Teaching_Staff_Info(models.Model):
-    Teacher_School = models.ForeignKey(School, on_delete = models.CASCADE)
-
-    Teacher_Code = models.CharField(max_length = 25, blank = True)
-    Teacher_Name = models.CharField(max_length = 25)
-
-    Teacher_Gender = models.CharField(choices = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-        ('Transgender', 'Transgender'),
-    ), max_length = 30)
-
-    Teacher_Date_of_birth = models.DateField()
-
-    
-
-    Teacher_Social_Category = models.CharField(choices = (
-        ('OPEN', 'OPEN'),
-        ('SC', 'SC'),
-        ('ST', 'ST'),
-        ('OBC', 'OBC'),
-        ('ORC', 'ORC'),
-        ('OTHERS', 'OTHERS'),
-    ), max_length = 30)
-
-    Teacher_Type = models.CharField(choices =(
-        ('Head Teacher', 'Head Teacher'),
-        ('Acting Head Teacher', 'Acting Head Teacher'),
-        ('Teacher', 'Teacher'),
-        ('Instruction Positioned Teacher', 'Instruction Positioned Teacher'),
-        ('Principal', 'Principal'),
-        ('Vice-Principal', 'Vice-Principal'),
-        ('Lecturer', 'Lecturer')
-        
-    ), max_length = 50)
-
-    Teacher_Nature_Of_Appointment = models.CharField(choices = (
-        ('Regular', 'Regular'),
-        ('Contract', 'Contract'),
-        ('Part-Time', 'Part-Time')
-    ), max_length = 30)
-
-    Teacher_Date_of_Joining = models.DateField()
-#9
-    Teacher_Highest_Qualification_Academic = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post-Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_Highest_Qualification_Professional = models.CharField(choices = (
-        ('Diploma or basic teacher training', 'Diploma or basic teacher training'),
-        ('Bachelor of Elementary Education', 'Bachelor of Elementary Education'),
-        ('B.Ed or equivalent', 'B.Ed or equivalent'),
-        ('M.Ed or equivalent', 'M.Ed or equivalent'),
-        ('Others', 'Others'),
-        ('None', 'None'),
-        ('Diploma or Degree in special Education', 'Diploma or Degree in special Education'),
-        ('Pursuing a relevant course', 'Pursuing a relevant course')
-    ), max_length = 100)
-
-
-    Teacher_Classes_Taught = models.CharField(choices = (
-        ('Primary Only', 'Primary Only'),
-        ('Upper Primary Only', 'Upper Primary Only'),
-        ('Primary and Upper Primary Only', 'Primary and Upper Primary Only'),
-        ('Secondary Only', 'Secondary Only'),
-        ('Higher Secondary Only', 'Higher Secondary Only'),
-        ('Upper Primary and Secondary Only', 'Upper Primary and Secondary Only'),
-        ('Secondary and Higher Secondary Only', 'Secondary and Higher Secondary Only'),
-        ('Pre-Primary Only', 'Pre-Primary Only'),
-        ('Pre-Primary and Primary Only', 'Pre-Primary and Primary Only')
-    ), max_length = 100)
-
-    Teacher_Appointment_Subject = models.CharField(choices = (
-        ('All Subjects', 'All Subjects'),
-        ('Language/Languages', 'Language/Languages'),
-        ('Mathematics', 'Mathematics'),
-        ('Environmental Studies', 'Environmental Studies '),
-        ('Sports', 'Sports'),
-        ('Music', 'Music'),
-        ('Science', 'Science'),
-        ('Social Study', 'Social Study '),
-        ('Accountancy', 'Accountancy'),
-        ('Biology', 'Biology'),
-        ('Business Studies', 'Business Studies'),
-        ('Chemistry', 'Chemistry'),
-        ('Computer Science', 'Computer Science'),
-        ('Economics', 'Economics'),
-        ('Engineering Drawing', 'Engineering Drawing'),
-        ('Fine Arts', 'Fine Arts'),
-        ('Geography', 'Geography'),
-        ('History', 'History'),
-        ('Home Science', 'Home Science'),
-        
-        ('Philosophy', 'Philosophy'),
-        ('Physics', 'Physics'),
-        ('Political Science', 'Political Science'),
-        ('Psychology', 'Psychology'),
-        ('Foreign Language', 'Foreign Language'),
-        ('Botany', 'Botany'),
-        ('Zoology', 'Zoology'),
-        ('Hindi', 'Hindi'),
-
-        ('Sanskrit', 'Sanskrit'),
-        ('Urdu', 'Urdu'),
-        ('English', 'English'),
-        ('Regional Language', 'Regional Language'),
-        ('Art Education', 'Art Education'),
-        ('Health and Physical Education', 'Health and Physical Education'),
-        ('Work Education', 'Work Education'),
-        ('Other Education', 'Other Education'),
-    ), max_length = 50)
-#13 
-    Teacher_Main_Subject_1 = models.CharField(choices = (
-        ('All Subjects', 'All Subjects'),
-        ('Language/Languages', 'Language/Languages'),
-        ('Mathematics', 'Mathematics'),
-        ('Environmental Studies', 'Environmental Studies '),
-        ('Sports', 'Sports'),
-        ('Music', 'Music'),
-        ('Science', 'Science'),
-        ('Social Study', 'Social Study '),
-        ('Accountancy', 'Accountancy'),
-        ('Biology', 'Biology'),
-        ('Business Studies', 'Business Studies'),
-        ('Chemistry', 'Chemistry'),
-        ('Computer Science', 'Computer Science'),
-        ('Economics', 'Economics'),
-        ('Engineering Drawing', 'Engineering Drawing'),
-        ('Fine Arts', 'Fine Arts'),
-        ('Geography', 'Geography'),
-        ('History', 'History'),
-        ('Home Science', 'Home Science'),
-        
-        ('Philosophy', 'Philosophy'),
-        ('Physics', 'Physics'),
-        ('Political Science', 'Political Science'),
-        ('Psychology', 'Psychology'),
-        ('Foreign Language', 'Foreign Language'),
-        ('Botany', 'Botany'),
-        ('Zoology', 'Zoology'),
-        ('Hindi', 'Hindi'),
-
-        ('Sanskrit', 'Sanskrit'),
-        ('Urdu', 'Urdu'),
-        ('English', 'English'),
-        ('Regional Language', 'Regional Language'),
-        ('Art Education', 'Art Education'),
-        ('Health and Physical Education', 'Health and Physical Education'),
-        ('Work Education', 'Work Education'),
-        ('Other Education', 'Other Education'),
-    ), max_length = 50)
-
-    Teacher_Main_Subject_2 = models.CharField(choices = (
-        ('All Subjects', 'All Subjects'),
-        ('Language/Languages', 'Language/Languages'),
-        ('Mathematics', 'Mathematics'),
-        ('Environmental Studies', 'Environmental Studies '),
-        ('Sports', 'Sports'),
-        ('Music', 'Music'),
-        ('Science', 'Science'),
-        ('Social Study', 'Social Study '),
-        ('Accountancy', 'Accountancy'),
-        ('Biology', 'Biology'),
-        ('Business Studies', 'Business Studies'),
-        ('Chemistry', 'Chemistry'),
-        ('Computer Science', 'Computer Science'),
-        ('Economics', 'Economics'),
-        ('Engineering Drawing', 'Engineering Drawing'),
-        ('Fine Arts', 'Fine Arts'),
-        ('Geography', 'Geography'),
-        ('History', 'History'),
-        ('Home Science', 'Home Science'),
-        
-        ('Philosophy', 'Philosophy'),
-        ('Physics', 'Physics'),
-        ('Political Science', 'Political Science'),
-        ('Psychology', 'Psychology'),
-        ('Foreign Language', 'Foreign Language'),
-        ('Botany', 'Botany'),
-        ('Zoology', 'Zoology'),
-        ('Hindi', 'Hindi'),
-
-        ('Sanskrit', 'Sanskrit'),
-        ('Urdu', 'Urdu'),
-        ('English', 'English'),
-        ('Regional Language', 'Regional Language'),
-        ('Art Education', 'Art Education'),
-        ('Health and Physical Education', 'Health and Physical Education'),
-        ('Work Education', 'Work Education'),
-        ('Other Education', 'Other Education'),
-    ), max_length = 50)
+    teacher_type = models.CharField(choices=choices.TEACHER_TYPE, max_length=256, blank=True,
+                                    verbose_name='Type of Teacher')
+    teacher_highest_professional_qualification = models.CharField(choices=choices.PROFESSIONAL_QUALIFICATION,
+                                                                  max_length=256, blank=True,
+                                                                  verbose_name='Highest Professional Qualification')
+    teacher_classes_taught = models.CharField(choices=choices.CLASSES_TAUGHT, max_length=256, blank=True,
+                                              verbose_name='Classes Taught')
+    teacher_appointed_subject = models.CharField(choices=choices.SUBJECTS, max_length=256, blank=True,
+                                                 verbose_name='Appointed Subject')
+    teacher_main_subject_taught_1 = models.CharField(choices=choices.SUBJECTS, max_length=256, blank=True,
+                                                     verbose_name='Main Subject Taught 1')
+    Teacher_Main_Subject_2 = models.CharField(choices=choices.SUBJECTS, max_length=256, blank=True,
+                                              verbose_name='Main Subject Taught 2')
 
     ##################
-    Teacher_BRC = models.IntegerField()
-
-    Teacher_CRC = models.IntegerField()
-
-    Teacher_DIET = models.IntegerField()
-
+    """
+    Total days of in-service training received in last academic year
+    """
+    teacher_brc = models.IntegerField(default=0, blank=True, verbose_name='Training received (BRC)',
+                                      help_text='only for teachers in elementary')
+    teacher_crc = models.IntegerField(default=0, blank=True, verbose_name='Training received (CRC)',
+                                      help_text='only for teachers in elementary')
+    teacher_diet = models.IntegerField(default=0, blank=True, verbose_name='Training received (DIET)',
+                                       help_text='only for teachers in elementary')
     ##################
 
-
-    
-
-    Teacher_Training_Received = models.CharField(choices = (
-        ('Not Required', 'Not Required'),
-        ('Subject Knowledge', 'Subject Knowledge'),
-        ('Pedagogical Issues', 'Pedagogical Issues'),
-        ('ICT skills ', 'ICT skills '),
-        ('Knowledge and skills for CWSN', 'Knowledge and skills for CWSN'),
-        ('Leadership and Management', 'Leadership and Management'),
-        ('Sanitation and Hygeine', 'Sanitation and Hygeine'),
-        ('Others', 'Others'),
-    ), max_length=100)
-
-    Teacher_Training_Need = models.CharField(choices = (
-        ('Not Required', 'Not Required'),
-        ('Subject Knowledge', 'Subject Knowledge'),
-        ('Pedagogical Issues', 'Pedagogical Issues'),
-        ('ICT skills ', 'ICT skills '),
-        ('Knowledge and skills for CWSN', 'Knowledge and skills for CWSN'),
-        ('Leadership and Management', 'Leadership and Management'),
-        ('Sanitation and Hygeine', 'Sanitation and Hygeine'),
-        ('Others', 'Others'),
-    ), max_length=100)
-
-    Teacher_Number_of_days_spent_on_non_teaching_assignment = models.IntegerField()
-
-    Teacher_Math_Study_Knowledge = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_Science_Study_Knowledge = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_English_Study_Knowledge = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_Language_Study_Knowledge = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_Social_Study_Knowledge = models.CharField(choices = (
-        ('Below Secondary', 'Below Secondary'),
-        ('Secondary', 'Secondary'),
-        ('High Secondary', 'High Secondary'),
-        ('Graduate', 'Graduate'),
-        ('Post Graduate', 'Post Graduate'),
-        ('M Phil', 'M Phil'),
-        ('Ph.D', 'Ph.D'),
-        ('Post-Doctoral', 'Post-Doctoral')
-    ), max_length = 50)
-
-    Teacher_Joining_Year = models.IntegerField()
-
-    Teacher_Disability = models.CharField(choices = (
-        ('Not Applicable', 'Not Applicable'),
-        ('Loco motor', 'Loco motor'),
-        ('Visuals', 'Visuals'),
-        ('Other', 'Other'),
-        ('Hearing Impaired', 'Hearing Impaired'),
-    ), max_length=50)
-
-    Teacher_Validity_for_CWSN = models.CharField(choices = (
-        ('Yes', 'Yes'),
-        ('No', 'No')
-    ), max_length = 50)
-
-    Teacher_Trained_for_use_of_Computer = models.CharField(choices = (
-        ('Yes', 'Yes'),
-        ('No', 'No')
-    ), max_length = 50)
-
-    Teacher_Marital_Status = models.CharField(choices = (
-        ('Yes', "Yes"),
-        ('No', "No")
-    ), max_length=25, default = 'No')
-
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,10}$', message="Phone number must be entered in the format: '+999999999'. Up to 10 digits allowed.")
-    Teacher_Contact_Number = models.CharField(validators=[phone_regex], max_length=17)
-
-    Teacher_Email = models.EmailField(max_length=254)
+    teacher_training_received = models.CharField(choices=choices.TRAINING_OPTIONS, max_length=256, blank=True,
+                                                 verbose_name='Training Received', default='Not Required')
+    teacher_training_need = models.CharField(choices=choices.TRAINING_OPTIONS, max_length=256, blank=True,
+                                             verbose_name='Training Need', default='Not Required')
+    teacher_number_of_days_spent_on_non_teaching_assignment = models.IntegerField(
+        default=0, blank=True,
+        verbose_name='Number of days spent on non teaching assignments'
+    )
+    teacher_math_studied_up_to = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256, blank=True,
+                                                  verbose_name='Maths studied up to')
+    teacher_science_studied_up_to = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256, blank=True,
+                                                     verbose_name='Science studied up to')
+    teacher_english_studied_up_to = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256, blank=True,
+                                                     verbose_name='English studied up to')
+    teacher_language_studied_up_to = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256,
+                                                      blank=True, verbose_name='Language studied up to')
+    teacher_social_studies_studied_up_to = models.CharField(choices=choices.ACADEMIC_QUALIFICATION, max_length=256,
+                                                            blank=True, verbose_name='Social Study studied up to')
+    teacher_trained_for_teaching_cwsn = models.BooleanField(default=False, max_length=256, blank=True,
+                                                            verbose_name='trained for CWSN')
+    teacher_trained_for_use_of_computer = models.BooleanField(default=False, max_length=50, blank=True,
+                                                              verbose_name='teach through computer')
 
     def __str__(self):
-        return self.Teacher_Name
-
-    def get_absolute_url(self):
-        return reverse("teach_staff:Teacher_Detail", kwargs={"pk": self.pk})
-    
-    Teacher_Other_Info = models.TextField(blank = True)
+        return self.teacher_employee.employee_user.get_full_name()

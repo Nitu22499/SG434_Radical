@@ -2,13 +2,16 @@ from django.shortcuts import render
 from teach_staff.models import Teaching_Staff_Info, Teaching_Staff_NonTeachers_Info
 from django.urls import reverse_lazy
 # Create your views here.
-
+from .forms import NonTeaching_Staff_Form, Teaching_Staff_Form
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView, TemplateView
+from django.contrib import messages
+
 
 class Teaching_Staff_NonTeachers_InfoListView(ListView):
     model = Teaching_Staff_NonTeachers_Info
     template_name = "NonTeachers_info_list.html"
     context_object_name = 'NonTeachers_list_obj'
+    
 
 class Teaching_Staff_NonTeachers_InfoDetailView(DetailView):
     model = Teaching_Staff_NonTeachers_Info
@@ -17,13 +20,25 @@ class Teaching_Staff_NonTeachers_InfoDetailView(DetailView):
 
 class Teaching_Staff_NonTeachers_InfoCreateView(CreateView):
     model = Teaching_Staff_NonTeachers_Info
-    fields = '__all__'
+    
     template_name = 'NonTeachers_Create.html'
+    form_class = NonTeaching_Staff_Form
+
+    def form_valid(self, form):
+        """Save to the database. If data exists, update else create new record"""
+        self.object = form.save(commit=False)
+        self.object.NonTeachers_School = self.request.user.school
+        
+       
+        self.object.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
+        return super().form_valid(form)
 
 class Teaching_Staff_NonTeachers_InfoUpdateView(UpdateView):
-    fields = '__all__'
+    
     model = Teaching_Staff_NonTeachers_Info
     template_name = 'NonTeachers_Create.html'
+    form_class = NonTeaching_Staff_Form
 
 class Teaching_Staff_NonTeachers_InfoDeleteView(DeleteView):
     model = Teaching_Staff_NonTeachers_Info
@@ -52,13 +67,25 @@ class Teaching_Staff_InfoDetailView(DetailView):
 
 class Teaching_Staff_InfoCreateView(CreateView):
     model = Teaching_Staff_Info
-    fields = '__all__'
+    
     template_name = 'Teacher_Staff_Info_Create.html'
+    form_class = Teaching_Staff_Form
+
+    def form_valid(self, form):
+        """Save to the database. If data exists, update else create new record"""
+        self.object = form.save(commit=False)
+        self.object.Teacher_School = self.request.user.school
+        
+       
+        self.object.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
+        return super().form_valid(form)
 
 class Teaching_Staff_InfoUpdateView(UpdateView):
-    fields = '__all__'
+    
     model = Teaching_Staff_Info
     template_name = 'Teacher_Staff_Info_Create.html'
+    form_class = Teaching_Staff_Form
 
 class Teaching_Staff_InfoDeleteView(DeleteView):
     model = Teaching_Staff_Info

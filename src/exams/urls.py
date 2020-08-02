@@ -1,11 +1,14 @@
 from django.urls import path
-from .views import reportView, getSubjects, saveExamForm
+from .views import reportView, getSubjects, saveExamForm, saveExamFormCoScholastic, studentReportView, studentReportViewByID
 
 app_name = 'exams'
 
 
 urlpatterns = [
-    path('report/', reportView, name='report'),
+    path('report/edit', reportView, name='report'),
+    path('report/student-view', studentReportView, name='student-report'),
+    path('report/student-view/<int:stud_id>', studentReportViewByID, name='student-report-id'),
     path('subject/class/<class_level>', getSubjects, name='subjects-list'),
     path('exam_form/save', saveExamForm, name='save-exam-form'),
+    path('exam_form_co_scholastic/save', saveExamFormCoScholastic, name='save-exam-form-co-scholastic'),
 ]

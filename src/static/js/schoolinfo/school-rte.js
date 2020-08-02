@@ -41,14 +41,15 @@ $('#convert-table').click( function() {
     
     let response = {
         table,
-        // academic_year:ac_year
-        academic_year: $('#academic_year').children("option:selected").val()
+        academic_year: $('#year').text()
+
     }
- 
+    console.log($('#year').text())
+    ac_year=$('#year').text()
     response = JSON.stringify(response).replace(/-/g, '')
    
-    ac_year=$('#academic_year').children("option:selected").val()
-    fetch(`${window.location.origin}/schoolinfo/school-rte/{ac_year}/save`, {
+    
+    fetch(`${window.location.origin}/schoolinfo/school-rte/{{ac_year}}/save`, {
         method: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken"),

@@ -258,25 +258,23 @@ def SchoolRTEDetailView(request,**kwargs):
     response={}
     
     context = {
-        'year_choices':ac_year,
+        'academic_year':ac_year,
         'class': choices,
         'selected_year': None
     }
 
-    if request.method=="POST":
-        if request.POST.get('ac_year',' '):
-            for choice in choices:
-                if not SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school):
-                    SchoolRTE.objects.create(class_name=choice[0], academic_year=ac_year,
-                        srte_school = request.user.school
-                    )
-                response.update({
-                    choice[0]: SchoolRTE.objects.get(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school)
-                })
-            context.update({
-                'rows': response,
-                'selected_year': ac_year
-            })    
+    for choice in choices:
+        if not SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school):
+                SchoolRTE.objects.create(class_name=choice[0], academic_year=ac_year,
+                    srte_school = request.user.school
+                )
+        response.update({
+            choice[0]: SchoolRTE.objects.get(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school)
+        })
+        context.update({
+            'rows': response,
+            'selected_year': ac_year
+        })    
     return render(request, template_name, context)
 
 def SchoolEWSDetailView(request,**kwargs):
@@ -285,23 +283,19 @@ def SchoolEWSDetailView(request,**kwargs):
     choice='In Schools that have received land, building, equipment or other facilities at concessional rate'
     response={}
     context = {
-        'year_choices':ac_year,
+        'academic_year':ac_year,
         'class': choice,
         'selected_year': None
     }
-    if request.method=="POST":
-        if request.POST.get('ac_year',' '):
-            if not SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school = request.user.school):
-                SchoolEWS.objects.create(class_name=choice, academic_year=ac_year,
-                    sews_school = request.user.school
-                )
-            response.update({
-                choice: SchoolEWS.objects.get(class_name=choice, academic_year=ac_year, sews_school = request.user.school)
-            })
-        context.update({
-            'rows': response,
-            'selected_year': ac_year
-        })    
+    if not SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school = request.user.school):
+        SchoolEWS.objects.create(class_name=choice, academic_year=ac_year,sews_school = request.user.school)
+    response.update({
+        choice: SchoolEWS.objects.get(class_name=choice, academic_year=ac_year, sews_school = request.user.school)
+    })
+    context.update({
+        'rows': response,
+        'selected_year': ac_year
+    })    
     return render(request, template_name, context)
 
 
@@ -317,35 +311,34 @@ def SchoolRTEView(request,ac_year):
     response={}
     
     context = {
-        'year_choices':ac_year,
+        'academic_year':ac_year,
         'class': choices,
         'selected_year': None
     }
 
-    if request.method=="POST":
-        if request.POST.get('ac_year',' '):
-            for choice in choices:
-                if not SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school):
-                    SchoolRTE.objects.create(class_name=choice[0], academic_year=ac_year,
-                        srte_school = request.user.school
-                    )
-                response.update({
-                    choice[0]: SchoolRTE.objects.get(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school)
-                })
-            context.update({
-                'rows': response,
-                'selected_year': ac_year
-            })    
+    for choice in choices:
+        if not SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school):
+                SchoolRTE.objects.create(class_name=choice[0], academic_year=ac_year,
+                    srte_school = request.user.school
+                )
+        response.update({
+            choice[0]: SchoolRTE.objects.get(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school)
+        })
+        context.update({
+            'rows': response,
+            'selected_year': ac_year
+        })    
     return render(request, template_name, context)
 
 def SaveSchoolRTEView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
     # print(data)
-    academic_year = data['academic_year'][:4] + '-' + data['academic_year'][4:]
+    academic_year = data['academic_year'][:4] + ' -' + data['academic_year'][5:]
+    # print(academic_year)
     for row in rows:
         try:
-            class_val,created = SchoolRTE.objects.get_or_create(srte_school=request.user.school,academic_year=academic_year,class_name=row['class_name'])
+            class_val = SchoolRTE.objects.get(srte_school=request.user.school,academic_year=academic_year,class_name=row['class_name'])
             class_val.srte_class_pre_B = row['boys_pre'] or None
             class_val.srte_class_pre_G = row['girls_pre'] or None
             class_val.srte_class_I_B = row['boys_1'] or None
@@ -368,6 +361,7 @@ def SaveSchoolRTEView(request,ac_year):
             class_val.full_clean()
             # class_val.srte_school = request.user.school
             class_val.save()
+            messages.success(request, 'Saved successfully')
         except Exception as e:
             print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
@@ -381,35 +375,34 @@ def SchoolEWSView(request,ac_year):
     
     choice='In Schools that have received land, building, equipment or other facilities at concessional rate'
     response={}
+    print(ac_year)
     context = {
-        'year_choices':ac_year,
+        'academic_year':ac_year,
         'class': choice,
         'selected_year': None
     }
-    if request.method=="POST":
-        if request.POST.get('ac_year',' '):
-            if not SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school = request.user.school):
-                SchoolEWS.objects.create(class_name=choice, academic_year=ac_year,
-                    sews_school = request.user.school
-                )
-            response.update({
-                choice: SchoolEWS.objects.get(class_name=choice, academic_year=ac_year, sews_school = request.user.school)
-            })
-        context.update({
-            'rows': response,
-            'selected_year': ac_year
-        })    
+    if not SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school = request.user.school):
+        SchoolEWS.objects.create(class_name=choice, academic_year=ac_year,sews_school = request.user.school)
+    response.update({
+        choice: SchoolEWS.objects.get(class_name=choice, academic_year=ac_year, sews_school = request.user.school)
+    })
+    context.update({
+        'rows': response,
+        'selected_year': ac_year
+    })    
     return render(request, template_name, context)
 
 
 def SaveSchoolEWSView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
-    academic_year = data['academic_year'][:4] + '-' + data['academic_year'][4:]
+    # print(data)
+    academic_year = data['academic_year'][:4] + ' -' + data['academic_year'][5:]
+    print(academic_year)
     for row in rows:
         try:
         
-            class_val,created = SchoolEWS.objects.get_or_create(sews_school=request.user.school,academic_year=academic_year, class_name=row['class_name'])
+            class_val = SchoolEWS.objects.get(sews_school=request.user.school,academic_year=academic_year, class_name=row['class_name'])
             class_val.sews_class_IX_B = row['boys_1'] or None
             class_val.sews_class_IX_G = row['girls_1'] or None
             class_val.sews_class_X_B = row['boys_2'] or None
@@ -423,6 +416,7 @@ def SaveSchoolEWSView(request,ac_year):
             class_val.full_clean()
             # class_val.sews_school = request.user.school
             class_val.save()
+            messages.success(request, 'Saved successfully')
         except Exception as e:
             print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
