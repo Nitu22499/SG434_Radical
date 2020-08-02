@@ -16,15 +16,15 @@
             <section class="card col-5">
                 <div class="card-body text-center">
                     <h2><a href="{% url 'attendance:student_home' %}">Student Attendance</a></h2>
-                    <a href="#" class="btn"><i class="fas fa-plus"></i> Add</a>
+                    <a href="{% url 'attendance:student_add' %}" class="btn"><i class="fas fa-plus"></i> Add</a>
                     <a href="{% url 'attendance:student_home' %}" class="btn btn-primary">Fetch</a>
                 </div>
             </section>
             <section class="card col-5 offset-2">
                 <div class="card-body text-center">
-                    <h2><a href="#">Employee Attendance</a></h2>
-                    <a href="#" class="btn"><i class="fas fa-plus"></i> Add</a>
-                    <a href="#" class="btn btn-primary">Fetch</a>
+                    <h2><a href="{% url 'attendance:employee_home' %}">Employee Attendance</a></h2>
+                    <a href="{% url 'attendance:employee_add' %}" class="btn"><i class="fas fa-plus"></i> Add</a>
+                    <a href="{% url 'attendance:employee_home' %}" class="btn btn-primary">Fetch</a>
                 </div>
             </section>
         </div>
