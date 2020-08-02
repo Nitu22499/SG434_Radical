@@ -84,8 +84,79 @@ where_conducted=(('School premises',('School premises')),('other school premises
 
 training_type=(('Residential',('Residential')),('non-residential',('non-residential')),('both',('both')))
 
-class SchoolProfile(TimeStampMixin):
+school_category_code=(
+    ('Primary only with grades 1 to 5',('Primary only with grades 1 to 5')),
+    ('Primary only with grades 1 to 8',('Primary only with grades 1 to 8')),
+    ('Higher Secondary with grades 1 to 12',('Higher Secondary with grades 1 to 12')),
+    ('Upper Primary only with grades 6 to 8',('Upper Primary only with grades 6 to 8')),
+    ('Higher Secondary with grades 6 to 12',('Higher Secondary with grades 6 to 12')),
+    ('Secondary/Sr.Sec. with grades 1 to 10',('Secondary/Sr.Sec. with grades 1 to 10')),
+    ('Secondary/Sr.Sec. with grades 6 to 10',('Secondary/Sr.Sec. with grades 6 to 10')),
+    ('Secondary/Sr.Sec. with grades 9 and 10',('Secondary/Sr.Sec. with grades 9 and 10')),
+    ('Higher Secondary with grades 9 to 12',('Higher Secondary with grades 9 to 12')),
+    ('Hr.Sec. /Jr.College only with grades 11 and 12',('Hr.Sec. /Jr.College only with grades 11 and 12'))
+)   
+
+type_of_school=(
+    ('Boys',('Boys')),
+    ('Girls',('Girls')),
+    ('Co-educational',('Co-educational'))
+)
+
+management_school_code=(
+    ('Department of Education',('Department of Education')),
+    ('Tribal Welfare Department',('Tribal Welfare Department')),
+    ('Local Body',('Local Body')),
+    ('Government Aided',('Government Aided')),
+    ('Private Unaided(Recognized)',('Private Unaided(Recognized)')),
+    ('Other Govt. managed schools',('Other Govt. managed schools')),
+    ('Unrecognized',('Unrecognized')),
+    ('Social Welfare Department',('Social Welfare Department')),
+    ('Ministry of Labour',('Ministry of Labour')),
+    ('Kendriya Vidyalaya / Central School',('Kendriya Vidyalaya / Central School')),
+    ('Jawahar Navodaya Vidyalaya',('Jawahar Navodaya Vidyalaya')),
+    ('Sainik School',('Sainik School')),
+    ('RailwaySchool',('RailwaySchool')),
+    ('Central Tibetan School',('Central Tibetan School')),
+    ('Madarsa Recognized(by Wakf board/Madarsa Board)',('Madarsa Recognized(by Wakf board/Madarsa Board)')),
+    ('Madarsa Unrecoginzed',('Madarsa Unrecoginzed')),    
+)
+
+residential_type=(
+        ('Ashram(Govt.)',('Ashram(Govt.)')),
+        ('Non-ashram(Govt.)',('Non-ashram(Govt.)')),
+        ('Private',('Private')),
+        ('Others',('Others')),
+        ('KGBV',('KGBV')),
+        ('Model School',('Model School')),
+        ('Eklavya Model',('Eklavya Model')),
+    )
+
+minority_type=(
+        ('Muslim',('Muslim')),
+        ('Sikh',('Sikh')),
+        ('Jain',('Jain')),
+        ('Christian',('Christian')),
+        ('Parsi',('Parsi')),
+        ('Buddhist',('Buddhist')),
+        ('Any other',('Any other')),
+        ('Linguistic Minority',('Linguistic Minority'))
+    )
+
+affi_board_school=(('CBSE',('CBSE')),('State Board',('State Board')),('ICSE',('ICSE')),
+('International Board',('International Board')),('Others',('Others')),
+    ('Both CBSE & State Board',('Both CBSE & State Board')))
+
+who_conducts=(('School teachers',('School teachers')),('specially engaged teachers',('specially engaged teachers')),('both 1&2',('both 1&2')),
+('NGO',('NGO')),('Others',('Others')))
+
+where_conducted=(('School premises',('School premises')),('other school premises',('other school premises')),('both 1&2',('both 1&2')))
+
+training_type=(('Residential',('Residential')),('non-residential',('non-residential')),('both',('both')))
+
+class SchoolProfile(models.Model):
     sp_school = models.OneToOneField(School, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
     sp_school_name = models.CharField(max_length=250, verbose_name='School Name (In Capital Letters)')
     sp_school_located = models.CharField(max_length=50, choices=school_located_choices, blank=True, verbose_name='Is the school located in Rural or Urban Area')
     sp_village_ward = models.CharField(max_length=250, blank=True, verbose_name='Village Name(for rural area)/Ward Number(for urban area)')
@@ -266,8 +337,9 @@ class_choices = (
     ('Other', 'Other')
 )
 
-class RepeatersByGrade(models.Model):
-    academic_year = models.CharField(max_length=50, blank=True)
+class RepeatersByGrade(TimeStampMixin):
+    # academic_year = models.CharField(max_length=50, blank=True)
+    rbg_school = models.ForeignKey(School, on_delete=models.CASCADE)
     is_minority_group = models.BooleanField(default=False)
     class_name = models.CharField(max_length=20, choices=class_choices, blank=True, null=True, verbose_name="Social Category Class Name")
     class_I_B = models.IntegerField(blank=True, null=True)
@@ -332,8 +404,9 @@ ict_model=(('BOOT Model',('BOOT Model')),('BOO Model',('BOO Model')),('Other',('
 
 ict_instructor=(('Full time',('Full time')),('Part Time',('Part Time')),('Not Available',('Not Available')))
 
-class PhysicalFacilities(TimeStampMixin):
+class PhysicalFacilities(models.Model):
     pf_school = models.OneToOneField(School, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
     pf_status=models.CharField(max_length=50,choices=status_of_building, blank=True,verbose_name='Status of the School building')
     
     #2.2

@@ -40,7 +40,7 @@ $('#convert-table').click( function() {
         ]
     }); // Convert the table into a javascript object
     // console.log(JSON.stringify(table));
-    console.log(table);
+    // console.log(table);
 
     let response = {
         table,

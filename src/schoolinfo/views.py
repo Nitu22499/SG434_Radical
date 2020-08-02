@@ -6,6 +6,10 @@ from .forms import SchoolProfileForm,PhysicalFacilitiesForm
 from django.urls import reverse_lazy
 from django.forms.models import model_to_dict
 from misc.utilities import academic_year, year_choices
+from django.contrib import messages
+
+# Importing Libraries
+import json
 
 # Importing Libraries
 import json
@@ -17,12 +21,13 @@ class SchoolProfileView(FormView):
     model = SchoolProfile
     form_class = SchoolProfileForm
     template_name = 'schoolinfo/school_profile.html'
-    success_url = reverse_lazy('schoolinfo:sections_home')
+    success_url = reverse_lazy('schoolinfo:school_profile')
 
     def get_object(self):
         """Check if data already exists"""
         try:
-            obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
+            # obj = SchoolProfile.objects.get(sp_school = self.request.user.school, academic_year = academic_year())
+            obj = SchoolProfile.objects.get(sp_school = self.request.user.school)
             return obj
         except:
             return None 
@@ -54,6 +59,7 @@ class SchoolProfileView(FormView):
         if self.get_object() is not None:       # Assign current record primary key(id) to update existing record.
             self.object.pk = self.get_object().pk
         self.object.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Saved Successfully')
         return super().form_valid(form)
 
 def RepeatersByGradeView(request):
@@ -82,10 +88,12 @@ def RepeatersByGradeView(request):
     if request.method=="POST":
         if request.POST['academic_year']:
             for choice in class_choices:
-                if not RepeatersByGrade.objects.filter(class_name=choice[0], academic_year=request.POST['academic_year']):
-                    RepeatersByGrade.objects.create(class_name=choice[0], academic_year=request.POST['academic_year'])
+                if not RepeatersByGrade.objects.filter(class_name=choice[0], academic_year=request.POST['academic_year'], rbg_school = request.user.school):
+                    RepeatersByGrade.objects.create(class_name=choice[0], academic_year=request.POST['academic_year'],
+                        rbg_school = request.user.school
+                    )
                 response.update({
-                    choice[0]: RepeatersByGrade.objects.get(class_name=choice[0], academic_year=request.POST['academic_year'])
+                    choice[0]: RepeatersByGrade.objects.get(class_name=choice[0], academic_year=request.POST['academic_year'], rbg_school = request.user.school)
                 })
             context.update({
                 'rows': response,
