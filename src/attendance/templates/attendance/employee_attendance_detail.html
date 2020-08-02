@@ -7,18 +7,21 @@
 
 {% block body %}
     <div class="container">
-    <br>
+        <br>
         <br>
         <h1>{{ display.date }}</h1>
 
 
         <a class="btn text-muted" href="{% url 'attendance:employee_home' %}"><i class="fas fa-chevron-left"></i> return
             Home</a>
-        <a class="btn btn-outline-primary" href="{% url 'attendance:employee_update' create_date %}"><i
-                class="far fa-edit"></i> edit</a>
-        <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
-                class="far fa-trash-alt"></i>&nbsp;Delete
-        </button>
+        {% if user.is_school_admin %}
+
+            <a class="btn btn-outline-primary" href="{% url 'attendance:employee_update' create_date %}"><i
+                    class="far fa-edit"></i> edit</a>
+            <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                    class="far fa-trash-alt"></i>&nbsp;Delete
+            </button>
+        {% endif %}
         <br><br>
 
         <!-- Delete Modal -->
@@ -82,9 +85,9 @@
                             A
                         {% endif %}
                     </td>
-                <td class="text-{% if employee.employee_attendance_reason_for_absence == 'NA' %}danger{% endif %}">
-                    {{ employee.employee_attendance_reason_for_absence|default:'--' }}
-                </td>
+                    <td class="text-{% if employee.employee_attendance_reason_for_absence == 'NA' %}danger{% endif %}">
+                        {{ employee.employee_attendance_reason_for_absence|default:'--' }}
+                    </td>
                 </tr>
             {% endfor %}
 
