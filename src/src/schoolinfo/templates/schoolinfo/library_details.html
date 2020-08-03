@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Library
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        
+        <div>
+            <a href="#" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+        <br>        
+        <h3>Library</h3>
+        <div class="table-responsive">
+                <table id="table" class="table text-center table-bordered">
+                    <thead>
+					<tr class="table-light align-middle">
+					<th></th>
+                                <th>Available</th>
+                                <th>Total Number of books</th>
+                                <th>Total Number of books from NCERT, NBT or any other Government publisher</th>
+                            </tr>
+							</thead>
+                <tbody>
+                            <tr>
+                                <td><b>Library</b></td>
+                                <td>{{object.sli_lib_avai}}</td>
+                                <td>{{object.sli_lib_books}}</td>
+                                <td>{{object.sli_lib_ncert}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Book Bank</b></td>
+                                <td>{{object.sli_book_avai}}</td>
+                                <td>{{object.sli_book_books}}</td>
+                                <td>{{object.sli_book_ncert}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Reading Corner</b></td>
+                                <td>{{object.sli_reading_avai}}</td>
+                                <td>{{object.sli_reading_books}}</td>
+                                <td>{{object.sli_reading_ncert}}</td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+        </div>
+        
+        <hr>
+		 <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+            
+
+    </div>
+
+{% endblock body %}

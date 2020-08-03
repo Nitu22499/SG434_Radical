@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Take employee attendance
+{% endblock %}
+
+{% block body %}
+    <!--suppress HtmlFormInputWithoutLabel -->
+    <div class="container">
+        <br>
+        <h1>{{ display.date }}</h1>
+
+        <form method="post" action="{% url 'attendance:employee_mark_attendance' create_date %}">
+            {% csrf_token %}
+            <button class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date school %}"><i
+                    class="fas fa-chevron-left"></i> return back</a>
+            <br><br>
+            <script type="text/javascript" > 
+                function check() {
+                    if( $('.selectall').is(':checked') ) {
+                        $('.present').attr('checked', true);
+                    } else {
+                        $('.present').attr('checked', false);
+                    }
+                }
+                </script>
+            <table class="table table-responsive table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col" class="text-center"><input type="checkbox" class="selectall" style="width:5%" onclick="check()"/><label>Mark all</label></th>
+                    <th scope="col">Reason for absence</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for employee in attendance %}
+
+                    <tr>
+                        <td>{{ employee.employee_attendance_employee.employee_user.first_name }}</td>
+                        <td>{{ employee.employee_attendance_employee.employee_user.last_name }}</td>
+                        <td>
+                            <input type="checkbox" value="{{ employee.id }}" name="present" class="present"
+                                   {% if employee.employee_attendance_is_present %}checked{% endif %}>
+                        </td>
+                        <td>
+                            <input type="text" name="reason" class="form-control"
+                                   {% if employee.employee_attendance_is_present %}readonly{% endif %}
+                                   value="{{ employee.employee_attendance_reason_for_absence }}">
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary"><i class="fas fa-save"></i>&nbsp;Save</button>
+            <a class="btn text-muted" href="{% url 'attendance:employee_detail' create_date school %}"><i
+                    class="fas fa-chevron-left"></i> &nbsp;
+                return back</a>
+        </form>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('input[type="checkbox"]').click(function () {
+                $(this).parent().next().children().prop('readonly', $(this).is(":checked"));
+            });
+        });
+    </script>
+
+{% endblock body %}

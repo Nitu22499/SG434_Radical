@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    For Government and Aided Schools 
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        
+        <div>
+            <a href="#" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+        <br>        
+        <h3>For Government and Aided Schools </h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive table-striped">
+                <tbody>
+                            <tr>
+                                <td><b>School Building Committee(SBC) :</b></td>
+                                <td>{{object.sp_sbc_constituted}}</td>
+                                <td ><b>Academic Committee(AC) :</b></td>
+                                <td>{{object.sp_ac_constituted}}</td>
+                            </tr>
+                            <tr>
+                                <td ><b>Parent-Teacher Association :</b></td>
+                                <td>{{object.sp_pta_constituted}}</td>
+                                <td ><b>Number of PTA meetings(last academic year) :</b></td>
+                                <td>{{object.sp_pta_meetings_last}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>School Children enrolled in the school are attending Special Training :</b></td>
+                                <td>{{object.sp_special_training}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Number of Students attending Remedial Teaching in current year :</b></td>
+                                <td>{{object.sp_remedial_teaching}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Start Month of academic session :</b></td>
+                                <td>{{object.sp_academic_start}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Full set of Textbooks Received(Current Year) :</b></td>
+                                <td>{{object.sp_textbook_received}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Whether School has received graded supplementary material in previous academic year? :</b></td>
+                                <td>{{object.sp_graded_received}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><b>Whether School Management Committee(SMC) and School Management and Development Committee(SMDC)are same in the school? :</b></td>
+                                <td>{{object.sp_smc_smdc_same}}</td>
+                            </tr>
+                            
+                    </tbody>
+            </table>
+        </div>
+        
+        <br><br>
+        <!--Details of Special Training-->
+        {% if object.sp_school_located  %}
+            
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSpecial"
+            aria-expanded="false" aria-controls="collapseSpecial">
+            <b> > Details of Special Training :</b>
+
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseSpecial">
+            <div class="table-responsive">
+                <table class="table table-bordered table-responsive table-striped">
+                    <tbody>
+                        <tr>
+                            <td><b>(a)No. of children enrolled for Special Training in current year :</b></td>
+                            <td>{{object.sp_special_training_current}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(b)No. of children enrolled for Special Training in previous academic year :</b></td>
+                            <td>{{object.sp_special_training_previous}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(c)No. of children completed Special Training in previous academic year :</b></td>
+                            <td>{{object.sp_special_training_com_previous}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(d)Conducted By :</b></td>
+                            <td>{{object.sp_who_conducts_training}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(d)Location :</b></td>
+                            <td>{{object.sp_where_conducted_training}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(f)Training Type :</b></td>
+                            <td>{{object.sp_training_type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        {% endif %}
+
+        <!--School Visits-->
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseVisits"
+            aria-expanded="false" aria-controls="collapseVisits">
+            <b> > Details of Visits to the school during previous academic year :</b>
+
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseVisits">
+            <div class="table-responsive">
+                <table class="table table-bordered table-responsive table-striped">
+                    <tbody>
+                        <tr>
+                            <td><b>(a)No. of academic inspections :</b></td>
+                            <td>{{object.sp_school_visits}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(b)No. of visits by CRC Co-ordinator :</b></td>
+                            <td>{{object.sp_crc_visits}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(c)No. of visits by Block Level Officers(BRC/BEO) :</b></td>
+                            <td>{{object.sp_brc_visits}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(d)No. of visits by District/State Level Officers :</b></td>
+                            <td>{{object.sp_officers_visits}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!--SMC-->
+
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSMC"
+            aria-expanded="false" aria-controls="collapseSMC">
+            <b> > School Management Committee(SMC) :</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;{{object.sp_smc_consulted}}
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseSMC">
+            <div class="table-responsive">
+                <table class="table table-bordered table-responsive table-striped">
+                    <tbody>
+                        <tr>
+                            <td><b>(a)Total number of members in SMC :</b></td>
+                            <td>{{object.sp_smc_members}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(b)Number of parents/guardians :</b></td>
+                            <td>{{object.sp_no_of_parents}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(c)Number of Representatives/nominees from local authority/local/government/urban local body :</b></td>
+                            <td>{{object.sp_nominees_local}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(d)Number of teachers :</b></td>
+                            <td>{{object.sp_no_of_teachers}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(e)Number of members provided training :</b></td>
+                            <td>{{object.sp_no_of_members_training}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(f)Number of meetings held by SMC(previous year) :</b></td>
+                            <td>{{object.sp_no_of_meetings_smc}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>(g)Whether SMC has prepared the School Development Plan? :</b></td>
+                            <td>{{object.sp_smc_prepared_plan}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+                <!--Bank SMC-->
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBank"
+                    aria-expanded="false" aria-controls="collapseBank">
+                    <b> > Separate bank account for SMC:</b>
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{object.sp_separate_bank_smc}}
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseBank">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive table-striped">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"><b>Bank Name :</b></td>
+                                    <td>{{object.sp_bank_name_smc}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>Branch :</b></td>
+                                    <td>{{object.sp_bank_branch_smc}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>Account Number :</b></td>
+                                    <td>{{object.sp_account_number_smc}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>Account in the Name of :</b></td>
+                                    <td>{{object.sp_account_name_smc}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>IFSC Code :</b></td>
+                                    <td>{{object.sp_ifsc_smc}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    
+            <!--SMDC-->
+            {% if object.sp_smc_smdc_same == "No" %}
+            <div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSMDC"
+                aria-expanded="false" aria-controls="collapseSMC">
+                <b> > School Management  and Development Committee(SMDC) :</b>
+                &nbsp;&nbsp;&nbsp;&nbsp;{{object.sp_smc_smdc_constituted}}
+                </button>
+            </div>
+            &nbsp;
+            <div class="collapse" id="collapseSMDC">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <tbody>
+                            <tr>
+                                <td><b>(a)Number of SMDC meetings held during the last academic year :</b></td>
+                                <td>{{object.sp_no_of_meetings_smc_last}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>(b)Whether SMDC has prepared School Improvement Plan? :</b></td>
+                                <td>{{object.sp_smdc_prepared_plan}}</td>
+                            </tr>
+                            
+                        </tbody>
+                </div>
+                
+                </table>
+                    <!--Bank SMC-->
+                    <div>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseBank"
+                        aria-expanded="false" aria-controls="collapseBank">
+                        <b> > Separate bank account for SMDC:</b>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{{object.sp_separate_bank_smdc}}
+                        </button>
+                    </div>
+                    &nbsp;
+                    <div class="collapse" id="collapseBank">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-responsive table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2"><b>Bank Name :</b></td>
+                                        <td>{{object.sp_bank_name_smdc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Branch :</b></td>
+                                        <td>{{object.sp_bank_branch_smdc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Account Number :</b></td>
+                                        <td>{{object.sp_account_number_smdc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Account in the Name of :</b></td>
+                                        <td>{{object.sp_account_name_smdc}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>IFSC Code :</b></td>
+                                        <td>{{object.sp_ifsc_smdc}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+                <!--SMDC Members -->
+
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseFacilities"
+                    aria-expanded="false" aria-controls="collapseFacilities">
+                    <b> > Details of Members/Representatives(SMDC):</b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseFacilities">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-responsive table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Total Members</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>Number of Representatives of Parent/Guardians/PTA</b></td>
+                                    <td>{{object.sp_parents}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of Representatives of parents of EWS children</b></td>
+                                    <td>{{object.sp_ewschildren}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of Representatives/Nominees from local government/urban local body</b></td>
+                                    <td>{{object.sp_localgovernment}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members from Educationally Backward Minority Community</b></td>
+                                    <td>{{object.sp_backward}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members from any Women's Group</b></td>
+                                    <td>{{object.sp_womens}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members from SC/ST community</b></td>
+                                    <td>{{object.sp_scst}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of nominees of the District Education Officer(DEO)</b></td>
+                                    <td>{{object.sp_deo}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members from Audit and Accounts Department(AAD)</b></td>
+                                    <td>{{object.sp_aad}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of Subject experts nominated by District Programme Co-ordinator</b></td>
+                                    <td>{{object.sp_experts}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members teachers(one each from Social Science,Science and Mathematics)of the School</b></td>
+                                    <td>{{object.sp_teachers}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Vice Principal/Asst. Head Teacher,as member</b></td>
+                                    <td>{{object.sp_viceprincipal}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Principal/Head Teacher, as Chairperson</b></td>
+                                    <td>{{object.sp_chairperson}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Chairperson(If Principal/Head Teacher is not the Chairperson)</b></td>
+                                    <td>{{object.sp_chairperson_if}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Number of members provided training</b></td>
+                                    <td>{{object.sp_training}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    <hr>
+
+    <div>
+        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+    
+        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+
+        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-incentives-details/2020-2021?school={{ request.resolver_match.kwargs.pk }}';" >Incentives and facilities provided to children </button>
+    
+        <!-- <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/{{ request.resolver_match.kwargs.pk }}';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+        
+        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/{{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button> -->
+ 
+
+
+        
+    </div>     
+   <hr>
+    </div>
+
+{% endblock body %}

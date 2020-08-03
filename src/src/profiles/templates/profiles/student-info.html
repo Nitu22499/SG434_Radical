@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Student detail
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1>Student detail</h1>
+        <br>
+
+        <div>
+            <a href="{% if not user.is_student %}{% url 'profiles:student-list' %}{% else %}{% url 'misc:home' %}{% endif %}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+            {% if request.user.is_school_admin %}
+            <a class="btn btn-outline-primary" href="{% url 'profiles:student-update' stud.id %}" ><i class="far fa-edit"></i> edit</a>
+            <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                            class="far fa-trash-alt"></i>&nbsp;Delete
+            </button>
+            {% endif %}
+        </div>
+        <br>
+
+         <!-- Delete Modal -->
+        <div
+        class="modal fade"
+        id="deleteModal"
+        tabindex="-1"
+        aria-labelledby="deleteModal"
+        aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-light">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle"></i>&nbsp;Delete
+                    record?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure, you want to <span class="text-danger">delete</span> Student record
+                    for <b>{{ stud.user.first_name }} {{ stud.user.last_name }}({{ stud.user.username }})  ({{ stud.user.username }})</b>
+                    ?</p>
+                <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
+            </div>
+            <form class="modal-footer" method="post"
+                  action="{% url 'profiles:student-delete' stud.user_id %}">
+                {% csrf_token %}
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <i class="fas fa-chevron-left"></i>&nbsp;return back
+                </button>
+                <button type="submit" class="btn btn-outline-danger">delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End of Delete Modal -->
+
+<h3>Personal Information</h3>
+<table class="table table-bordered table-responsive table-striped">
+    <tbody>
+    <tr>
+        <td><b>Student Name:</b></td>
+        <td>{{ stud}} {{ stud.user.middle_name}} {{ stud.user.last_name}}</td>
+    </tr>
+    <tr>
+        <td><b>Username</b></td>
+        <td>{{ stud.user.username }}</td>
+    </tr>
+    <tr>
+        <td><b>Roll no:</b></td>
+        <td>{{ stud.stud_rollno }}</td>
+    </tr>
+    <tr>
+        <td><b>Class:</b></td>
+        <td>{{ stud.stud_class }}</td>
+    </tr>
+    <tr>
+        <td><b>Section:</b></td>
+        <td>{{ stud.stud_section }}</td>
+    </tr>
+    <tr>
+        <td><b>Date of Birth</b></td>
+        <td>{{ stud.user.date_of_birth }}</td>
+    </tr>
+    <tr>
+        <td><b>Gender</b></td>
+        <td>{{ stud.user.gender }}</td>
+    </tr>
+    <tr>
+        <td><b>Student?</b></td>
+        <td>{% if stud.user.is_student %}YES {% else %}NO {% endif %}</td>
+    </tr>
+    
+    </tbody>
+</table>
+<br><br>
+<h3>Parents  Information</h3>
+<table class="table table-bordered table-responsive table-striped">
+    <tbody>
+        <tr>
+            <td><b>Father's Name:</b></td>
+            <td>{{ stud.user.middle_name}} {{ stud.user.last_name}}</td>
+    </tr>
+    <tr>
+            <td><b>Mother's Name:</b></td>
+            <td>{{ stud.stud_mother_name}} {{ stud.user.last_name}}</td>
+    </tr>
+    <tr>
+        <td><b>Parents Contact No (Primary):</b></td>
+        <td>{{ stud.stud_parentContact}}</td>
+</tr>
+    <tr>
+        <td><b>Parents Contact No (Seconadry):</b></td>
+        <td>{{ stud.stud_parentSecContact}}</td>
+</tr>
+<tr>
+    <td><b>Address:</b></td>
+    <td>{{ stud.stud_address }}</td>
+</tr>
+    </tbody>
+</table>
+<br><br>
+<h3>Other  Information</h3>
+<table class="table table-bordered table-responsive table-striped">
+    <tbody>
+        <tr>
+            <td><b>Social Category</b></td>
+            <td>{{ stud.stud_socialCategory }}</td>
+        </tr>
+        <tr>
+            <td><b>Religion:</b></td>
+            <td>{{ stud.stud_religion }}</td>
+        </tr>
+        <tr>
+            <td><b>Caste:</b></td>
+            <td>{{ stud.stud_caste }}</td>
+        </tr>
+        <tr>
+            <td><b>Disability:</b></td>
+            <td>{{ stud.stud_disability }}</td>
+        </tr>
+    </tbody>
+</table>
+    </div>
+
+{% endblock body %}

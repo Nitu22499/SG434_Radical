@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block body %}
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+<div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
+<h2 class = "card-header text-center bg-primary text-white">School Profile</h2>
+<div class = "card-body">
+<form method = "POST" action = "">
+    {% csrf_token %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Grants under Samagra Shiksha</th>
+                    <th>Receipt(In Rs.)</th>
+                    <th>Expenditure(In Rs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Composite School Grant</td>
+                    <td>{{form.sre_re_composite}}</td>
+                    <td>{{form.sre_ex_composite}}</td>
+                </tr>
+                <tr>
+                    <td>Library Grant</td>
+                    <td>{{form.sre_re_lib}}</td>
+                    <td>{{form.sre_ex_lib}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for sports and physical Education </td>
+                    <td>{{form.sre_re_sports}}</td>
+                    <td>{{form.sre_ex_sports}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Media and Community Mobilization</td>
+                    <td>{{form.sre_re_media}}</td>
+                    <td>{{form.sre_ex_media}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Training of SMC/SMDC</td>
+                    <td>{{form.sre_re_smc}}</td>
+                    <td>{{form.sre_ex_smc}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for support at Preschool Level (Only for primary schools/sections)</td>
+                    <td>{{form.sre_re_pre}}</td>
+                    <td>{{form.sre_ex_pre}}</td>
+                </tr>
+                <tr>
+                    <td>Grant for Major Repair</td>
+                    <td>{{form.sre_re_repair}}</td>
+                    <td>{{form.sre_ex_repair}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <p><b>Financial Assistance received by the school</b></p>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                <th>Yes,No</th>
+                <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Yes,</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Amount(in Rs.)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Non - Govt. Organization (NGO)</td>
+                    <td>{{form.sre_yes_non}}</td>
+                    <td>{{form.sre_non_name}}</td>
+                    <td>{{form.sre_non_amount}}</td>
+                </tr>
+                <tr>
+                    <td>Public Sector Undertaking (PSU)</td>
+                    <td>{{form.sre_yes_psu}}</td>
+                    <td>{{form.sre_psu_name}}</td>
+                    <td>{{form.sre_psu_amount}}</td>
+                </tr>
+                <tr>
+                    <td>Community</td>
+                    <td>{{form.sre_yes_community}}</td>
+                    <td>{{form.sre_community_name}}</td>
+                    <td>{{form.sre_community_amount}}</td>
+                </tr>
+                <tr>
+                    <td>Other</td>
+                    <td>{{form.sre_other_yes}}</td>
+                    <td>{{form.sre_other_name}}</td>
+                    <td>{{form.sre_other_amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+    <div class = "text-center">
+    <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}
