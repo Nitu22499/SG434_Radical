@@ -7,110 +7,113 @@
 <div class = "card-body">
 <form method = "POST" action = "">
     {% csrf_token %}
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th colspan="2">Items</th>
-                <th colspan="1">Available</th>
-                <th colspan="1">Total No. of units</th>
-                <th colspan="1">No. of functional Units</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="2"><b>Laptop/Notebook</b></td>
-                <td>{{form.sit_lap_avai}}</td>
-                <td>{{form.sit_lap_units}}</td>
-                <td>{{form.sit_lap_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Tablets</b></td>
-                <td>{{form.sit_tab_avai}}</td>
-                <td>{{form.sit_tab_units}}</td>
-                <td>{{form.sit_tab_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Desktop Computers</b></td>
-                <td>{{form.sit_desk_avai}}</td>
-                <td>{{form.sit_desk_units}}</td>
-                <td>{{form.sit_desk_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>PCs with Integrated Teaching Learning Devices</b></td>
-                <td>{{form.sit_pc_avai}}</td>
-                <td>{{form.sit_pc_units}}</td>
-                <td>{{form.sit_pc_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Digital Boards with Content Management Systems and solutions(CMS)/Learning Management System</b></td>
-                <td>{{form.sit_boards_avai}}</td>
-                <td>{{form.sit_boards_units}}</td>
-                <td>{{form.sit_boards_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Server</b></td>
-                <td>{{form.sit_server_avai}}</td>
-                <td>{{form.sit_server_units}}</td>
-                <td>{{form.sit_server_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Porjector</b></td>
-                <td>{{form.sit_proj_avai}}</td>
-                <td>{{form.sit_proj_units}}</td>
-                <td>{{form.sit_proj_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>LCD/LED/Plasma Screen</b></td>
-                <td>{{form.sit_lcd_avai}}</td>
-                <td>{{form.sit_lcd_units}}</td>
-                <td>{{form.sit_lcd_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Printer</b></td>
-                <td>{{form.sit_print_avai}}</td>
-                <td>{{form.sit_print_units}}</td>
-                <td>{{form.sit_print_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Scanner</b></td>
-                <td>{{form.sit_scan_avai}}</td>
-                <td>{{form.sit_scan_units}}</td>
-                <td>{{form.sit_scan_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Web Camera</b></td>
-                <td>{{form.sit_web_avai}}</td>
-                <td>{{form.sit_web_units}}</td>
-                <td>{{form.sit_web_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Generator/Invertor/UPS</b></td>
-                <td>{{form.sit_gen_avai}}</td>
-                <td>{{form.sit_gen_units}}</td>
-                <td>{{form.sit_gen_func}}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Internet Facility</b></td>
-                <td>{{form.sit_net_avai}}</td>
-
-            </tr>
-            <tr>
-                <td colspan="2"><b>DTH-TV Antenna</b></td>
-                <td>{{form.sit_dth_avai}}</td>
-
-            </tr>
-            <tr>
-                <td colspan="2"><b>E-Content and Digital Resources for I-XII</b></td>
-                <td>{{form.sit_digital_avai}}</td>
-
-            </tr>
-            <tr>
-                <td colspan="2"><b>Assistive tech-based solutions for CWSN</b></td>
-                <td>{{form.sit_cwsn_avai}}</td>
-
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th colspan="2">Items</th>
+                    <th colspan="1">Available</th>
+                    <th colspan="1">Total No. of units</th>
+                    <th colspan="1">No. of functional Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2"><b>Laptop/Notebook</b></td>
+                    <td>{{form.sit_lap_avai}}</td>
+                    <td>{{form.sit_lap_units}}</td>
+                    <td>{{form.sit_lap_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Tablets</b></td>
+                    <td>{{form.sit_tab_avai}}</td>
+                    <td>{{form.sit_tab_units}}</td>
+                    <td>{{form.sit_tab_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Desktop Computers</b></td>
+                    <td>{{form.sit_desk_avai}}</td>
+                    <td>{{form.sit_desk_units}}</td>
+                    <td>{{form.sit_desk_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>PCs with Integrated Teaching Learning Devices</b></td>
+                    <td>{{form.sit_pc_avai}}</td>
+                    <td>{{form.sit_pc_units}}</td>
+                    <td>{{form.sit_pc_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Digital Boards with Content Management Systems and solutions(CMS)/Learning Management System</b></td>
+                    <td>{{form.sit_boards_avai}}</td>
+                    <td>{{form.sit_boards_units}}</td>
+                    <td>{{form.sit_boards_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Server</b></td>
+                    <td>{{form.sit_server_avai}}</td>
+                    <td>{{form.sit_server_units}}</td>
+                    <td>{{form.sit_server_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Porjector</b></td>
+                    <td>{{form.sit_proj_avai}}</td>
+                    <td>{{form.sit_proj_units}}</td>
+                    <td>{{form.sit_proj_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>LCD/LED/Plasma Screen</b></td>
+                    <td>{{form.sit_lcd_avai}}</td>
+                    <td>{{form.sit_lcd_units}}</td>
+                    <td>{{form.sit_lcd_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Printer</b></td>
+                    <td>{{form.sit_print_avai}}</td>
+                    <td>{{form.sit_print_units}}</td>
+                    <td>{{form.sit_print_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Scanner</b></td>
+                    <td>{{form.sit_scan_avai}}</td>
+                    <td>{{form.sit_scan_units}}</td>
+                    <td>{{form.sit_scan_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Web Camera</b></td>
+                    <td>{{form.sit_web_avai}}</td>
+                    <td>{{form.sit_web_units}}</td>
+                    <td>{{form.sit_web_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Generator/Invertor/UPS</b></td>
+                    <td>{{form.sit_gen_avai}}</td>
+                    <td>{{form.sit_gen_units}}</td>
+                    <td>{{form.sit_gen_func}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Internet Facility</b></td>
+                    <td>{{form.sit_net_avai}}</td>
+    
+                </tr>
+                <tr>
+                    <td colspan="2"><b>DTH-TV Antenna</b></td>
+                    <td>{{form.sit_dth_avai}}</td>
+    
+                </tr>
+                <tr>
+                    <td colspan="2"><b>E-Content and Digital Resources for I-XII</b></td>
+                    <td>{{form.sit_digital_avai}}</td>
+    
+                </tr>
+                <tr>
+                    <td colspan="2"><b>Assistive tech-based solutions for CWSN</b></td>
+                    <td>{{form.sit_cwsn_avai}}</td>
+    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
 
 
     <div class = "text-center">

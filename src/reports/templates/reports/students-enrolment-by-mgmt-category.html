@@ -12,46 +12,49 @@
 
 <!-- Table -->
   <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
-    <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
-      <thead>
-          <tr class="table-primary border-primary">
-            <th scope="col">Sr. No.</th>
-            <th scope="col">Block</th>
-            <th scope="col">State Govt.</th>
-            <th scope="col">Central Govt.</th>
-            <th scope="col">Private</th>
-            <th scope="col">Local Body</th>
-            <th scope="col">Other</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in table_data %}
-          <tr>
-            <td scope="row">{{ forloop.counter }}</td>
-            <td>{{row.block_name}}</td>
-            <td>{{row.count_state_govt_schools}}</td>
-            <td>{{row.count_central_govt_schools}}</td>
-            <td>{{row.count_private_schools}}</td>
-            <td>{{row.count_local_body_schools}}</td>
-            <td>{{row.count_other_schools}}</td>
-            <td>{{row.total_schools}}</td>
-          </tr>
-          {% endfor %}
-          {% if total_tally %}
-          <tr style="background-color:LightGray;">
-            <td scope="row"></td>
-            <td>{{total_tally.block_name}}</td>
-            <td>{{total_tally.count_state_govt_schools}}</td>
-            <td>{{total_tally.count_central_govt_schools}}</td>
-            <td>{{total_tally.count_private_schools}}</td>
-            <td>{{total_tally.count_local_body_schools}}</td>
-            <td>{{total_tally.count_other_schools}}</td>
-            <td>{{total_tally.total_schools}}</td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>      
+    <div class="table-responsive">
+      <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
+        <thead>
+            <tr class="table-primary border-primary">
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Block</th>
+              <th scope="col">State Govt.</th>
+              <th scope="col">Central Govt.</th>
+              <th scope="col">Private</th>
+              <th scope="col">Local Body</th>
+              <th scope="col">Other</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table_data %}
+            <tr>
+              <td scope="row">{{ forloop.counter }}</td>
+              <td>{{row.block_name}}</td>
+              <td>{{row.count_state_govt_schools}}</td>
+              <td>{{row.count_central_govt_schools}}</td>
+              <td>{{row.count_private_schools}}</td>
+              <td>{{row.count_local_body_schools}}</td>
+              <td>{{row.count_other_schools}}</td>
+              <td>{{row.total_schools}}</td>
+            </tr>
+            {% endfor %}
+            {% if total_tally %}
+            <tr style="background-color:LightGray;">
+              <td scope="row"></td>
+              <td>{{total_tally.block_name}}</td>
+              <td>{{total_tally.count_state_govt_schools}}</td>
+              <td>{{total_tally.count_central_govt_schools}}</td>
+              <td>{{total_tally.count_private_schools}}</td>
+              <td>{{total_tally.count_local_body_schools}}</td>
+              <td>{{total_tally.count_other_schools}}</td>
+              <td>{{total_tally.total_schools}}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>  
+    </div>
+        
   </div>
 
   <!-- Canvas for redering chart -->

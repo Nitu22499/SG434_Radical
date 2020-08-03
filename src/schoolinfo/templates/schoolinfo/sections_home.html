@@ -1,11 +1,5 @@
 {% extends 'base.html' %}
 
-{% block schoolinfo_link %}         
-<li class="nav-item">
-  <a class="nav-link" aria-current="page" href="{% url 'schoolinfo:sections_home' academic_year %}">School Info</a>
-</li> 
-{% endblock %}
-
 {% block body %}
 
 <div class = "card border border-primary shadow-2-strong col-md-8 mx-auto" style = "margin-top: 2%;">
@@ -25,72 +19,75 @@
 <div class = "card border border-primary shadow-2-strong col-md-10 mx-auto">
     <h5 class = "card-header text-center bg-primary text-white">{{ school_name }}</h5>
 <div class = "card-body">
+  <div class="table-responsive">
     <table class="table table-bordered border-primary table-hover text-center">
-        <thead>
-            <tr>
-              <th scope="col">SECTION</th>
-              <th scope="col">INFORMATION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td scope="row">1</td>
-              <td><a href = "{% url 'schoolinfo:school_profile' academic_year %}">School Profile</a></td>
-            </tr>
-            <tr>
-              <td scope="row">2</td>
-              <td><a href = "{% url 'schoolinfo:physical_facilities' academic_year %}">Physical Facilities and Equipments</a></td>
-            </tr>
-            <tr>
-              <td scope="row">3</td>
-              <td><a href = "{% url 'schoolinfo:school_rte' academic_year %}">Students Enrolled under Section 12 of RTE Act</a></td>
-            </tr>
+      <thead>
           <tr>
-            <td scope="row">4</td>
-            <td><a href = "{% url 'schoolinfo:school_ews' academic_year %}">No. of Economically Weaker Section(EWS)students Enrolled</a></td>
+            <th scope="col">SECTION</th>
+            <th scope="col">INFORMATION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">1</td>
+            <td><a href = "{% url 'schoolinfo:school_profile' academic_year %}">School Profile</a></td>
           </tr>
           <tr>
-            <td scope="row">5</td>
-            <td><a href = "{% url 'schoolinfo:school_library' academic_year %}">Library</a></td>
+            <td scope="row">2</td>
+            <td><a href = "{% url 'schoolinfo:physical_facilities' academic_year %}">Physical Facilities and Equipments</a></td>
           </tr>
           <tr>
-            <td scope="row">6</td>
-            <td><a href = "{% url 'schoolinfo:school_items' academic_year %}">Items</a></td>  
+            <td scope="row">3</td>
+            <td><a href = "{% url 'schoolinfo:school_rte' academic_year %}">Students Enrolled under Section 12 of RTE Act</a></td>
           </tr>
-          <tr>
-            <td scope="row">7</td>
-            <td><a href = "{% url 'schoolinfo:school_toilets' academic_year %}">Details of School Toilets</a></td>  
-          </tr>
-          <tr>
-            <td scope="row">8</td>
-            <td><a href="{% url 'schoolinfo:enrolment_pre_primary' academic_year %}">Enrolment in Pre Primary Section and Grade I</a></td>
-          </tr>
-          <tr>
-            <td scope="row">9</td>
-            <td><a href="{% url 'schoolinfo:enrolment_social_category' academic_year %}">Enrolment in current academic session (by social category)</a></td>
-          </tr>
-          <tr>
-            <td scope="row">10</td>
-            <td><a href="{% url 'schoolinfo:enrolment_by_age' academic_year %}">Enrolment in current academic session (by age in completed years)</a></td>
-          </tr>
-          <tr>
-            <td scope="row">11</td>
-            <td><a href = "{% url 'schoolinfo:school_safety' academic_year %}">School Safety</a></td>  
-          </tr>
-          <tr>
-            <td scope="row">12</td>
-            <td><a href = "{% url 'schoolinfo:school_receipt' academic_year %}">Receipts and Expenditure </a></td>  
-          </tr>
-          <tr>
-            <td scope="row">13</td>
-            <td><a href = "{% url 'schoolinfo:school_incentives' %}"> Incentives and facilities provided to children </a></td>  
-          </tr>
-          <tr>
-            <td scope="row">14</td>
-            <td><a href = "{% url 'schoolinfo:school_annual' %}"> Annual Examination Result at Elementary Level </a></td>  
-          </tr>
-          </tbody>
-        </table>
+        <tr>
+          <td scope="row">4</td>
+          <td><a href = "{% url 'schoolinfo:school_ews' academic_year %}">No. of Economically Weaker Section(EWS)students Enrolled</a></td>
+        </tr>
+        <tr>
+          <td scope="row">5</td>
+          <td><a href = "{% url 'schoolinfo:school_library' academic_year %}">Library</a></td>
+        </tr>
+        <tr>
+          <td scope="row">6</td>
+          <td><a href = "{% url 'schoolinfo:school_items' academic_year %}">Items</a></td>  
+        </tr>
+        <tr>
+          <td scope="row">7</td>
+          <td><a href = "{% url 'schoolinfo:school_toilets' academic_year %}">Details of School Toilets</a></td>  
+        </tr>
+        <tr>
+          <td scope="row">8</td>
+          <td><a href="{% url 'schoolinfo:enrolment_pre_primary' academic_year %}">Enrolment in Pre Primary Section and Grade I</a></td>
+        </tr>
+        <tr>
+          <td scope="row">9</td>
+          <td><a href="{% url 'schoolinfo:enrolment_social_category' academic_year %}">Enrolment in current academic session (by social category)</a></td>
+        </tr>
+        <tr>
+          <td scope="row">10</td>
+          <td><a href="{% url 'schoolinfo:enrolment_by_age' academic_year %}">Enrolment in current academic session (by age in completed years)</a></td>
+        </tr>
+        <tr>
+          <td scope="row">11</td>
+          <td><a href = "{% url 'schoolinfo:school_safety' academic_year %}">School Safety</a></td>  
+        </tr>
+        <tr>
+          <td scope="row">12</td>
+          <td><a href = "{% url 'schoolinfo:school_receipt' academic_year %}">Receipts and Expenditure </a></td>  
+        </tr>
+        <tr>
+          <td scope="row">13</td>
+          <td><a href = "{% url 'schoolinfo:school_incentives' %}"> Incentives and facilities provided to children </a></td>  
+        </tr>
+        <tr>
+          <td scope="row">14</td>
+          <td><a href = "{% url 'schoolinfo:school_annual' %}"> Annual Examination Result at Elementary Level </a></td>  
+        </tr>
+        </tbody>
+      </table>
+  </div>
+    
 
  
 

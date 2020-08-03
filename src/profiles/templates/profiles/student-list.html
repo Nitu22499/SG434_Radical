@@ -4,8 +4,8 @@
 <script>
     function manage() {
         var bt = document.getElementById('stream');
-        if (class.value != 11 && class.value != 12) {
-            console.log(class.value)
+        if (input.value != 11 && input.value != 12) {
+            console.log(input.value)
             bt.disabled = true;
             console.log(bt.disabled)
         }
@@ -27,8 +27,8 @@
                         {% if not request.user.is_school_admin %}
 
                         <div class="col-md-3">
-                            <select class="custom-select form-control form-control-lg  w-100" name="input_school" id="school_id" >
-                                <option>Select School</option>
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_school" id="school_id" required>
+                                <option value="">Select School</option>
                                 {% for school in school_list %}
                                 <option value="{{ school.id }}">{{ school }} </option>
                                 {% endfor %}
@@ -37,8 +37,8 @@
                         </div>
                         {% endif %}
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg  w-100" name="input_class" id="class" onchange="manage()">
-                                <option>Select Class</option>
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_class" id="input" onchange="manage()" required>
+                                <option value="">Select Class</option>
                                 {% for class in class_list %}
                                 <option value="{{ class }}">Class-{{ class }} </option>
                                 {% endfor %}
@@ -46,8 +46,8 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="custom-select form-control form-control-lg  w-100" name="input_section">
-                                    <option>Select Section</option>
+                            <select class="custom-select form-control form-control-lg  w-100" name="input_section" required>
+                                    <option value="" >Select Section</option>
                                     {% for section in section_list %}
                                     <option value="{{ section }}">Section-{{ section }}</option>
                                     {% endfor %}
@@ -56,8 +56,8 @@
                         </div>
                    
                             <div class="col-md-3" >
-                                <select class="custom-select form-control form-control-lg  w-100" name="input_stream" id="stream"  disabled>
-                                        <option>Select Stream</option>
+                                <select class="custom-select form-control form-control-lg  w-100" name="input_stream" id="stream"  disabled required>
+                                        <option value="">Select Stream</option>
                                         {% for stream in stream_list %}
                                         <option value="{{ stream.0 }}">{{ stream.1 }}</option>
                                         {% endfor %}
@@ -81,46 +81,51 @@
             </div> 
             </div>
         </div>
-        <div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" >
-            {% if currentclass is not None and currentsection is not None %}
-            
-
-            <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }} Stream-{{ currentstream }}</h2>
-            <div class = "card-body">
-                <table class="table table-bordered border-primary table-hover text-center">
-                    <thead>
-                        <tr>
-                        <th scope="col">STUDENT ROLL NO</th>
-                          <th scope="col">STUDENT NAME</th>                      
-                          <th scope="col">GENDER</th>
-                          <th scope="col">DATE OF BIRTH</th>
-                          <th scope="col">ADMISSION DATE</th>
-                          <th scope="col">PARENTS CONTACT NO</th>
-                          <th scope="col">ACADEMICS RECORD</th>
-                          <th scope="col">ATTENDANCE RECORD</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for stud in student %}
-                        <tr>
-                            <td>{{ stud.stud_rollno }} </td>
-                            <td><a href = "{% url 'profiles:student-info' stud.id %}">{{ stud.user.first_name }} {{ stud.user.middle_name }} {{ stud.user.last_name }}</a></td>
-                            <td>{{ stud.user.gender }}</td>
-                            <td>{{ stud.user.date_of_birth }}</td>
-                            <td>{{ stud.stud_admissionDate }}</td>
-                            <td>{{ stud.stud_parentContact }}</td>
-                            <td><a href="{% url 'exams:student-report-id' stud.id %}">View</a></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
         
-            {% endif %}
-            
+            <div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" >
+                {% if currentclass is not None and currentsection is not None %}
                 
+    
+                <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }} Stream-{{ currentstream }}</h2>
+                <div class = "card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table table-bordered border-primary table-hover text-center">
+                            <thead>
+                                <tr>
+                                <th scope="col">STUDENT ROLL NO</th>
+                                  <th scope="col">STUDENT NAME</th>                      
+                                  <th scope="col">GENDER</th>
+                                  <th scope="col">DATE OF BIRTH</th>
+                                  <th scope="col">ADMISSION DATE</th>
+                                  <th scope="col">PARENTS CONTACT NO</th>
+                                  <th scope="col">ACADEMICS RECORD</th>
+                                  <th scope="col">ATTENDANCE RECORD</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for stud in student %}
+                                <tr>
+                                    <td>{{ stud.stud_rollno }} </td>
+                                    <td><a href = "{% url 'profiles:student-info' stud.id %}">{{ stud.user.first_name }} {{ stud.user.middle_name }} {{ stud.user.last_name }}</a></td>
+                                    <td>{{ stud.user.gender }}</td>
+                                    <td>{{ stud.user.date_of_birth }}</td>
+                                    <td>{{ stud.stud_admissionDate }}</td>
+                                    <td>{{ stud.stud_parentContact }}</td>
+                                    <td><a href="{% url 'exams:student-report-id' stud.id %}">View</a></td>
+                                    <td></td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                    
+                        </div>
+                {% endif %}
+                
+                    
+                </div>
             </div>
-        </div>
+       
+        
  
 
 

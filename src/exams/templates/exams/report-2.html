@@ -4,7 +4,13 @@
 <!-- Card Style -->
 <div class="container-fluid" style="padding-top: 2%; padding-bottom: 4%;">
     <div class="card border border-primary shadow-2-strong col-md-11 mx-auto">
-        <h2 class="card-header text-center bg-primary text-white">UPDATE STUDENT MARKS</h2>
+        <h2 class="card-header text-center bg-primary text-white">
+            {% if not no_editing %}
+            UPDATE STUDENT MARKS
+            {% else %}
+            VIEW STUDENT MARKS
+            {% endif %}
+        </h2>
         <div class="card-body">
             <div class="container-fluid my-2">
                 <form action="" method="POST" class="text-center border border-light p-1">
@@ -16,14 +22,53 @@
                         </ul>
                     </span>
                     {% endif %}
-                    
+
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <select name="year" class="form-control browser-default custom-select mb-4" id="year">
                                     <option value="">SELECT ACADEMIC YEAR</option>
                                     {% for yr in year %}
-                                    <option value="{{ yr.0 }}" {% if selected_year == yr.0 %}selected{% endif %}>{{ yr.1 }}</option>
+                                    <option value="{{ yr.0 }}" {% if selected_year == yr.0 %}selected{% endif %}>
+                                        {{ yr.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4" {% if not show_district %}hidden{% endif %}>
+                            <div class="form-group">
+                                <select onchange="getSchools()" name="district"
+                                    class="form-control browser-default custom-select mb-4" id="district">
+                                    <option value="">SELECT DISTRICT</option>
+                                    {% for dst in districts %}
+                                    <option value="{{ dst.id }}"
+                                        {% if selected_district == dst.id %}selected{% endif %}>{{ dst.district_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4" {% if not show_block %}hidden{% endif %}>
+                            <div class="form-group">
+                                <select onchange="getSchools()" name="block"
+                                    class="form-control browser-default custom-select mb-4" id="block">
+                                    <option value="">SELECT BLOCK</option>
+                                    {% for blk in blocks %}
+                                    <option value="{{ blk.id }}" {% if selected_block == blk.id %}selected{% endif %}>
+                                        {{ blk.block_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4" {% if not no_editing %}hidden{% endif %}>
+                            <div class="form-group">
+                                <select name="school" class="form-control browser-default custom-select mb-4"
+                                    id="school">
+                                    <option value="">SELECT SCHOOL</option>
+                                    {% for sc in school %}
+                                    <option value="{{ sc.id }}" {% if selected_school == sc.id %}selected{% endif %}>
+                                        {{ sc.school_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -34,7 +79,8 @@
                                     class="form-control browser-default custom-select mb-4" id="class">
                                     <option value="">SELECT CLASS</option>
                                     {% for cls in class %}
-                                    <option value="{{ cls.0}}" {% if selected_class == cls.0 %} selected {% endif %}>{{ cls.1 }}
+                                    <option value="{{ cls.0}}" {% if selected_class == cls.0 %} selected {% endif %}>
+                                        {{ cls.1 }}
                                     </option>
                                     {% endfor %}
                                 </select>
@@ -42,7 +88,8 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <select name="subject" class="form-control browser-default custom-select mb-4" id="subject">
+                                <select name="subject" class="form-control browser-default custom-select mb-4"
+                                    id="subject">
                                     <option value="">SELECT SUBJECT</option>
                                     {% if selected_subject %}
                                     <option value="{{ selected_subject }}" selected>{{ selected_subject }}</option>
@@ -52,32 +99,37 @@
                         </div>
                         <div class="col-4 stream-column">
                             <div class="form-group">
-                                <select name="stream" class="form-control browser-default custom-select mb-4" id="stream">
+                                <select name="stream" class="form-control browser-default custom-select mb-4"
+                                    id="stream">
                                     <option value="">SELECT STREAM</option>
                                     {% for stm in stream %}
-                                    <option value="{{ stm.0 }}" {% if selected_stream == stm.0 %}selected{% endif %}>{{ stm.1 }}</option>
+                                    <option value="{{ stm.0 }}" {% if selected_stream == stm.0 %}selected{% endif %}>
+                                        {{ stm.1 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <select name="section" class="form-control browser-default custom-select mb-4" id="section">
+                                <select name="section" class="form-control browser-default custom-select mb-4"
+                                    id="section">
                                     <option value="">SELECT SECTION</option>
                                     {% for sec in section %}
-                                    <option value="{{ sec.0 }}" {% if selected_section == sec.0 %}selected{% endif %}>{{ sec.1 }}</option>
+                                    <option value="{{ sec.0 }}" {% if selected_section == sec.0 %}selected{% endif %}>
+                                        {{ sec.1 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>
-                        <div class="offset-md-4 col-4"><button class="btn btn-primary btn-block" type="submit">Submit</button></div>
+                        <div class="offset-md-4 col-4"><button class="btn btn-primary btn-block"
+                                type="submit">Submit</button></div>
                     </div>
                 </form>
                 <div class="msg mt-4"></div>
-                {% if not has_co_scholastic_subject and exams %}  
+                {% if not has_co_scholastic_subject and exams %}
                 <div class="row mt-4">
                     <div class="col">
-                        <div class="table-responsive" >
+                        <div class="table-responsive">
                             <table id="table" class="table text-center table-bordered table-hover">
                                 <thead id="myHeader">
                                     <tr class="table-light align-middle">
@@ -107,17 +159,25 @@
                                     <tr>
                                         <th scope="row">{{ ex.student.user.first_name|title }}</th>
                                         <td hidden>{{ ex.id }}</td>
-                                        <td contenteditable="true">{{ ex.per_test_1|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.notebook_1|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.sea_1|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.main_1|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.per_test_1|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.notebook_1|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.sea_1|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.main_1|default_if_none:"--" }}</td>
                                         <td>{% if ex.total_1 %} {{ ex.total_1 }} {% else %} -- {% endif %}</td>
                                         <td>{{ ex.grade_1 }}</td>
-            
-                                        <td contenteditable="true">{{ ex.per_test_2|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.notebook_2|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.sea_2|default_if_none:"--" }}</td>
-                                        <td contenteditable="true">{{ ex.main_2|default_if_none:"--" }}</td>
+
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.per_test_2|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.notebook_2|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.sea_2|default_if_none:"--" }}</td>
+                                        <td {% if not no_editing %}contenteditable="true" {% endif %}>
+                                            {{ ex.main_2|default_if_none:"--" }}</td>
                                         <td>{% if ex.total_2 %} {{ ex.total_2 }} {% else %} -- {% endif %}</td>
                                         <td>{{ ex.grade_2 }}</td>
                                     </tr>
@@ -127,9 +187,11 @@
                         </div>
                     </div>
                 </div>
+                {% if not no_editing %}
                 <div class="mt-4" style="width: 100px;float: right;">
                     <button id="scholastic" class="btn btn-info btn-block">Save</button>
                 </div>
+                {% endif %}
                 {% elif has_co_scholastic_subject and exams %}
                 <div class="row mt-4">
                     <div class="col">
@@ -155,7 +217,7 @@
                                         <td contenteditable="true">{{ ex.exam_cs_grade_1 }}</td>
                                         <td contenteditable="true">{{ ex.exam_cs_grade_2 }}</td>
                                     </tr>
-                                    {% endfor %}                        
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -165,11 +227,11 @@
                     <button id="co-scholastic" class="btn btn-info btn-block">Save</button>
                 </div>
                 {% else %}
-                    {% if no_record %} 
-                    <div class="row mt-4 mb-4 text-center">
-                        <h3><strong>No Record Found </strong></h3>
-                    </div>
-                    {% endif %}
+                {% if no_record %}
+                <div class="row mt-4 mb-4 text-center">
+                    <h3><strong>No Record Found </strong></h3>
+                </div>
+                {% endif %}
                 {% endif %}
             </div>
         </div>

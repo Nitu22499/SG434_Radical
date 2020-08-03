@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 from django.views import generic
 from django.db.models import Count, Q
@@ -6,6 +8,7 @@ from django.http import JsonResponse
 from misc.utilities import academic_year, year_choices, get_districts, get_blocks
 
 from schoolinfo.models import PhysicalFacilities
+from profiles.models import Student
 
 
 def get_percentage(c, n):
@@ -25,9 +28,11 @@ class DashboardView(generic.TemplateView):
                 year = Q(academic_year = self.request.GET['year'])
                 context['year'] = self.request.GET['year']
             else: 
-                year = Q()
+                year = Q(academic_year = academic_year())
+                context['year'] = academic_year()
         else:
-            year = Q()
+            year = Q(academic_year = academic_year())
+            context['year'] = academic_year()
 
         if 'district' in self.request.GET:
             if self.request.GET['district'] != "":
@@ -108,5 +113,39 @@ def get_blocks_by_district(request):
     })
 
 
-def home_view(request):
-    return render(request, 'dashboard/home.html', {})
+def get_attendance_data(request):
+    student = Student.objects.get(user=request.user)
+    current_month = datetime.date.today().month
+    total_present_days = student.student_attendance.filter(student_attendance_date__month=current_month).count()
+    total_absent_days = student.student_attendance.all().count() - total_present_days
+    labels = ['Total Present', 'Total Absent']
+    data = [total_present_days, total_absent_days]
+    return JsonResponse(data={
+        'data': data,
+        'labels': labels
+    })
+
+
+def get_academic_data(request):
+    term_one_data = []
+    term_two_data = []
+    label = []
+    all_subjects = []
+    have_records = False
+    student = Student.objects.get(user=request.user)
+    if student.exam_set.count():
+        recent_year = student.exam_set.latest('exam_year').exam_year
+        all_subjects = student.exam_set.filter(exam_year = recent_year)
+        have_records = True
+    for subject in all_subjects:
+        term_one_data.append(subject.total_1)
+        if subject.total_2 != '':
+            term_two_data.append(subject.total_2)
+        label.append(subject.subject.subject_name)
+
+    return JsonResponse(data = {
+        'term_one': term_one_data,
+        'term_two': term_two_data,
+        'label': label,
+        'have_academic_records': have_records
+    })

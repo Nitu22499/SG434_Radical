@@ -12,6 +12,20 @@ class ReportHome(TemplateView):
 
 
 class SchoolsByMgmt(FormView):
+    from django.views.generic import TemplateView, FormView
+from .forms import ReportForm
+from django.urls import reverse_lazy
+from misc.utilities import get_blocks
+from schoolinfo.models import SchoolProfile, PhysicalFacilities
+from profiles.models import Block, District
+from misc.utilities import academic_year
+
+
+class ReportHome(TemplateView):
+    template_name = 'reports/reports_home.html'
+
+
+class SchoolsByMgmt(FormView):
     template_name = 'reports/schools_by_mgmt.html'
     form_class = ReportForm
     success_url = reverse_lazy('reports:schools_by_mgmt')
@@ -70,7 +84,7 @@ class SchoolsByMgmt(FormView):
             for block in Block.objects.all():       # all inputs set to all.
                 blocks_list.append(block.block_name)
 
-        # print(objs)
+        #print(objs)
 
         total_state_govt_schools = 0
         total_central_govt_schools = 0
@@ -81,7 +95,9 @@ class SchoolsByMgmt(FormView):
 
         table_data = []     # compute and add data block wise to this list
         for block in blocks_list:
-            records = objs.filter(sp_cd=block)      # get schools in particular block
+            records = objs.filter(sp_cd=block)   
+            #print(records)
+               # get schools in particular block
             state_govt_schools = records.filter(sp_management_code='State Govt.').count()
             central_govt_schools = records.filter(sp_management_code='Central Govt.').count()
             private_schools = records.filter(sp_management_code='Private').count()
@@ -116,10 +132,10 @@ class SchoolsByMgmt(FormView):
                 'other_schools':total_other_schools,
                 'total_schools':total_total_schools
             }
-
+        
 
         kwargs['table_data'] = table_data
-
+        #print(table_data)
         return super().get_context_data(**kwargs)
 
 

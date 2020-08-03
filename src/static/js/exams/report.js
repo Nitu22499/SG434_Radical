@@ -1,26 +1,62 @@
 // Dynamically fill options for selected class
 function getSubjects(cls) {
-    fetch(`${window.location.origin}/exams/subject/class/${cls.value}`)
+    school = $('#school').val();
+    fetch(`${window.location.origin}/exams/subject/class/${cls.value}${ school ? '?school='+school : '' }`)
         .then(response => response.json())
         .then(data => {
-            
-            let select_subject = document.getElementById('subject');
-            while (select_subject.hasChildNodes()) {  
-                select_subject.removeChild(select_subject.firstChild);
-            }
-            let opt = document.createElement('option');
-            opt.value = '';
-            opt.innerHTML = 'SELECT SUBJECT';
-            select_subject.appendChild(opt);
-            data.subjects.forEach((sub) => {
-                opt = document.createElement('option');
-                opt.value = sub;
-                opt.innerHTML = sub;
+            if (data.error) {
+                $('.errorlist li').val(data.error)
+            }else {
+                let select_subject = document.getElementById('subject');
+                while (select_subject.hasChildNodes()) {  
+                    select_subject.removeChild(select_subject.firstChild);
+                }
+                let opt = document.createElement('option');
+                opt.value = '';
+                opt.innerHTML = 'SELECT SUBJECT';
                 select_subject.appendChild(opt);
-            })            
+                data.subjects.forEach((sub) => {
+                    opt = document.createElement('option');
+                    opt.value = sub;
+                    opt.innerHTML = sub;
+                    select_subject.appendChild(opt);
+                })           
+            }             
         })
 }
 
+function getSchools() {
+    block = $('#block').val();
+    district = $('#district').val();
+    if (block) {
+        url_maker = 'block';
+        value = block;
+    }else if (district) {
+        url_maker = 'district';
+        value = district;
+    }else {
+        return;
+    }
+    fetch(`${window.location.origin}/exams/schools/${url_maker}/${value}`)
+        .then(response => response.json())
+        .then(data => {
+            let select_element = document.getElementById(`${ block ? 'school' : 'block' }`);
+            while (select_element.hasChildNodes()) {  
+                select_element.removeChild(select_element.firstChild);
+            }
+            let opt = document.createElement('option');
+            opt.value = '';
+            opt.innerHTML = `SELECT ${ block ? 'SCHOOL' : 'BLOCK' }`;
+            select_element.appendChild(opt);
+            data = data[`${ block ? 'schools' : 'blocks' }`]
+            data.forEach((sch) => {
+                opt = document.createElement('option');
+                opt.value = sch.id;
+                opt.innerHTML = sch.school_name || sch.block_name;
+                select_element.appendChild(opt);
+            })            
+        })
+}
 
 if($('#class')[0].value && !$('#subject')[0].value) {
     getSubjects($('#class')[0]);

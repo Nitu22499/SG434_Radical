@@ -9,7 +9,6 @@ from .validators import validate_no_future_date
 
 class StudentAttendance(models.Model):
     """model for individual student attendance
-
     This model generate student attendance record which is unique for
     each (date, subject, class, section, school). Due to the nature of
     this implementation there is no way to distinguish two separate
@@ -22,7 +21,7 @@ class StudentAttendance(models.Model):
                                                   help_text='section/ division of the students')
     student_attendance_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name=_('school'))
     student_attendance_student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True,
-                                                   verbose_name=_('Student'))
+                                                   verbose_name=_('Student'), related_name='student_attendance')
     student_attendance_is_present = models.BooleanField(_('is present'), default=False)
 
     class Meta:
@@ -69,7 +68,6 @@ def get_student_attendance_dates(start_date, end_date, subject_id, section, scho
 
 class EmployeeAttendance(models.Model):
     """model for individual employee attendance
-
     This model generate employee attendance record which is unique for
     each (date, subject, class, section, school). Due to the nature of
     this implementation there is no way to distinguish two separate

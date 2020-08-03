@@ -10,7 +10,7 @@
 
       
             <div
-              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 d-flex justify-content-between align-items-center">
           
               
           
@@ -22,64 +22,67 @@
          
          
             <div class="px-4">
-        <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th colspan="2">Boys</th>
-                    <th colspan="2">Girls</th>
-                    <th colspan="2">Total</th>
-                </tr>
-                <tr>
-                    <th>Desciption</th>
-                    <th>Total</th>
-                    <th>Functional</th>
-                    <th>Total</th>
-                    <th>Functional</th>
-                    <th>Total</th>
-                    <th>Functional</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>No. of toilets seats available excluding CWSN friendly toilets</b></td>
-                    <td>{{object.st_boys_total_cwsn}}</td>
-                    <td>{{object.st_boys_func_cwsn}}</td>
-                    <td>{{object.st_girls_total_cwsn}}</td>
-                    <td>{{object.st_girls_func_cwsn}}</td>
-                    <td>{{object.st_total_cwsn}}</td>
-                    <td>{{object.st_func_cwsn}}</td>
-                </tr>
-                <tr>
-                    <td><b>No. of CWSN friendly toilet seats</b></td>
-                    <td>{{object.st_boys_total_seats}}</td>
-                    <td>{{object.st_boys_func_seats}}</td>
-                    <td>{{object.st_girls_total_seats}}</td>
-                    <td>{{object.st_girls_func_seats}}</td>
-                    <td>{{object.st_total_seats}}</td>
-                    <td>{{object.st_func_seats}}</td>
-                </tr>
-                <tr>
-                    <td><b>Total number of toilet seats including CWSN friendly toilets</b></td>
-                    <td>{{object.st_boys_total_cwsn_seats}}</td>
-                    <td>{{object.st_boys_func_cwsn_seats}}</td>
-                    <td>{{object.st_girls_total_cwsn_seats}}</td>
-                    <td>{{object.st_girls_func_cwsn_seats}}</td>
-                    <td>{{object.st_total_cwsn_seats}}</td>
-                    <td>{{object.st_func_cwsn_seats}}</td>
-                </tr>
-                <tr>
-                    <td><b>Total number of Urinals available</b></td>
-                    <td>{{object.st_boys_total_urinals}}</td>
-                    <td>{{object.st_boys_func_urinals}}</td>
-                    <td>{{object.st_girls_total_urinals}}</td>
-                    <td>{{object.st_girls_func_urinals}}</td>
-                    <td>{{object.st_total_urinals}}</td>
-                    <td>{{object.st_func_urinals}}</td>
-                </tr>
-            </tbody>
-            
-        </table>
+                <div class="table-responsive">
+                    <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th colspan="2">Boys</th>
+                                <th colspan="2">Girls</th>
+                                <th colspan="2">Total</th>
+                            </tr>
+                            <tr>
+                                <th>Desciption</th>
+                                <th>Total</th>
+                                <th>Functional</th>
+                                <th>Total</th>
+                                <th>Functional</th>
+                                <th>Total</th>
+                                <th>Functional</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>No. of toilets seats available excluding CWSN friendly toilets</b></td>
+                                <td>{{object.st_boys_total_cwsn}}</td>
+                                <td>{{object.st_boys_func_cwsn}}</td>
+                                <td>{{object.st_girls_total_cwsn}}</td>
+                                <td>{{object.st_girls_func_cwsn}}</td>
+                                <td>{{object.st_total_cwsn}}</td>
+                                <td>{{object.st_func_cwsn}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>No. of CWSN friendly toilet seats</b></td>
+                                <td>{{object.st_boys_total_seats}}</td>
+                                <td>{{object.st_boys_func_seats}}</td>
+                                <td>{{object.st_girls_total_seats}}</td>
+                                <td>{{object.st_girls_func_seats}}</td>
+                                <td>{{object.st_total_seats}}</td>
+                                <td>{{object.st_func_seats}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total number of toilet seats including CWSN friendly toilets</b></td>
+                                <td>{{object.st_boys_total_cwsn_seats}}</td>
+                                <td>{{object.st_boys_func_cwsn_seats}}</td>
+                                <td>{{object.st_girls_total_cwsn_seats}}</td>
+                                <td>{{object.st_girls_func_cwsn_seats}}</td>
+                                <td>{{object.st_total_cwsn_seats}}</td>
+                                <td>{{object.st_func_cwsn_seats}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total number of Urinals available</b></td>
+                                <td>{{object.st_boys_total_urinals}}</td>
+                                <td>{{object.st_boys_func_urinals}}</td>
+                                <td>{{object.st_girls_total_urinals}}</td>
+                                <td>{{object.st_girls_func_urinals}}</td>
+                                <td>{{object.st_total_urinals}}</td>
+                                <td>{{object.st_func_urinals}}</td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+        
 
 
 

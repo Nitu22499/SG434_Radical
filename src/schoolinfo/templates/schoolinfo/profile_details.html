@@ -10,7 +10,7 @@
 
       
             <div
-              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2  d-flex justify-content-between align-items-center">
           
               
           
@@ -22,130 +22,133 @@
          
          
             <div class="px-4">
-        <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
-        <tbody>
-        <tr>
-            <td><b>School Name:</b></td>
-            <td>{{object.sp_school_name}}</td>
-            <td><b>Location:</b></td>
-            <td>{{object.sp_school_located}}</td>
-        </tr>
-        <tr>
-            <td><b>City:</b></td>
-            <td>{{object.sp_city_name}}</td>
-            <td><b>Municipality:</b></td>
-            <td>{{object.sp_municipality}}</td>>
-        </tr>
-        <tr>
-            <td><b>Email:</b></td>
-            <td>{{object.sp_school_email}}</td>
-            <td><b>Website:</b></td>
-            <td>{{object.sp_school_website}}</td>>
-        </tr>
-        <tr>
-            <td><b>Year of Establishment:</b></td>
-            <td>{{object.sp_establishment_year}}</td>
-            <td><b>Management:</b></td>
-            <td>{{object.sp_management_code}}</td>>
-        </tr>
-        <tr>
-            {% if object.sp_school_located == "Rural" %}
-                <td><b>Village Name:</b></td>
-            {% else %}
-                <td><b>Ward Number:</b></td>
-            {% endif %}
-            <td>{{object.sp_village_ward }}</td>
-            {% if object.sp_school_located == "Rural" %}
-                <td><b>Habitation Name:</b></td>
-            {% else %}
-                <td><b>Mohalla:</b></td>
-            {% endif %}
-            <td>{{object.sp_habitation_mohalla}}</td>
-        </tr>
-        <tr>
-            <td><b>PinCode:</b></td>
-            <td>{{object.sp_pincode}}</td>
-            {% if object.sp_school_located == "Rural" %}
-                <td><b>Gram Panchayat:</b></td>
-                <td>{{object.sp_gram_panchayat}}</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <td><b>School Category:</b></td>
-            <td>{{object.sp_school_category}}</td>
-            <td><b>School Type:</b></td>
-            <td>{{object.sp_school_type}}</td>
-        </tr>
-        <tr>
-            <td><b>Class From:</b></td>
-            <td>{{object.sp_lowest_class}}</td>
-            <td><b>Class To:</b></td>
-            <td>{{object.sp_highest_class}}</td>
-        </tr>
-        <tr>
-            <td><b>Shift School:</b></td>
-            <td>{{object.sp_is_shift}}</td>
-            <td><b>Special School for CWSN:</b></td>
-            <td>{{object.sp_is_cwsn}}</td>
-            
-        </tr>
-        <tr>
-            <td><b>Cluster Resource Center(CRC):</b></td>
-            <td>{{object.sp_crc}}</td>
-            <td><b>Community Development(CD)Block/Mandal/Taluka:</b></td>
-            <td>{{object.sp_cd}}</td>
-        </tr>
-        <tr>
-            <td><b>Assembly Constituency:</b></td>
-            <td>{{object.sp_assembly}}</td>
-            <td><b>Educational Block/Mandal/Taluka:</b></td>
-            <td>{{object.sp_ed}}</td>
-        </tr>
-        <tr>
-            <td><b>Parliamentary Constituency:</b></td>
-            <td>{{object.sp_parliamentary}}</td>
-            <td><b>Municipality:</b></td>
-            <td>{{object.sp_municipality}}</td>
-        </tr>
-        <tr>
-            <td><b>Residential School:</b></td>
-            <td>{{object.sp_is_residential}}</td>
-            {% if object.sp_is_residential %}
-            <td><b>Residential School Type:</b></td>
-            <td>{{object.sp_residential_type}}</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <td><b>Minority School:</b></td>
-            <td>{{object.sp_minority}}</td>
-            {% if object.sp_minority %}
-            <td><b>Minority Community:</b></td>
-            <td>{{object.sp_minority_type}}</td>
-            {% endif %}
-        </tr>
-        <tr>
-            <td colspan="2"><b>Medium of instruction(s):</b></td>
-            <td colspan="3">{{object.sp_medium_1}}, {{object.sp_medium_2}}, {{object.sp_medium_3}}, {{object.sp_medium_4}}</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>Language(s) taught as a subject:</b></td>
-            <td colspan="3">{{object.sp_language_1}}, {{object.sp_language_2}}, {{object.sp_language_3}}</td>
-        </tr>
-        <tr>
-            <td colspan="3"><b>Does the school offer any pre-vocational course(s) at the Upper-Primary stage? :</b></td>
-            <td>{{object.sp_pre_vocational_course}}</td>
-        </tr>
-        <tr>
-            <td colspan="3"><b>Does the school provide educational and vocational guidance/counseling to students? :</b></td>
-            <td>{{object.sp_counseling}}</td>
-        </tr>
-        <tr>
-            <td colspan="2"><b>School approachable by all-weather road : </b></td>
-            <td>{{object.sp_all_weather_road}}</td>
-        </tr>
-    </tbody>
-    </table>
-
+                <div class="table-responsive">
+                    <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
+                        <tbody>
+                        <tr>
+                            <td><b>School Name:</b></td>
+                            <td>{{object.sp_school_name}}</td>
+                            <td><b>Location:</b></td>
+                            <td>{{object.sp_school_located}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>City:</b></td>
+                            <td>{{object.sp_city_name}}</td>
+                            <td><b>Municipality:</b></td>
+                            <td>{{object.sp_municipality}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Email:</b></td>
+                            <td>{{object.sp_school_email}}</td>
+                            <td><b>Website:</b></td>
+                            <td>{{object.sp_school_website}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Year of Establishment:</b></td>
+                            <td>{{object.sp_establishment_year}}</td>
+                            <td><b>Management:</b></td>
+                            <td>{{object.sp_management_code}}</td>
+                        </tr>
+                        <tr>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Village Name:</b></td>
+                            {% else %}
+                                <td><b>Ward Number:</b></td>
+                            {% endif %}
+                            <td>{{object.sp_village_ward }}</td>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Habitation Name:</b></td>
+                            {% else %}
+                                <td><b>Mohalla:</b></td>
+                            {% endif %}
+                            <td>{{object.sp_habitation_mohalla}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>PinCode:</b></td>
+                            <td>{{object.sp_pincode}}</td>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Gram Panchayat:</b></td>
+                                <td>{{object.sp_gram_panchayat}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td><b>School Category:</b></td>
+                            <td>{{object.sp_school_category}}</td>
+                            <td><b>School Type:</b></td>
+                            <td>{{object.sp_school_type}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Class From:</b></td>
+                            <td>{{object.sp_lowest_class}}</td>
+                            <td><b>Class To:</b></td>
+                            <td>{{object.sp_highest_class}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Shift School:</b></td>
+                            <td>{{object.sp_is_shift}}</td>
+                            <td><b>Special School for CWSN:</b></td>
+                            <td>{{object.sp_is_cwsn}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>Cluster Resource Center(CRC):</b></td>
+                            <td>{{object.sp_crc}}</td>
+                            <td><b>Community Development(CD)Block/Mandal/Taluka:</b></td>
+                            <td>{{object.sp_cd}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Assembly Constituency:</b></td>
+                            <td>{{object.sp_assembly}}</td>
+                            <td><b>Educational Block/Mandal/Taluka:</b></td>
+                            <td>{{object.sp_ed}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Parliamentary Constituency:</b></td>
+                            <td>{{object.sp_parliamentary}}</td>
+                            <td><b>Municipality:</b></td>
+                            <td>{{object.sp_municipality}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Residential School:</b></td>
+                            <td>{{object.sp_is_residential}}</td>
+                            {% if object.sp_is_residential %}
+                            <td><b>Residential School Type:</b></td>
+                            <td>{{object.sp_residential_type}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td><b>Minority School:</b></td>
+                            <td>{{object.sp_minority}}</td>
+                            {% if object.sp_minority %}
+                            <td><b>Minority Community:</b></td>
+                            <td>{{object.sp_minority_type}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Medium of instruction(s):</b></td>
+                            <td colspan="3">{{object.sp_medium_1}}, {{object.sp_medium_2}}, {{object.sp_medium_3}}, {{object.sp_medium_4}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Language(s) taught as a subject:</b></td>
+                            <td colspan="3">{{object.sp_language_1}}, {{object.sp_language_2}}, {{object.sp_language_3}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>Does the school offer any pre-vocational course(s) at the Upper-Primary stage? :</b></td>
+                            <td>{{object.sp_pre_vocational_course}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>Does the school provide educational and vocational guidance/counseling to students? :</b></td>
+                            <td>{{object.sp_counseling}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>School approachable by all-weather road : </b></td>
+                            <td>{{object.sp_all_weather_road}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                
+                </div>
+       
                 <!--Affiliation Board of school-->
             <div>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAffiliation"
@@ -155,24 +158,26 @@
             </div>
             &nbsp;
             <div class="collapse" id="collapseAffiliation">
-                <table class="table" cellspacing="0" width="100%">
-                    <thead>
+                <div class="table-responsive">
+                    <table class="table" cellspacing="0" width="100%">
+                        <thead>
+                            
+                        </thead>
                         
-                    </thead>
-                    
+                        <tr>
+                        <td><b>(a)For Secondary Sections:</b></td>
+                        <td>{{object.sp_sec_affi_board}}</td>
+                        <td><b>Affiliation Number:</b></td>
+                        <td>{{object.sp_sec_affi_board_number}}</td>
+                    </tr>
                     <tr>
-                    <td><b>(a)For Secondary Sections:</b></td>
-                    <td>{{object.sp_sec_affi_board}}</td>
-                    <td><b>Affiliation Number:</b></td>
-                    <td>{{object.sp_sec_affi_board_number}}</td>
-                </tr>
-                <tr>
-                    <td><b>(b)For Higher Secondary Sections:</b></td>
-                    <td>{{object.sp_high_sec_affi_board}}</td>
-                    <td><b>Affiliation Number:</b></td>
-                    <td>{{object.sp_high_sec_affi_board_number}}</td>
-                </tr>
-                </table>
+                        <td><b>(b)For Higher Secondary Sections:</b></td>
+                        <td>{{object.sp_high_sec_affi_board}}</td>
+                        <td><b>Affiliation Number:</b></td>
+                        <td>{{object.sp_high_sec_affi_board_number}}</td>
+                    </tr>
+                    </table>
+                </div>
             </div>
             
             <!-- Sections By Class-->
@@ -184,58 +189,61 @@
             </div>
             &nbsp;
             <div class="collapse" id="collapseSections">
-                <table class="table table-bordered" cellspacing="0" width="100%">
-                    <thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Classes</th>
+                                <th>Number of Sections</th>
+                                <th>Classes</th>
+                                <th>Number of Sections</th>
+                            </tr>
+                        </thead>
+                    <tbody>
                         <tr>
-                            <th>Classes</th>
-                            <th>Number of Sections</th>
-                            <th>Classes</th>
-                            <th>Number of Sections</th>
+                            <td><b>Pre-Primary</b></td>
+                            <td>{{object.sp_pre_pri}}</td>
+                            <td><b>VII</b></td>
+                            <td>{{object.sp_seven}}</td>
                         </tr>
-                    </thead>
-                <tbody>
-                    <tr>
-                        <td><b>Pre-Primary</b></td>
-                        <td>{{object.sp_pre_pri}}</td>
-                        <td><b>VII</b></td>
-                        <td>{{object.sp_seven}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>I</b></td>
-                        <td>{{object.sp_one}}</td>
-                        <td><b>VIII</b></td>
-                        <td>{{object.sp_eight}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>II</b></td>
-                        <td>{{object.sp_two}}</td>
-                        <td><b>IX</b></td>
-                        <td>{{object.sp_nine}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>III</b></td>
-                        <td>{{object.sp_three}}</td>
-                        <td><b>X</b></td>
-                        <td>{{object.sp_ten}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>IV</b></td>
-                        <td>{{object.sp_four}}</td>
-                        <td><b>XI</b></td>
-                        <td>{{object.sp_eleven}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>V</b></td>
-                        <td>{{object.sp_five}}</td>
-                        <td><b>XII</b></td>
-                        <td>{{object.sp_twelve}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>VI</b></td>
-                        <td>{{object.six}}</td>
-                    </tr>
-                </tbody>  
-                </table>
+                        <tr>
+                            <td><b>I</b></td>
+                            <td>{{object.sp_one}}</td>
+                            <td><b>VIII</b></td>
+                            <td>{{object.sp_eight}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>II</b></td>
+                            <td>{{object.sp_two}}</td>
+                            <td><b>IX</b></td>
+                            <td>{{object.sp_nine}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>III</b></td>
+                            <td>{{object.sp_three}}</td>
+                            <td><b>X</b></td>
+                            <td>{{object.sp_ten}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>IV</b></td>
+                            <td>{{object.sp_four}}</td>
+                            <td><b>XI</b></td>
+                            <td>{{object.sp_eleven}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>V</b></td>
+                            <td>{{object.sp_five}}</td>
+                            <td><b>XII</b></td>
+                            <td>{{object.sp_twelve}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>VI</b></td>
+                            <td>{{object.six}}</td>
+                        </tr>
+                    </tbody>  
+                    </table>
+                </div>
+                
             </div>
                
                 <!--year of recognition-->

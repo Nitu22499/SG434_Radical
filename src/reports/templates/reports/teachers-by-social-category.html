@@ -12,49 +12,52 @@
 
 <!-- Table -->
   <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
-    <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
-      <thead>
-          <tr class="table-primary border-primary">
-            <th scope="col">Sr. No.</th>
-            <th scope="col">Block</th>
-            <th scope="col">OPEN</th>
-            <th scope="col">SC</th>
-            <th scope="col">ST</th>
-            <th scope="col">OBC</th>
-            <th scope="col">ORC</th>
-            <th scope="col">Others</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in table_data %}
-          <tr>
-            <td scope="row">{{ forloop.counter }}</td>
-            <td>{{row.block_name}}</td>
-            <td>{{row.count_OPEN}}</td>
-            <td>{{row.count_SC}}</td>
-            <td>{{row.count_ST}}</td>
-            <td>{{row.count_OBC}}</td>
-            <td>{{row.count_ORC}}</td>
-            <td>{{row.count_OTHERS}}</td>
-            <td>{{row.total_schools}}</td>
-          </tr>
-          {% endfor %}
-          {% if total_tally %}
-          <tr style="background-color:LightGray;">
-            <td scope="row"></td>
-            <td>{{total_tally.block_name}}</td>
-            <td>{{total_tally.count_OPEN}}</td>
-            <td>{{total_tally.count_SC}}</td>
-            <td>{{total_tally.count_ST}}</td>
-            <td>{{total_tally.count_OBC}}</td>
-            <td>{{total_tally.count_ORC}}</td>
-            <td>{{total_tally.count_OTHERS}}</td>
-            <td>{{total_tally.total_schools}}</td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>      
+    <div class="table-responsive">
+      <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
+        <thead>
+            <tr class="table-primary border-primary">
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Block</th>
+              <th scope="col">OPEN</th>
+              <th scope="col">SC</th>
+              <th scope="col">ST</th>
+              <th scope="col">OBC</th>
+              <th scope="col">ORC</th>
+              <th scope="col">Others</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table_data %}
+            <tr>
+              <td scope="row">{{ forloop.counter }}</td>
+              <td>{{row.block_name}}</td>
+              <td>{{row.count_OPEN}}</td>
+              <td>{{row.count_SC}}</td>
+              <td>{{row.count_ST}}</td>
+              <td>{{row.count_OBC}}</td>
+              <td>{{row.count_ORC}}</td>
+              <td>{{row.count_OTHERS}}</td>
+              <td>{{row.total_schools}}</td>
+            </tr>
+            {% endfor %}
+            {% if total_tally %}
+            <tr style="background-color:LightGray;">
+              <td scope="row"></td>
+              <td>{{total_tally.block_name}}</td>
+              <td>{{total_tally.count_OPEN}}</td>
+              <td>{{total_tally.count_SC}}</td>
+              <td>{{total_tally.count_ST}}</td>
+              <td>{{total_tally.count_OBC}}</td>
+              <td>{{total_tally.count_ORC}}</td>
+              <td>{{total_tally.count_OTHERS}}</td>
+              <td>{{total_tally.total_schools}}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>  
+    </div>
+        
   </div>
 
   <!-- Canvas for redering chart -->

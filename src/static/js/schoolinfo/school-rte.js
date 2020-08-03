@@ -47,7 +47,8 @@ $('#convert-table').click( function() {
     console.log($('#year').text())
     ac_year=$('#year').text()
     response = JSON.stringify(response).replace(/-/g, '')
-       
+   
+    
     fetch(`${window.location.origin}/schoolinfo/school-rte/${ac_year}/save`, {
         method: 'POST',
         headers: {

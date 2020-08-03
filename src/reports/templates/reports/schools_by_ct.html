@@ -8,7 +8,7 @@
 {% block body %}
 
 <!-- Form -->
-{% include 'reports/form_template.html' with report_title='teachers-by-school-category' %}
+{% include 'reports/form_template.html' with report_title='schools-by-ct' %}
 
 <!-- Table -->
   <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
@@ -18,63 +18,51 @@
             <tr class="table-primary border-primary">
               <th scope="col">Sr. No.</th>
               <th scope="col">Block</th>
-              {% if cat_field_name %}
-                <th scope="col">{{ cat_field_name }}</th>  
-              {% else %}
-                <th scope="col">Primary only with grades 1 to 5</th>
-                <th scope="col">Primary only with grades 1 to 8</th>
-                <th scope="col">Higher Secondary with grades 1 to 12</th>
-                <th scope="col">Upper Primary only with grades 6 to 8</th>
-                <th scope="col">Higher Secondary with grades 6 to 12</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 1 to 10</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 6 to 10</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 9 and 10</th>
-                <th scope="col">Higher Secondary with grades 9 to 12</th>
-                <th scope="col">Hr.Sec. /Jr.College only with grades 11 and 12</th>
-                <th scope="col">Total</th>
-              {% endif %}
+              <th scope="col">Primary only with grades 1 to 5</th>
+              <th scope="col">Primary only with grades 1 to 8</th>
+              <th scope="col">Higher Secondary with grades 1 to 12</th>
+              <th scope="col">Upper Primary only with grades 6 to 8</th>
+              <th scope="col">Higher Secondary with grades 6 to 12</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 1 to 10</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 6 to 10</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 9 and 10</th>
+              <th scope="col">Higher Secondary with grades 9 to 12</th>
+              <th scope="col">Hr.Sec. /Jr.College only with grades 11 and 12</th>
+              <th scope="col">Total</th>
             </tr>
           </thead>
           <tbody>
             {% for row in table_data %}
-            {% if cat_field_name %}
             <tr>
               <td scope="row">{{ forloop.counter }}</td>
               <td>{{row.block_name}}</td>
-              <td>{{row.count_cat_field}}</td>
-            </tr>
-            {% else %}
-            <tr>
-              <td scope="row">{{ forloop.counter }}</td>
-              <td>{{row.block_name}}</td>
-              <td>{{row.count_of_primary_one}}</td>
-              <td>{{row.count_of_primary_two}}</td>
-              <td>{{row.count_of_higher_sec_one}}</td>
-              <td>{{row.count_of_upper_primary}}</td>
-              <td>{{row.count_of_higher_sec_two}}</td>
-              <td>{{row.count_of_sr_secondary_one}}</td>
-              <td>{{row.count_of_sr_secondary_two}}</td>
-              <td>{{row.count_of_sr_secondary_three}}</td>
-              <td>{{row.count_of_higher_sec_three}}</td>
-              <td>{{row.count_of_college}}</td>
+              <td>{{row.pri15_schools}}</td>
+              <td>{{row.pri18_schools}}</td>
+              <td>{{row.high_sec112_schools}}</td>
+              <td>{{row.upper_pri68_schools}}</td>
+              <td>{{row.high_sec612_schools}}</td>
+              <td>{{row.sec110_schools}}</td>
+              <td>{{row.sec610_schools}}</td>
+              <td>{{row.sec910_schools}}</td>
+              <td>{{row.high_sec912_schools}}</td>
+              <td>{{row.hr1112_schools}}</td>
               <td>{{row.total_schools}}</td>
             </tr>
-            {% endif %}
             {% endfor %}
             {% if total_tally %}
             <tr style="background-color:LightGray;">
               <td scope="row"></td>
               <td>{{total_tally.block_name}}</td>
-              <td>{{total_tally.count_of_primary_one}}</td>
-              <td>{{total_tally.count_of_primary_two}}</td>
-              <td>{{total_tally.count_of_higher_sec_one}}</td>
-              <td>{{total_tally.count_of_upper_primary}}</td>
-              <td>{{total_tally.count_of_higher_sec_two}}</td>
-              <td>{{total_tally.count_of_sr_secondary_one}}</td>
-              <td>{{total_tally.count_of_sr_secondary_two}}</td>
-              <td>{{total_tally.count_of_sr_secondary_three}}</td>
-              <td>{{total_tally.count_of_higher_sec_three}}</td>
-              <td>{{total_tally.count_of_college}}</td>
+              <td>{{total_tally.pri15_schools}}</td>
+              <td>{{total_tally.pri18_schools}}</td>
+              <td>{{total_tally.high_sec112_schools}}</td>
+              <td>{{total_tally.upper_pri68_schools}}</td>
+              <td>{{total_tally.high_sec612_schools}}</td>
+              <td>{{total_tally.sec110_schools}}</td>
+              <td>{{total_tally.sec610_schools}}</td>
+              <td>{{total_tally.sec910_schools}}</td>
+              <td>{{total_tally.high_sec912_schools}}</td>
+              <td>{{total_tally.hr1112_schools}}</td>
               <td>{{total_tally.total_schools}}</td>
             </tr>
             {% endif %}
@@ -107,23 +95,11 @@ var myChart = new Chart(ctx, {
         "{{ row.block_name }}",
       {% endfor %}
     ],
-    datasets: [
-      {% if cat_field_name %}
-      {
-        label: '{{ cat_field_name }}',
-        data: [
-          {% for row in table_data %}
-            {{ row.count_cat_field }},
-          {% endfor %}
-        ],
-        maxBarThickness: 30,
-      }
-      {% else %}
-      {
+    datasets: [{
         label: 'Primary only with grades 1 to 5',
         data: [
           {% for row in table_data %}
-            {{ row.count_of_primary_one }},
+            {{ row.pri15_schools }},
           {% endfor %}
         ],
         maxBarThickness: 30,
@@ -132,7 +108,7 @@ var myChart = new Chart(ctx, {
         label: 'Primary only with grades 1 to 8',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_primary_two }},
+          {{ row.pri18_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -141,7 +117,7 @@ var myChart = new Chart(ctx, {
         label: 'Higher Secondary with grades 1 to 12',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_higher_sec_one }},
+          {{ row.high_sec112_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -150,7 +126,7 @@ var myChart = new Chart(ctx, {
         label: 'Upper Primary only with grades 6 to 8',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_upper_primary }},
+          {{ row.upper_pri68_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -159,7 +135,7 @@ var myChart = new Chart(ctx, {
         label: 'Higher Secondary with grades 6 to 12',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_higher_sec_two }},
+          {{ row.high_sec612_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -168,7 +144,7 @@ var myChart = new Chart(ctx, {
         label: 'Secondary/Sr.Sec. with grades 1 to 10',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_sr_secondary_one }},
+          {{ row.sec110_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -177,16 +153,16 @@ var myChart = new Chart(ctx, {
         label: 'Secondary/Sr.Sec. with grades 6 to 10',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_sr_secondary_two }},
+          {{ row.sec610_school }},
         {% endfor %}
         ],
         maxBarThickness: 30,
       },
       {
-        label: 'Secondary/Sr.Sec. with grades 9 and 10',
+        label: 'Secondary/Sr.Sec. with grades 6 and 10',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_sr_secondary_three }},
+          {{ row.sec910_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -195,7 +171,7 @@ var myChart = new Chart(ctx, {
         label: 'Higher Secondary with grades 9 to 12',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_higher_sec_three }},
+          {{ row.high_sec912_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
@@ -204,12 +180,11 @@ var myChart = new Chart(ctx, {
         label: 'Hr.Sec. /Jr.College only with grades 11 and 12',
         data: [
         {% for row in table_data %}
-          {{ row.count_of_college }},
+          {{ row.hr1112_schools }},
         {% endfor %}
         ],
         maxBarThickness: 30,
       }
-      {% endif %}
     ]
   },
   options: {
@@ -235,8 +210,8 @@ var myChart = new Chart(ctx, {
     }
   }
 });
-</script>
-
+</script> 
+ 
 
 
 
