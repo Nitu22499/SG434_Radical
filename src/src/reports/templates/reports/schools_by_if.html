@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Form -->
+{% include 'reports/form_template.html' with report_title='schools-by-if' %}
+
+<!-- Table -->
+  <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
+    <div class="table-responsive">
+      <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
+        <thead>
+            <tr class="table-primary border-primary">
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Block</th>
+              <th scope="col">Toilets</th>
+              <th scope="col">Drinking Water</th>
+              <th scope="col">Electricity</th>
+              <th scope="col">Solar Panel</th>
+              <th scope="col">Library</th>
+              <th scope="col">Playground</th>
+              <th scope="col">Ramp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table_data %}
+            <tr>
+              <td scope="row">{{ forloop.counter }}</td>
+              <td>{{row.block_name}}</td>
+              <td>{{row.toilets_schools}}</td>
+              <td>{{row.water_schools}}</td>
+              <td>{{row.elec_schools}}</td>
+              <td>{{row.solar_schools}}</td>
+              <td>{{row.lib_schools}}</td>
+              <td>{{row.play_schools}}</td>
+              <td>{{row.ramp_schools}}</td>
+            </tr>
+            {% endfor %}
+            {% if total_tally %}
+            <tr style="background-color:LightGray;">
+              <td scope="row"></td>
+              <td>{{total_tally.block_name}}</td>
+              <td>{{total_tally.toilets_schools}}</td>
+              <td>{{total_tally.water_schools}}</td>
+              <td>{{total_tally.elec_schools}}</td>
+              <td>{{total_tally.solar_schools}}</td>
+              <td>{{total_tally.lib_schools}}</td>
+              <td>{{total_tally.play_schools}}</td>
+              <td>{{total_tally.ramp_schools}}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>  
+    </div>
+        
+  </div>
+
+  <!-- Canvas for redering chart -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mx-auto">
+        <canvas id="myChart" width="1000" height="400"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+  <script src="{% static 'js/chartjs-plugin-colorschemes.min.js' %}"></script>
+  <script src="{% static 'js/table-to-csv.js' %}"></script>
+<!-- Chart code -->
+<script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [
+      {% for row in table_data %}
+        "{{ row.block_name }}",
+      {% endfor %}
+    ],
+    datasets: [
+      {
+        label: 'Toilets',
+        data: [
+          {% for row in table_data %}
+            {{ row.toilets_schools }},
+          {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Drinking Water',
+        data: [
+        {% for row in table_data %}
+          {{ row.water_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Electricity',
+        data: [
+        {% for row in table_data %}
+          {{ row.elec_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Library',
+        data: [
+        {% for row in table_data %}
+          {{ row.lib_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Solar Panel',
+        data: [
+        {% for row in table_data %}
+          {{ row.solar_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Playground',
+        data: [
+        {% for row in table_data %}
+          {{ row.play_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Ramp',
+        data: [
+        {% for row in table_data %}
+          {{ row.ramp_school }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'School running in other Department Building',
+        data: [
+        {% for row in table_data %}
+          {{ row.other_schools }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      }
+    ]
+  },
+  options: {
+    plugins: {
+    colorschemes: {
+      scheme: 'tableau.Tableau10'
+    }},
+    scales: {
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) { if (Number.isInteger(value)) { return value; } },
+          stepsize:1
+        }
+      }],
+      xAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+</script> 
+ 
+
+
+
+{% endblock %}

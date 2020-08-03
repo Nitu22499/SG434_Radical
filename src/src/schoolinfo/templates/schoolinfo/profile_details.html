@@ -1,0 +1,460 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Basic Details
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        
+        <div>
+            <a href="#" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+        <br>        
+        <h3>Basic Details</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive table-striped">
+                <tbody>
+                        <tr>
+                            <td><b>School Name:</b></td>
+                            <td>{{object.sp_school_name}}</td>
+                            <td><b>Location:</b></td>
+                            <td>{{object.sp_school_located}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>City:</b></td>
+                            <td>{{object.sp_city_name}}</td>
+                            <td><b>Municipality:</b></td>
+                            <td>{{object.sp_municipality}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Email:</b></td>
+                            <td>{{object.sp_school_email}}</td>
+                            <td><b>Website:</b></td>
+                            <td>{{object.sp_school_website}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Year of Establishment:</b></td>
+                            <td>{{object.sp_establishment_year}}</td>
+                            <td><b>Management:</b></td>
+                            <td>{{object.sp_management_code}}</td>
+                        </tr>
+                        <tr>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Village Name:</b></td>
+                            {% else %}
+                                <td><b>Ward Number:</b></td>
+                            {% endif %}
+                            <td>{{object.sp_village_ward }}</td>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Habitation Name:</b></td>
+                            {% else %}
+                                <td><b>Mohalla:</b></td>
+                            {% endif %}
+                            <td>{{object.sp_habitation_mohalla}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>PinCode:</b></td>
+                            <td>{{object.sp_pincode}}</td>
+                            {% if object.sp_school_located == "Rural" %}
+                                <td><b>Gram Panchayat:</b></td>
+                                <td>{{object.sp_gram_panchayat}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td><b>School Category:</b></td>
+                            <td>{{object.sp_school_category}}</td>
+                            <td><b>School Type:</b></td>
+                            <td>{{object.sp_school_type}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Class From:</b></td>
+                            <td>{{object.sp_lowest_class}}</td>
+                            <td><b>Class To:</b></td>
+                            <td>{{object.sp_highest_class}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Shift School:</b></td>
+                            <td>{{object.sp_is_shift}}</td>
+                            <td><b>Special School for CWSN:</b></td>
+                            <td>{{object.sp_is_cwsn}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>Cluster Resource Center(CRC):</b></td>
+                            <td>{{object.sp_crc}}</td>
+                            <td><b>Community Development(CD)Block/Mandal/Taluka:</b></td>
+                            <td>{{object.sp_cd}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Assembly Constituency:</b></td>
+                            <td>{{object.sp_assembly}}</td>
+                            <td><b>Educational Block/Mandal/Taluka:</b></td>
+                            <td>{{object.sp_ed}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Parliamentary Constituency:</b></td>
+                            <td>{{object.sp_parliamentary}}</td>
+                            <td><b>Municipality:</b></td>
+                            <td>{{object.sp_municipality}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Residential School:</b></td>
+                            <td>{{object.sp_is_residential}}</td>
+                            {% if object.sp_is_residential %}
+                            <td><b>Residential School Type:</b></td>
+                            <td>{{object.sp_residential_type}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td><b>Minority School:</b></td>
+                            <td>{{object.sp_minority}}</td>
+                            {% if object.sp_minority %}
+                            <td><b>Minority Community:</b></td>
+                            <td>{{object.sp_minority_type}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Medium of instruction(s):</b></td>
+                            <td colspan="3">{{object.sp_medium_1}}, {{object.sp_medium_2}}, {{object.sp_medium_3}}, {{object.sp_medium_4}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Language(s) taught as a subject:</b></td>
+                            <td colspan="3">{{object.sp_language_1}}, {{object.sp_language_2}}, {{object.sp_language_3}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>Does the school offer any pre-vocational course(s) at the Upper-Primary stage? :</b></td>
+                            <td>{{object.sp_pre_vocational_course}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><b>Does the school provide educational and vocational guidance/counseling to students? :</b></td>
+                            <td>{{object.sp_counseling}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>School approachable by all-weather road : </b></td>
+                            <td>{{object.sp_all_weather_road}}</td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        
+        <br><br>
+        <!--Affiliation Board of school-->
+            <div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAffiliation"
+                aria-expanded="false" aria-controls="collapseAffiliation">
+                <b> > Affiliation Board of School: </b>
+                </button>
+            </div>
+            &nbsp;
+            <div class="collapse" id="collapseAffiliation">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)For Secondary Sections:</b></td>
+                        <td>{{object.sp_sec_affi_board}}</td>
+                        <td><b>Affiliation Number:</b></td>
+                        <td>{{object.sp_sec_affi_board_number}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(b)For Higher Secondary Sections:</b></td>
+                        <td>{{object.sp_high_sec_affi_board}}</td>
+                        <td><b>Affiliation Number:</b></td>
+                        <td>{{object.sp_high_sec_affi_board_number}}</td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Sections By Class-->
+            <div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSections"
+                aria-expanded="false" aria-controls="collapseSections">
+                <b> > Number of Sections by Class :</b>
+                </button>
+            </div>
+            &nbsp;
+            <div class="collapse" id="collapseSections">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            <tr>
+                                <th>Classes</th>
+                                <th>Number of Sections</th>
+                                <th>Classes</th>
+                                <th>Number of Sections</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Pre-Primary</b></td>
+                            <td>{{object.sp_pre_pri}}</td>
+                            <td><b>VII</b></td>
+                            <td>{{object.sp_seven}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>I</b></td>
+                            <td>{{object.sp_one}}</td>
+                            <td><b>VIII</b></td>
+                            <td>{{object.sp_eight}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>II</b></td>
+                            <td>{{object.sp_two}}</td>
+                            <td><b>IX</b></td>
+                            <td>{{object.sp_nine}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>III</b></td>
+                            <td>{{object.sp_three}}</td>
+                            <td><b>X</b></td>
+                            <td>{{object.sp_ten}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>IV</b></td>
+                            <td>{{object.sp_four}}</td>
+                            <td><b>XI</b></td>
+                            <td>{{object.sp_eleven}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>V</b></td>
+                            <td>{{object.sp_five}}</td>
+                            <td><b>XII</b></td>
+                            <td>{{object.sp_twelve}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>VI</b></td>
+                            <td>{{object.six}}</td>
+                        </tr>
+                    </tbody>  
+                    </table>
+                </div>
+                
+            </div>
+               
+                <!--year of recognition-->
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseRecognition"
+                    aria-expanded="false" aria-controls="collapseRecognition">
+                    <b> > Year of Recognition of School(Only for Govt. Aided and Private Unaided School): </b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseRecognition">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)Primary:</b></td>
+                        <td>{{object.sp_primary_year}}</td>
+                        <td><b>(b)Upper Primary</b></td>
+                        <td>{{object.upper_primary_year}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Secondary</b></td>
+                        <td>{{object.sp_secondary_year}}</td>
+                        <td><b>(d)Higher Secondary</b></td>
+                        <td>{{object.sp_higher_secondary_year}}</td>
+                    </tr>
+                    </table>
+                </div>
+               
+              
+                <!--Ugradation year-->
+              
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseUpgradation"
+                    aria-expanded="false" aria-controls="collapseUpgradation">
+                    <b> > Year of Upgradation of the School: </b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseUpgradation">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)Primary to Upper Primary:</b></td>
+                        <td>{{object.sp_pri_to_upper_pri_year}}</td>
+                        <td><b>(b)Upper Primary to Secondary:</b></td>
+                        <td>{{object.sp_upper_pri_to_sec_year}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Secondary to Higher Secondary:</b></td>
+                        <td>{{object.sp_sec_to_upper_sec_year}}</td>
+                    </tr>
+                    </table>
+                </div>
+               
+        
+
+            
+                <!--distance of the school-->
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDistance"
+                    aria-expanded="false" aria-controls="collapseDistance">
+                    <b> > Distance of the school(in km.) from the nearest Govt/Aided School: </b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseDistance">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)Primary:</b></td>
+                        <td>{{object.sp_distance_primary}}</td>
+                        <td><b>(b)Upper Primary</b></td>
+                        <td>{{object.sp_distance_upper_primary}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Secondary</b></td>
+                        <td>{{object.sp_distance_secondary}}</td>
+                        <td><b>(d)Higher Secondary</b></td>
+                        <td>{{object.sp_distance_higher_secondary}}</td>
+                    </tr>
+                    </table>
+                </div>
+               
+
+                <!--Number of instructional days-->
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseInstructional"
+                    aria-expanded="false" aria-controls="collapseInstructional">
+                    <b> > Number of Instructional days(previous academic year) :</b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseInstructional">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)Pre-Primary:</b></td>
+                        <td>{{object.sp_pre_primary_ins_days}}</td>
+                        <td><b>(d)Higher Secondary</b></td>
+                <td>{{object.sp_higher_secondary_ins_days}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(b)Primary</b></td>
+                        <td>{{object.sp_primary_ins_days}}</td>
+                        <td><b>(e)Secondary</b></td>
+                        <td>{{object.sp_secondary_ins_days}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Upper Primary</b></td>
+                        <td>{{object.sp_upper_primary_ins_days}}</td>
+                    </tr>
+                    </table>
+                </div>
+               
+
+                
+                <!--Number of hours in School-->
+                <div>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAverageHours"
+                    aria-expanded="false" aria-controls="collapseAverageHours">
+                    <b> > Average school hours for children(per day) :</b>
+                    </button>
+                </div>
+                &nbsp;
+                <div class="collapse" id="collapseAverageHours">
+                    <table class="table table-bordered table-responsive table-striped">
+                        <thead>
+                            
+                        </thead>
+                        
+                        <tr>
+                        <td><b>(a)Pre-Primary:</b></td>
+                        <td>{{object.sp_pre_primary_avg_chil_days}}</td>
+                        <td><b>(d)Higher Secondary</b></td>
+                        <td>{{object.sp_higher_secondary_avg_chil_days}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(b)Primary</b></td>
+                        <td>{{object.sp_primary_avg_chil_days}}</td>
+                        <td><b>(e)Secondary</b></td>
+                        <td>{{object.sp_secondary_avg_chil_days}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Upper Primary</b></td>
+                        <td>{{object.sp_upper_primary_avg_chil_days}}</td>
+                    </tr>
+                    </table>
+                </div>
+                
+                
+            <!--Working hours for Teacher-->
+            <div>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAverageHoursTeacher"
+                aria-expanded="false" aria-controls="collapseAverageHoursTeacher">
+                <b> > Average Working hours for Teachers(per day) :</b>
+                </button>
+            </div>
+            &nbsp;
+            <div class="collapse" id="collapseAverageHoursTeacher">
+                <table class="table table-bordered table-responsive table-striped">
+                    <thead>
+                        
+                    </thead>
+                    
+                    <tr>
+                    <td><b>(a)Pre-Primary:</b></td>
+                    <td>{{object.sp_pre_primary_avg_teach_days}}</td>
+                    <td><b>(d)Higher Secondary</b></td>
+                    <td>{{object.sp_higher_secondary_avg_teach_days}}</td>
+                </tr>
+                <tr>
+                    <td><b>(b)Primary</b></td>
+            <td>{{object.sp_primary_avg_teach_days}}</td>
+                    <td><b>(e)Secondary</b></td>
+                    <td>{{object.sp_secondary_avg_teach_days}}</td>
+                </tr>
+                <tr>
+                    <td><b>(c)Upper Primary</b></td>
+                    <td>{{object.sp_upper_primary_avg_teach_days}}</td>
+                </tr>
+                </table>
+            </div>
+        
+            
+
+
+
+
+            
+            <hr>
+            <div>
+                <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >For Government and Aided Schools</button>
+                
+                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+                
+
+                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-safety-details/{{ request.resolver_match.kwargs.pk }}';" >School Safety</button>
+
+                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-receipt-details/{{ request.resolver_match.kwargs.pk }}';" >Receipts and Expenditure </button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href=`/schoolinfo/school-rte-details/2020-2021?school={{request.resolver_match.kwargs.pk}}`;" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/2020-2021?school={{request.resolver_match.kwargs.pk}}';" >No. of Economically Weaker Section(EWS)students enrolled</button>
+
+                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-annual-details/2020-2021?school={{request.resolver_match.kwargs.pk}}';" >Annual Examination Result at Elementary Level</button>
+
+            </div>     
+                            
+            <hr>    
+    </div>
+
+{% endblock body %}

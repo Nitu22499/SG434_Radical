@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<script>
+    function myFunction() {
+        console.log("hello");
+        var x = document.getElementById("district").innerText;
+        console.log(x);
+    }
+</script>   
+
+
+<div class = "container-fluid" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary shadow-2-strong col-md-11 mx-auto">
+        <h2 class = "card-header text-center bg-primary text-white">School Records</h2>
+        <div class = "card-body">
+            <div class="container-fluid">
+                <form method="GET" onsubmit="return processForm()" id="sisForm" data-blocks-url="{% url 'misc:ajax_load_blocks' %}">
+                    <div class="row mx-auto">
+                        {% for field in form %}
+                        <div class="col-md-4">
+                            <div ><B>{{ field.label }}</B></div>
+                        {{ field }}
+                        </div>
+                        {% endfor %}
+                        <div class="col mt-auto"><button class="btn btn-primary h-100 w-100" type="submit" style="font-size: 15px">Search</button></div>
+                    </div>
+                    
+                </form>
+        </div> 
+    </div>
+</div>
+<div class = "card border border-primary shadow-2-strong  col-md-11 mx-auto" style="margin-top:20px">
+{% if school is not None %}
+ <!-- <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }} Stream-{{ currentstream }}</h2> -->
+    <div class = "card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered border-primary table-hover text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">SCHOOL ID</th>
+                        <th scope="col">SCHOOL NAME</th>                      
+                        <th scope="col">DISTRICT</th>
+                        <th scope="col">BLOCK</th>
+                        <th scope="col">CLUSTER</th>
+                        <th scope="col">LOCATION</th>
+                        <th scope="col">SCHOOL CATEGORY</th>
+                        <th scope="col">SCHOOL BOARD</th>
+                        <th scope="col">LAST SYNCED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for school in school %}
+                        <tr>
+                            <td>{{ school.sp_school_id }} </td>
+                            <td><a href = "{% url 'schoolinfo:school_profile_details' school.pk %}">{{ school.sp_school_name }}</a></td>
+                            <td>{{ school.sp_school.school_district }}</td>
+                            <td>{{ school.sp_school.school_block }}</td>
+                            <td>{{ school.sp_school.school_cluster }}</td>
+                            <td>{{ school.sp_school_located }}</td>
+                            <td>{{ school.sp_school_category }}</td>
+                            <td>{{ school.sp_school.school_board }}</td>   
+                            <td>{{ school.sp_last_synced }}</td>    
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% include 'misc/blocks_script.html' with district_field_id='id_districts_field' block_field_id='id_blocks_field' %}
+
+{% endblock %}
+
