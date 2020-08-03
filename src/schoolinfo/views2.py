@@ -258,8 +258,9 @@ def SchoolRTEView(request,ac_year):
 def SaveSchoolRTEView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
-    print(ac_year)
-
+    # print(data)
+    
+    # print(academic_year)
     for row in rows:
         try:
             class_val = SchoolRTE.objects.get(srte_school=request.user.school,academic_year=ac_year,class_name=row['class_name'])
@@ -284,7 +285,8 @@ def SaveSchoolRTEView(request,ac_year):
             # Validating and Saving the new Instance
             class_val.full_clean()
             # class_val.srte_school = request.user.school
-            class_val.save()            
+            class_val.save()
+            
         except Exception as e:
             print(e, "hello")
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
@@ -319,7 +321,8 @@ def SchoolEWSView(request,ac_year):
 def SaveSchoolEWSView(request,ac_year):
     data = json.loads(request.body)
     rows = data['table']
-    print(ac_year)
+    # print(data)
+    
     for row in rows:
         try:
         
@@ -337,6 +340,7 @@ def SaveSchoolEWSView(request,ac_year):
             class_val.full_clean()
             # class_val.sews_school = request.user.school
             class_val.save()
+           
         except Exception as e:
             print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")

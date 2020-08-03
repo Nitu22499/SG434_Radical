@@ -63,7 +63,10 @@ class EmployeeListView(ListView):
     template_name = 'employee/employee_list.html'
 
     def get_queryset(self):
-        return Employee.objects.filter(employee_school=self.request.user.school)
+        emp = Employee.objects.filter(employee_school=self.request.user.school)
+        if emp:
+            return emp
+        return None
 
 
 class EmployeeDetailView(DetailView):

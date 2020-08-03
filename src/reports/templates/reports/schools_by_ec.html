@@ -8,7 +8,7 @@
 {% block body %}
 
 <!-- Form -->
-{% include 'reports/form_template.html' with report_title='teachers-by-school-category' %}
+{% include 'reports/form_template.html' with report_title='schools-by-ec' %}
 
 <!-- Table -->
   <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
@@ -18,32 +18,21 @@
             <tr class="table-primary border-primary">
               <th scope="col">Sr. No.</th>
               <th scope="col">Block</th>
-              {% if cat_field_name %}
-                <th scope="col">{{ cat_field_name }}</th>  
-              {% else %}
-                <th scope="col">Primary only with grades 1 to 5</th>
-                <th scope="col">Primary only with grades 1 to 8</th>
-                <th scope="col">Higher Secondary with grades 1 to 12</th>
-                <th scope="col">Upper Primary only with grades 6 to 8</th>
-                <th scope="col">Higher Secondary with grades 6 to 12</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 1 to 10</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 6 to 10</th>
-                <th scope="col">Secondary/Sr.Sec. with grades 9 and 10</th>
-                <th scope="col">Higher Secondary with grades 9 to 12</th>
-                <th scope="col">Hr.Sec. /Jr.College only with grades 11 and 12</th>
-                <th scope="col">Total</th>
-              {% endif %}
+              <th scope="col">Primary only with grades 1 to 5</th>
+              <th scope="col">Primary only with grades 1 to 8</th>
+              <th scope="col">Higher Secondary with grades 1 to 12</th>
+              <th scope="col">Upper Primary only with grades 6 to 8</th>
+              <th scope="col">Higher Secondary with grades 6 to 12</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 1 to 10</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 6 to 10</th>
+              <th scope="col">Secondary/Sr.Sec. with grades 9 and 10</th>
+              <th scope="col">Higher Secondary with grades 9 to 12</th>
+              <th scope="col">Hr.Sec. /Jr.College only with grades 11 and 12</th>
+              <th scope="col">Total</th>
             </tr>
           </thead>
           <tbody>
             {% for row in table_data %}
-            {% if cat_field_name %}
-            <tr>
-              <td scope="row">{{ forloop.counter }}</td>
-              <td>{{row.block_name}}</td>
-              <td>{{row.count_cat_field}}</td>
-            </tr>
-            {% else %}
             <tr>
               <td scope="row">{{ forloop.counter }}</td>
               <td>{{row.block_name}}</td>
@@ -59,7 +48,6 @@
               <td>{{row.count_of_college}}</td>
               <td>{{row.total_schools}}</td>
             </tr>
-            {% endif %}
             {% endfor %}
             {% if total_tally %}
             <tr style="background-color:LightGray;">
@@ -71,7 +59,7 @@
               <td>{{total_tally.count_of_upper_primary}}</td>
               <td>{{total_tally.count_of_higher_sec_two}}</td>
               <td>{{total_tally.count_of_sr_secondary_one}}</td>
-              <td>{{total_tally.count_of_sr_secondary_two}}</td>
+              <td>{{total_tally.count_of_sr_secondary_tw}}</td>
               <td>{{total_tally.count_of_sr_secondary_three}}</td>
               <td>{{total_tally.count_of_higher_sec_three}}</td>
               <td>{{total_tally.count_of_college}}</td>
@@ -79,9 +67,9 @@
             </tr>
             {% endif %}
           </tbody>
-        </table>      
+        </table>  
     </div>
-    
+        
   </div>
 
   <!-- Canvas for redering chart -->
@@ -235,8 +223,8 @@ var myChart = new Chart(ctx, {
     }
   }
 });
-</script>
-
+</script> 
+ 
 
 
 

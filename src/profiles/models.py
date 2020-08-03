@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 class_choices = (('1', 'CLASS 1'), ('2', 'CLASS 2'), ('3', 'CLASS 3'), ('4', 'CLASS 4'), ('5', 'CLASS 5'), ('6', 'CLASS 6'), ('7', 'CLASS 7'), ('8', 'CLASS 8'), ('9', 'CLASS 9'), ('10', 'CLASS 10'), ('11', 'CLASS 11'), ('12', 'CLASS 12'), ('LKG', 'LKG'), ('UKG', 'UKG'))
 section_choices = (('', 'SECTION'), ('NA', 'NA'), ('A', 'SECTION A'), ('B', 'SECTION B'), ('C', 'SECTION C'), ('D', 'SECTION D'), ('E', 'SECTION E'), ('F', 'SECTION F'), )
@@ -79,6 +80,12 @@ class Student(models.Model):
     def __str__(self):
         return self.user.first_name
 
+    def get_absolute_url(self):
+        return reverse("profiles:student-info", kwargs={"stud": self.pk})
+    
+    @property
+    def full_name(self):
+        return self.user.first_name + ' ' + self.user.last_name
 
 # class Teacher(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)

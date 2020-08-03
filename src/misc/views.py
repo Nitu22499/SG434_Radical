@@ -1,7 +1,13 @@
 from django.views.generic import TemplateView
 from profiles.models import District, Block
 from django.shortcuts import render
+
 from .utilities import academic_year
+from profiles.models import Student
+from employee.models import Employee
+
+class LandingPage(TemplateView):
+    template_name = 'misc/landing-page.html'
 
 class Home(TemplateView):
     template_name = 'base.html'
@@ -19,6 +25,13 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         kwargs['academic_year'] = academic_year
+
+        if self.request.user.is_student:
+            student = Student.objects.get(user=self.request.user)
+            kwargs['student'] = student
+        if self.request.user.is_school_admin:
+            kwargs['students_count'] = Student.objects.count()
+            kwargs['employees_count'] = Employee.objects.filter(employee_school = self.request.user.school).count()
         return super().get_context_data(**kwargs)
 
 def load_blocks(request):

@@ -12,40 +12,43 @@
 
 <!-- Table -->
   <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
-    <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
-      <thead>
-          <tr class="table-primary border-primary">
-            <th scope="col">Sr. No.</th>
-            <th scope="col">Block</th>
-            <th scope="col">Boys</th>
-            <th scope="col">Girls</th>
-            <th scope="col">Co-Educational</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in table_data %}
-          <tr>
-            <td scope="row">{{ forloop.counter }}</td>
-            <td>{{row.block_name}}</td>
-            <td>{{row.boys_school}}</td>
-            <td>{{row.girls_school}}</td>
-            <td>{{row.co_educational_school}}</td>
-            <td>{{row.total_schools}}</td>
-          </tr>
-          {% endfor %}
-          {% if total_tally %}
-          <tr style="background-color:LightGray;">
-            <td scope="row"></td>
-            <td>{{total_tally.block_name}}</td>
-            <td>{{total_tally.boys_school}}</td>
-            <td>{{total_tally.girls_school}}</td>
-            <td>{{total_tally.co_educational_school}}</td>
-            <td>{{total_tally.total_schools}}</td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>      
+    <div class="table-responsive">
+      <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
+        <thead>
+            <tr class="table-primary border-primary">
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Block</th>
+              <th scope="col">Boys</th>
+              <th scope="col">Girls</th>
+              <th scope="col">Co-Educational</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table_data %}
+            <tr>
+              <td scope="row">{{ forloop.counter }}</td>
+              <td>{{row.block_name}}</td>
+              <td>{{row.boys_school}}</td>
+              <td>{{row.girls_school}}</td>
+              <td>{{row.co_educational_school}}</td>
+              <td>{{row.total_schools}}</td>
+            </tr>
+            {% endfor %}
+            {% if total_tally %}
+            <tr style="background-color:LightGray;">
+              <td scope="row"></td>
+              <td>{{total_tally.block_name}}</td>
+              <td>{{total_tally.boys_school}}</td>
+              <td>{{total_tally.girls_school}}</td>
+              <td>{{total_tally.co_educational_school}}</td>
+              <td>{{total_tally.total_schools}}</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>    
+    </div>
+      
   </div>
 
   <!-- Canvas for redering chart -->

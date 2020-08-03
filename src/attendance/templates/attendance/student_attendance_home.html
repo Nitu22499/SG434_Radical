@@ -10,7 +10,9 @@
         <br>
         <h1 class="text-center">Student Attendance</h1>
         <a href="{% url 'attendance:index' %}" class="btn"><i class="fas fa-chevron-left"></i> Return Home</a>
+        {% if request.user.is_school_admin %}
         <a class="btn" href="{% url 'attendance:student_add' %}"><i class="fas fa-plus"></i> Add</a>
+        {% endif %}
         <form id="fetchForm" method="post" data-school-url="{% url 'attendance:load_school' %}"
               data-block-url="{% url 'attendance:load_block' %}">
             {% csrf_token %}

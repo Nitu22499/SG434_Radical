@@ -10,7 +10,7 @@
 
       
             <div
-              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center">
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2 d-flex justify-content-between align-items-center">
           
               
           
@@ -22,37 +22,40 @@
          
          
             <div class="px-4">
-        <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Available</th>
-                    <th>Total Number of books</th>
-                    <th>Total Number of books from NCERT, NBT or any other Government publisher</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Library</b></td>
-                    <td>{{object.sli_lib_avai}}</td>
-                    <td>{{object.sli_lib_books}}</td>
-                    <td>{{object.sli_lib_ncert}}</td>
-                </tr>
-                <tr>
-                    <td><b>Book Bank</b></td>
-                    <td>{{object.sli_book_avai}}</td>
-                    <td>{{object.sli_book_books}}</td>
-                    <td>{{object.sli_book_ncert}}</td>
-                </tr>
-                <tr>
-                    <td><b>Reading Corner</b></td>
-                    <td>{{object.sli_reading_avai}}</td>
-                    <td>{{object.sli_reading_books}}</td>
-                    <td>{{object.sli_reading_ncert}}</td>
-                </tr>
-            </tbody>
-            
-        </table>
+                <div class="table-responsive">
+                    <table id="dt-cell-sellection" class="table table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Available</th>
+                                <th>Total Number of books</th>
+                                <th>Total Number of books from NCERT, NBT or any other Government publisher</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Library</b></td>
+                                <td>{{object.sli_lib_avai}}</td>
+                                <td>{{object.sli_lib_books}}</td>
+                                <td>{{object.sli_lib_ncert}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Book Bank</b></td>
+                                <td>{{object.sli_book_avai}}</td>
+                                <td>{{object.sli_book_books}}</td>
+                                <td>{{object.sli_book_ncert}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Reading Corner</b></td>
+                                <td>{{object.sli_reading_avai}}</td>
+                                <td>{{object.sli_reading_books}}</td>
+                                <td>{{object.sli_reading_ncert}}</td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+        
 
 
 

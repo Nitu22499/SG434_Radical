@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from profiles.models import class_choices, section_choices, stream_choices
 
 # Importing models
-from profiles.models import Subject, Student
+from profiles.models import Subject, Student, School, District, Block
 from exams.models import Exam, ExamCoScholastic
 
 # Importing Libraries
@@ -16,7 +16,7 @@ from misc.utilities import academic_year, year_choices
 def reportView(request):
     # template_name = 'exams/report.html'
     template_name = 'exams/report-2.html'
-
+    none_edit_view = False
     context = {
         'class': class_choices,
         'selected_class': None,
@@ -25,45 +25,86 @@ def reportView(request):
         'section': list(section_choices)[1:],
         'stream': list(stream_choices)[1:]
     }
-    if request.method=="POST":
-        if not request.POST['class']:
-            context.update({
-                'error_msg': "Please Select a Class"
-            })
-            return render(request, template_name, context)
-        else:
-            context.update({
-                'selected_class': request.POST['class']
-            })
 
-        if not request.POST['section']:
+    if request.user.is_block_admin or request.user.is_district_admin or request.user.is_state_admin:
+        none_edit_view = True
+        schools_list = []
+        if request.user.is_block_admin:
+            schools_list = request.user.block.school_set.values('id','school_name').distinct()
+        if request.user.is_district_admin:
+            blocks_list = request.user.district.block_set.values('id','block_name').distinct()
             context.update({
-                'error_msg': "Please Select a Section"
-            })
-            return render(request, template_name, context)
-        else:
+                'show_block': True,
+                'blocks': blocks_list,
+                'selected_block': None
+            })            
+        if request.user.is_state_admin:
+            districts_list = District.objects.values('id','district_name').distinct()
             context.update({
-                'selected_section': request.POST['section']
+                'show_block': True,
+                'show_district': True,
+                'districts': districts_list,
+                'selected_district': None
             })
+        context.update({
+            'school': schools_list,
+            'selected_school': None,
+            'no_editing': True
+        })
+
+    if request.method=="POST":
+        context.update({
+            'selected_block': int(request.POST.get('block', None) or 0),
+            'selected_district': int(request.POST.get('district', None) or 0),
+            'selected_school': int(request.POST.get('school', None) or 0),
+            'selected_class': request.POST.get('class', None),
+            'selected_section': request.POST.get('section', None),
+            'selected_year': request.POST.get('year', None),
+            'selected_subject': request.POST.get('subject', None),
+            'selected_stream': request.POST.get('stream', None)
+        })
         if not request.POST['year']:
             context.update({
                 'error_msg': "Please Select academic year"
             })
             return render(request, template_name, context)
-        else:
+        if (request.user.is_district_admin or request.user.is_state_admin):
+            if not request.POST.get('block', False):
+                context.update({
+                    'error_msg': "Please Select a Block"
+                })
+                return render(request, template_name, context)
+        if request.user.is_state_admin:
+            if not request.POST.get('district',False):
+                context.update({
+                    'error_msg': "Please Select a District"
+                })
+                return render(request, template_name, context)
+        if none_edit_view:
+            if request.POST['block']:
+                context.update({
+                    'school': School.objects.filter(school_block=request.POST['block'])
+                })
+            if request.POST['district'] and request.POST['block']:
+                context.update({
+                    'blocks': Block.objects.filter(block_district=request.POST['district']),
+                    'school': School.objects.filter(school_block=request.POST['block'], school_district=request.POST['district'])
+                }) 
+            if not request.POST['school']:
+                context.update({
+                    'error_msg': "Please Select a School"
+                })
+                return render(request, template_name, context)
+        if not request.POST['class']:
             context.update({
-                'selected_year': request.POST['year']
+                'error_msg': "Please Select a Class"
             })
+            return render(request, template_name, context)
         if not request.POST['subject']:
             context.update({
                 'error_msg': "Please Select a Subject"
             })
             return render(request, template_name, context)
-        else:
-            context.update({
-                'selected_subject': request.POST['subject']
-            })
-        
         if request.POST['class'] == '11' or request.POST['class'] == '12':
             stream = True
             if not request.POST['stream']:
@@ -71,49 +112,92 @@ def reportView(request):
                     'error_msg': "Please Select a stream"
                 })
                 return render(request, template_name, context)
-            else:
-                context.update({
-                    'selected_stream': request.POST['stream']
-                })
         else:
             stream = False
+        if not request.POST['section']:
+            context.update({
+                'error_msg': "Please Select a Section"
+            })
+            return render(request, template_name, context)
+
         # New Strategy
-        subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
-        students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA')
+        if none_edit_view:
+            subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'], subject_board=School.objects.get(id=request.POST['school']).school_board)
+            students = Student.objects.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA', stud_school=request.POST['school'])
+        else:
+            subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
+            students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA')
+        
         if subject.subject_type != "Co -Scholastic":
-            exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
-            if (not exams) and academic_year() == request.POST['year']:
-                exams = []
-                for stud in students:
-                    e = Exam(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
-                    e.save()
-                    exams.append(e)
+            if none_edit_view:
+                exams = Exam.objects.filter(student__stud_school=request.POST['school'], exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
+            else:
+                exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
+                if (not exams) and academic_year() == request.POST['year']:
+                    exams = []
+                    for stud in students:
+                        e = Exam(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
+                        e.save()
+                        exams.append(e)
         else:
             context.update({
                 'has_co_scholastic_subject': True
             })
-            exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
-            if (not exams) and academic_year() == request.POST['year']:
-                exams = []
-                for stud in students:
-                    e = ExamCoScholastic(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
-                    e.save()
-                    exams.append(e)
+            if none_edit_view:
+                exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school__school_name=request.POST['school'], exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
+            else:
+                exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
+                if (not exams) and academic_year() == request.POST['year']:
+                    exams = []
+                    for stud in students:
+                        e = ExamCoScholastic(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
+                        e.save()
+                        exams.append(e)
         if not exams:
             context.update({'no_record': True})
         context.update({
-            'selected_class': request.POST['class'],
-            'selected_subject': request.POST['subject'],
-            'selected_stream': request.POST['stream'],
-            'selected_section': request.POST['section'],
-            'selected_year': request.POST['year'],
             'exams': exams
         })
-
     return render(request, template_name, context)
 
+def getSchoolsByBlock(request, block_id):
+    schools = School.objects.filter(school_block=block_id)
+    res = {
+        'schools': []
+    }
+    for school in schools:
+        res['schools'].append({
+            'id': school.id,
+            'school_name': school.school_name
+        })
+    json_res = json.dumps(res)
+    return HttpResponse(json_res, content_type="application/json")
+
+def getBlocksByDistrict(request, district_id):
+    blocks = Block.objects.filter(block_district=district_id)
+    res = {
+        'blocks': []
+    }
+    for block in blocks:
+        res['blocks'].append({
+            'id': block.id,
+            'block_name': block.block_name
+        })
+    json_res = json.dumps(res)
+    return HttpResponse(json_res, content_type="application/json")
+
+
 def getSubjects(request, class_level):
-    subjects = Subject.objects.filter(subject_class=class_level)
+    if request.GET.get('school', ''):
+        subjects = Subject.objects.filter(subject_class=class_level, subject_board=School.objects.get(id=request.GET['school']).school_board)
+    elif request.user.is_school_admin:
+        subjects = Subject.objects.filter(subject_class=class_level, subject_board=request.user.school.school_board)
+    else:
+        res = {
+            'error': 'Please select a school'
+        }
+        json_res = json.dumps(res)
+        return HttpResponse(json_res, content_type="application/json")
     res = {
         'subjects': []
     }

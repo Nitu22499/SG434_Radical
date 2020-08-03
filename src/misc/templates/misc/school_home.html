@@ -1,52 +1,101 @@
 {% extends 'base.html' %}
 
-{% block navbar %}
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style = "background-color: #222831;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" style="font-family: Pacifico;">Sikkim S.I.S</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto mb-2 mb-lg-0 font-weight-bold">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'misc:home' %}">Home</a>
-              </li>            
-              {% block schoolinfo_link %}         
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'schoolinfo:sections_home' academic_year %}">School Info</a>
-              </li> 
-              {% endblock %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Student
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'profiles:student-signup'  %}">Add Students</a>
-                  <a class="dropdown-item" href="{% url 'profiles:student-list' %}">Students List</a>
+{% block body %}
+
+  <div class="container my-4">
+    <div class="card bg-teal-100 mb-4 shadow-none">
+            <div class="card-body p-5">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <h2>Welcome {{ request.user|capfirst }},</h2>
+                        <small><i class="material-icons" style='font-size:14px'>school</i> School Admin of {{ request.user.school }}</small>
+                    </div>
+                    <div class="col-4">
+                    </div>
                 </div>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Staff</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'attendance:index' %}">Attendance</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Academic Records</a>
-              </li> 
-              
-            </ul>
-            <div class="navbar-nav nav-item font-weight-bold d-flex w-auto">
-              <a class="nav-link" aria-current="page" href="{% url 'profiles:logout' %}">Logout</a>
             </div>
+    </div>
+
+    <h4 class='mb-4'>Quick Links</h4>
+
+    <div class="row school-admin-links">
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Student actions
+            </div>
+            <a href="{% url 'profiles:student-signup'%}" class='btn btn-primary btn-sm'>Add Student <i class="material-icons">add</i></a>
+            <a href="{% url 'profiles:student-list'%}" class='btn btn-secondary btn-sm'>Student List</a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Total number of Students : {{students_count}}</small>
+            </strong>
           </div>
         </div>
-      </nav>
-    <!-- </Navbar> -->
-    {% endblock %}
+      </div>
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              School Info
+            </div>
+            <a href="{% url 'schoolinfo:sections_home' academic_year %}" class='btn btn-primary btn-sm'>School Details <i class="material-icons-outlined">info</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>{{ request.user.school }}</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Employee actions
+            </div>
+            <a href="{% url 'employee:list'%}" class='btn btn-primary btn-sm'>Add / View Employee <i class="material-icons">add</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Total number of Employee : {{ employees_count }}</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Attendance Management
+            </div>
+            <a href="{% url 'attendance:index' %}" class='btn btn-primary btn-sm'>Add Attendance <i class="material-icons">add</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Student & Employee Attendance</small>
+            </strong>
+          </div>
+        </div>
+      </div>
 
-{% block body %}
-<h2>School Dashboard</h2>
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Academic Records
+            </div>
+            <a href="{% url 'exams:report' %}" class='btn btn-primary btn-sm'>Academic Info <i class="material-icons-outlined">info</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Get Academic Records</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

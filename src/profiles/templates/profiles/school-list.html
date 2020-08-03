@@ -34,36 +34,38 @@
 {% if school is not None %}
  <!-- <h2 class = "card-header text-center bg-primary text-white">Class-{{ currentclass }}  Section-{{ currentsection }} Stream-{{ currentstream }}</h2> -->
     <div class = "card-body">
-        <table class="table table-bordered border-primary table-hover text-center">
-            <thead>
-                <tr>
-                    <th scope="col">SCHOOL ID</th>
-                    <th scope="col">SCHOOL NAME</th>                      
-                    <th scope="col">DISTRICT</th>
-                    <th scope="col">BLOCK</th>
-                    <th scope="col">VILLAGE NAME</th>
-                    <th scope="col">CLUSTER</th>
-                    <th scope="col">LOCATION</th>
-                    <th scope="col">SCHOOL CATEGORY</th>
-                    <th scope="col">SCHOOL BOARD</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for school in school %}
+        <div class="table-responsive">
+            <table class="table table-bordered border-primary table-hover text-center">
+                <thead>
                     <tr>
-                        <td>{{ school.sp_school_id }} </td>
-                        <td><a href = "#">{{ school.sp_school_name }}</a></td>
-                        <td>{{ school.sp_school.school_district }}</td>
-                        <td>{{ school.sp_school.school_block }}</td>
-                        <td>{{ school.sp_village_ward }}</td>
-                        <td>{{ school.sp_school.school_cluster }}</td>
-                        <td>{{ school.sp_school_located }}</td>
-                        <td>{{ school.sp_school_category }}</td>
-                        <td>{{ school.sp_school.school_board }}</td>   
+                        <th scope="col">SCHOOL ID</th>
+                        <th scope="col">SCHOOL NAME</th>                      
+                        <th scope="col">DISTRICT</th>
+                        <th scope="col">BLOCK</th>
+                        <th scope="col">VILLAGE NAME</th>
+                        <th scope="col">CLUSTER</th>
+                        <th scope="col">LOCATION</th>
+                        <th scope="col">SCHOOL CATEGORY</th>
+                        <th scope="col">SCHOOL BOARD</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for school in school %}
+                        <tr>
+                            <td>{{ school.sp_school_id }} </td>
+                            <td><a href = "{% url 'schoolinfo:school_profile_details' school.pk %}">{{ school.sp_school_name }}</a></td>
+                            <td>{{ school.sp_school.school_district }}</td>
+                            <td>{{ school.sp_school.school_block }}</td>
+                            <td>{{ school.sp_village_ward }}</td>
+                            <td>{{ school.sp_school.school_cluster }}</td>
+                            <td>{{ school.sp_school_located }}</td>
+                            <td>{{ school.sp_school_category }}</td>
+                            <td>{{ school.sp_school.school_board }}</td>   
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endif %}
     </div>
 </div>

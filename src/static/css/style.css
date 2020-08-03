@@ -51,7 +51,7 @@ div [class="card-body-info"]{
   }
 
 .bg-blue-100 {
-    background: #e3f2fd ;
+    background: #EBF8FF ;
 }
 
 .bg-indigo-100 {
@@ -66,10 +66,25 @@ div [class="card-body-info"]{
     background: #fafafa;
 }
 
+.bg-teal-100 {
+    background: #E6FFFA;
+}
+
 .school_dashboard .material-icons{
     font-size: 3rem;
 }
 
 .school_dashboard .card h2 {
     font-size: 3rem;
+}
+
+@media screen and (max-width: 767px) {
+    div[class = "login-theme container" ]{
+        display: none;
+    }
+ }
+
+
+.school-admin-links .material-icons, .school-admin-links .material-icons-outlined{
+    font-size: 12px;
 }
