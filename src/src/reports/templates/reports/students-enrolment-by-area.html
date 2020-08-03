@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block navbar %}
+
+{% endblock %}
+
+{% block body %}
+
+<!-- Form -->
+{% include 'reports/form_template.html' with report_title='students-enrolment-by-area' %}
+
+<!-- Table -->
+  <div class = "container" style="margin-top: 5%; margin-bottom:5%;">
+    <table id = "reportTable" class="table table-bordered border-primary table-hover text-center">
+      <thead>
+          <tr class="table-primary border-primary">
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Block</th>
+            <th scope="col">Urban</th>
+            <th scope="col">Rural</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in table_data %}
+          <tr>
+            <td scope="row">{{ forloop.counter }}</td>
+            <td>{{row.block_name}}</td>
+            <td>{{row.urban_school}}</td>
+            <td>{{row.rural_school}}</td>
+            <td>{{row.total_schools}}</td>
+          </tr>
+          {% endfor %}
+          {% if total_tally %}
+          <tr style="background-color:LightGray;">
+            <td scope="row"></td>
+            <td>{{total_tally.block_name}}</td>
+            <td>{{total_tally.urban_school}}</td>
+            <td>{{total_tally.rural_school}}</td>
+            <td>{{total_tally.total_schools}}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>      
+  </div>
+
+  <!-- Canvas for redering chart -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mx-auto">
+        <canvas id="myChart" width="1000" height="400"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+  <script src="{% static 'js/chartjs-plugin-colorschemes.min.js' %}"></script>
+  <script src="{% static 'js/table-to-csv.js' %}"></script>
+<!-- Chart code -->
+<script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [
+      {% for row in table_data %}
+        "{{ row.block_name }}",
+      {% endfor %}
+    ],
+    datasets: [{
+        label: 'Urban Schools',
+        data: [
+          {% for row in table_data %}
+            {{ row.urban_school }},
+          {% endfor %}
+        ],
+        maxBarThickness: 30,
+      },
+      {
+        label: 'Rural Schools',
+        data: [
+        {% for row in table_data %}
+          {{ row.rural_school }},
+        {% endfor %}
+        ],
+        maxBarThickness: 30,
+      }
+    ]
+  },
+  options: {
+    plugins: {
+    colorschemes: {
+      scheme: 'tableau.Tableau10'
+    }},
+    scales: {
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) { if (Number.isInteger(value)) { return value; } },
+          stepsize:1
+        }
+      }],
+      xAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
+</script>
+
+
+
+
+{% endblock %}

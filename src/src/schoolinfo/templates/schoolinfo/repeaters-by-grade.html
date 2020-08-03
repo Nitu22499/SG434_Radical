@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <form action="" method="POST" class="text-center border border-light p-5" >
+        {% csrf_token %}
+        <p class="h4 mb-5">4.3. Repeaters by grade in corresponding academic session</p>
+        {% if error_msg %}
+            <span class="text-left text-danger large">
+                <ul class="errorlist">
+                    <li>{{ error_msg }}</li>
+                </ul>
+            </span>
+        {% endif %}
+        <div class="form-group">
+            <select onchange="getSubjects(this)" name="academic_year" class="form-control browser-default custom-select mb-4" id="academic_year">
+                <option value="">SELECT ACADEMIC YEAR</option>
+                {% for cls in year_choices %}
+                <option value="{{ cls.0}}" {% if selected_year == cls.0 %} selected {% endif %}>{{ cls.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>   
+        <button class="btn btn-info btn-block" type="submit">Generate</button>
+    </form>
+
+    <div class="msg"></div>
+    <div class="row mt-4">
+        <div class="col">
+            
+            <div class="table-responsive" style="overflow: visible;">
+                <table id="table" class="table text-center table-bordered">
+                    <thead class="sticky-header">
+                        <tr class="table-light align-middle">
+                            <th scope="col" data-override="class_name">Classes</th>
+                            <th scope="col" colspan="2">I</th>
+                            <th scope="col" colspan="2">II</th>
+                            <th scope="col" colspan="2">III</th>
+                            <th scope="col" colspan="2">IV</th>
+                            <th scope="col" colspan="2">V</th>
+                            <th scope="col" colspan="2">VI</th>
+                            <th scope="col" colspan="2">VII</th>
+                            <th scope="col" colspan="2">VIII</th>
+                            <th scope="col" colspan="2">IX</th>
+                            <th scope="col" colspan="2">X</th>
+                            <th scope="col" colspan="2">XI</th>
+                            <th scope="col" colspan="2">XII</th>
+                        </tr>   
+                        <tr>
+                            <th></th>
+                            <th scope="col" data-override="boys_1">Boys</th>
+                            <th scope="col" data-override="girls_1">Girls</th>
+                            <th scope="col" data-override="boys_2">Boys</th>
+                            <th scope="col" data-override="girls_2">Girls</th>
+                            <th scope="col" data-override="boys_3">Boys</th>
+                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_4">Boys</th>
+                            <th scope="col" data-override="girls_4">Girls</th>
+                            <th scope="col" data-override="boys_5">Boys</th>
+                            <th scope="col" data-override="girls_5">Girls</th>
+                            <th scope="col" data-override="boys_6">Boys</th>
+                            <th scope="col" data-override="girls_6">Girls</th>
+                            <th scope="col" data-override="boys_7">Boys</th>
+                            <th scope="col" data-override="girls_7">Girls</th>
+                            <th scope="col" data-override="boys_8">Boys</th>
+                            <th scope="col" data-override="girls_8">Girls</th>
+                            <th scope="col" data-override="boys_9">Boys</th>
+                            <th scope="col" data-override="girls_9">Girls</th>
+                            <th scope="col" data-override="boys_10">Boys</th>
+                            <th scope="col" data-override="girls_10">Girls</th>
+                            <th scope="col" data-override="boys_11">Boys</th>
+                            <th scope="col" data-override="girls_11">Girls</th>
+                            <th scope="col" data-override="boys_12">Boys</th>
+                            <th scope="col" data-override="girls_12">Girls</th>
+                        </tr>                     
+                    </thead>
+                    <tbody>
+                        {% for key, values in rows.items %}
+                        <tr>                            
+                            <th scope="row" >{{ key }}</th> 
+                            <td contenteditable="true">{{ values.class_I_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_I_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_II_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_II_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_III_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_III_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IV_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IV_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_V_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_V_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VIII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VIII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IX_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IX_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_X_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_X_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XII_G|default_if_none:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                
+            </div>
+            <button id="convert-table" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+
+<!-- TableToJson jquery plugin CDN -->
+<script src="{% static 'js/vendor/jquery.tabletojson.min.js' %}"></script>
+<!-- Custom JS -->
+<script type="text/javascript" src="{% static 'js/schoolinfo/repeaters-by-grade.js' %}"></script>
+
+{% endblock %}

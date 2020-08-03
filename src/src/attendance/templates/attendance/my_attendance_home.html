@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My Attendance
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1 class="text-center">My Attendance</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <ul class="text-danger form-text" style="list-style: none">
+                    {% for error in form.non_field_errors %}
+                        <li class="alert alert-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <br>
+            {% endif %}
+            {% for field in form %}
+                <label class="form-label">{{ field.label_tag }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <div>
+                        <span class="text-danger form-text small">{{ field.errors.as_text }}</span>
+                        {% if field.help_text %}
+                            <small class="text-danger form-text">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    <br>
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Get my attendance</button>
+        </form>
+    </div>
+{% endblock body %}
