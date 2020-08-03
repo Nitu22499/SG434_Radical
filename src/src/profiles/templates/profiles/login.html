@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style = "background-color: #222831;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="font-family: Pacifico;">Sikkim S.I.S</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            
+          </div>
+        </div>
+      </nav>
+    <!-- </Navbar> -->
+{% endblock %}
+
+{% block body %}
+
+<div class = "container-fluid">
+    <div class = "row">
+      <div class = "container col-md-6 mb-4">
+        <div class = "container" align="center">
+          <img src="{% static 'images/login.png' %}" style="margin-top:50px;height:auto; width:410px"/>
+        </div>
+      </div>
+      <div class = "col-md-6 mb-4" >
+        <div class = "card border shadow-2-strong col-md-8 mx-auto" style="margin-top:100px">
+          <h2 class = "card-header text-center bg-white">Login</h2>
+            <div class = "card-body">
+              <form method = "POST" action = "">
+                  {% csrf_token %}
+                  <span class="text-danger small">{{ form.non_field_errors }}</span>
+                   {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                  <div class = "text-center">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+</div>
+
+{% block uppercase %}
+
+{% endblock %}
+
+
+{% endblock %}

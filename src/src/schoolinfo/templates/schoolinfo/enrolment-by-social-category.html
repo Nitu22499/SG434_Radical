@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class = "card border border-primary shadow-2-strong col-md-10 mx-auto" style = "margin-top: 2%;">
+        <h4 class = "card-header text-center bg-primary text-white">Enrolments (by social category) in {{ academic_year }} session</h4>
+        <div class = "card-body m-4">
+            <div class="my-2">
+                <h5>4.2 Enrolment in current academic session (by social category)</h5>
+                <div class="table-responsive">
+                <div class="msg mt-4"></div>
+                <table class="table text-center table-bordered table-hover" id="table">   
+                    <thead class="table-light">
+                        <tr class="table-light align-middle">
+                            <th scope="col" data-override="class_name">Classes</th>
+                            <th scope="col" colspan="2">Pre-Primary</th>
+                            <th scope="col" colspan="2">I</th>
+                            <th scope="col" colspan="2">II</th>
+                            <th scope="col" colspan="2">III</th>
+                            <th scope="col" colspan="2">IV</th>
+                            <th scope="col" colspan="2">V</th>
+                            <th scope="col" colspan="2">VI</th>
+                            <th scope="col" colspan="2">VII</th>
+                            <th scope="col" colspan="2">VIII</th>
+                            <th scope="col" colspan="2">IX</th>
+                            <th scope="col" colspan="2">X</th>
+                            <th scope="col" colspan="2">XI</th>
+                            <th scope="col" colspan="2">XII</th>
+                        </tr>   
+                        <tr>
+                            <th></th>
+                            <th scope="col" data-override="boys_pp">Boys</th>
+                            <th scope="col" data-override="girls_pp">Girls</th>
+                            <th scope="col" data-override="boys_1">Boys</th>                            
+                            <th scope="col" data-override="girls_1">Girls</th>
+                            <th scope="col" data-override="boys_2">Boys</th>
+                            <th scope="col" data-override="girls_2">Girls</th>
+                            <th scope="col" data-override="boys_3">Boys</th>
+                            <th scope="col" data-override="girls_3">Girls</th>
+                            <th scope="col" data-override="boys_4">Boys</th>
+                            <th scope="col" data-override="girls_4">Girls</th>
+                            <th scope="col" data-override="boys_5">Boys</th>
+                            <th scope="col" data-override="girls_5">Girls</th>
+                            <th scope="col" data-override="boys_6">Boys</th>
+                            <th scope="col" data-override="girls_6">Girls</th>
+                            <th scope="col" data-override="boys_7">Boys</th>
+                            <th scope="col" data-override="girls_7">Girls</th>
+                            <th scope="col" data-override="boys_8">Boys</th>
+                            <th scope="col" data-override="girls_8">Girls</th>
+                            <th scope="col" data-override="boys_9">Boys</th>
+                            <th scope="col" data-override="girls_9">Girls</th>
+                            <th scope="col" data-override="boys_10">Boys</th>
+                            <th scope="col" data-override="girls_10">Girls</th>
+                            <th scope="col" data-override="boys_11">Boys</th>
+                            <th scope="col" data-override="girls_11">Girls</th>
+                            <th scope="col" data-override="boys_12">Boys</th>
+                            <th scope="col" data-override="girls_12">Girls</th>
+                        </tr>                     
+                    </thead>
+                    <tbody>
+                        {% for key, values in rows.items %}
+                        <tr>                            
+                            <th scope="row" >{{ key }}</th> 
+                            <td contenteditable="true">{{ values.class_pre_primary_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_pre_primary_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_I_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_I_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_II_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_II_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_III_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_III_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IV_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IV_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_V_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_V_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VIII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_VIII_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IX_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_IX_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_X_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_X_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XI_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XI_G|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XII_B|default_if_none:"-" }}</td>
+                            <td contenteditable="true">{{ values.class_XII_G|default_if_none:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn btn-primary my-4" id="convert-table">Save</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{% load static %}
+<!-- TableToJson jquery plugin CDN -->
+<script src="{% static 'js/vendor/jquery.tabletojson.min.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/util.js' %}"></script>
+<script>
+    $('td[contenteditable=true]').on('click', function(){
+        document.execCommand('selectAll',false,null);
+    })
+    if(localStorage.getItem("Success")) {
+        $(".msg").append(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Saved Successfully!</strong> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>`); 
+        localStorage.removeItem("Success")
+    }
+   
+    $('#convert-table').click( function() {
+        var table = $('#table').tableToJSON({
+            ignoreRows: [0,1],  // To Ignore the first two rows consisting of table heading
+
+            headings: [
+                'class_name',
+                'boys_pp','girls_pp',  // Array of Column Header names
+                'boys_1','girls_1',
+                'boys_2','girls_2',
+                'boys_3','girls_3',
+                'boys_4','girls_4',
+                'boys_5','girls_5',
+                'boys_6','girls_6',
+                'boys_7','girls_7',
+                'boys_8','girls_8',
+                'boys_9','girls_9',
+                'boys_10','girls_10',
+                'boys_11','girls_11',
+                'boys_12','girls_12'        
+            ]
+        }); // Convert the table into a javascript object
+        // console.log(JSON.stringify(table));
+        console.log(table);
+
+        let response = {
+            table
+        }
+        response = JSON.stringify(response).replace(/-/g, '')
+
+        fetch(`{% url 'schoolinfo:enrolment_social_category_save' academic_year %}`, {
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+                'Content-Type': 'application/json'
+            },
+            body: response
+            })
+            .then((res) => res.json())
+            .then(function(data) {
+                if (data['err'] == undefined) {
+                    localStorage.setItem("Success", "1")
+                    window.location.reload()
+                }else{
+                    data['err'] = data['err'].replace(/'/g, '"')
+                    data['err'] = JSON.parse(data['err'])
+                    
+                    for(let [key, val] of Object.entries(data['err'])) {
+                        console.log(val);
+                        $(".msg").append(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong> ${key} - </strong> ${val}.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>`);
+                    }
+                }
+            })
+    })
+
+    </script>
+{% endblock %}

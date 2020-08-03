@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!-- Table with panel -->
+
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
+        <div class="card card-cascade narrower">
+
+            <!--Card image-->
+            <div
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2  mb-3 d-flex justify-content-between align-items-center">
+              <a href="" style="color:white" class="white-text mx-3 "><b>Student Details :</b></a>
+              {% if request.user.is_school_admin %}
+                <div class="col-md-4 col-sm-3 py-1"  >
+                    <a href = "{% url 'profiles:student-update' stud.id %}" class="btn w-100 " style="background-color: white;font-size: 15px;line-height:2.0 "><i class="fa fa-plus" aria-hidden="true">   </i> Edit Student record</a>
+                </div>
+                {% endif %}
+            </div>
+            <!--/Card image-->
+         
+            <div class="px-4">
+                <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td><b>Student Name:</b></td>
+                            <td>{{ stud}} {{ stud.user.middle_name}} {{ stud.user.last_name}}</td>
+                            <td><b>Roll no:</b></td>
+                            <td>{{ stud.stud_rollno }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Class:</b></td>
+                            <td>{{ stud.stud_class }}</td>
+                            <td><b>Section:</b></td>
+                            <td>{{ stud.stud_section }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Date Of Birth:</b></td>
+                            <td>{{ stud.user.date_of_birth }}</td>
+                            <td><b>Gender:</b></td>
+                            <td>{{ stud.user.gender }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Religion:</b></td>
+                            <td>{{ stud.stud_religion }}</td>
+                            <td><b>Caste:</b></td>
+                            <td>{{ stud.stud_caste }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Social Category:</b></td>
+                            <td>{{ stud.stud_socialCategory }}</td>
+                            <td><b>Disability:</b></td>
+                            <td>{{ stud.stud_disability }}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>Father's Name:</b></td>
+                            <td>{{ stud.user.middle_name}} {{ stud.user.last_name}}</td>
+                            <td><b>Mother's Name:</b></td>
+                            <td>{{ stud.stud_mother_name}} {{ stud.user.last_name}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><b>Address:</b></td>
+                            <td>{{ stud.stud_address }}</td>
+                            <td><b>Parents Contact No (Seconadry):</b></td>
+                            <td>{{ stud.stud_parentSecContact}}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

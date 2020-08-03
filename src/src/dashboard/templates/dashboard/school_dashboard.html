@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    School Dashboard
+{% endblock title %}
+
+
+{% block body %}
+    <div class="container" >
+        <form class='row mt-4' method='GET' id='form'>
+            <div class="form-group col-md-3">
+                <select class="form-control" name="year" id="academic_year">
+                    {% for y in years %}
+                        {% if y.0 == year %}
+                            <option selected value={{y.0}}>{{y.1}}</option>
+                        {% else %}
+                            <option value={{y.0}}>{{y.1}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+             <div class="form-group col-md-3">
+                <select class="form-control browser-default custom-select" name="district" id="district" >
+                    {% for district in districts %}
+                        {% if district.0|stringformat:'i' == district_id %}
+                            <option selected value={{district.0}}>{{district.1}}</option>
+                        {% else %}
+                            <option value={{district.0}}>{{district.1}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+             <div class="form-group col-md-3">
+                <select class="form-control browser-default custom-select" name="block" id="block">
+                    {% for block in blocks %}
+                        {% if block.0|stringformat:'i' == block_id %}
+                            <option selected value={{block.0}}>{{block.1}}</option>
+                        {% else %}
+                            <option value={{block.0}}>{{block.1}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <input class='btn btn-primary' type='submit' value='Get Info'></input>
+            </div>
+        </form>
+        <div class="row mt-4 school_dashboard">
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-blue-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('academic_year', '', 'Number of Schools')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>
+                                Number of school
+                            </strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            school
+                        </span>
+                        {{ no_of_school }}</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress bg-grey-100">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_status', 'Government', 'Number of Government School')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Government Schools</strong>
+                        </div>
+                        <h2>
+                            <span class="material-icons">
+                                school
+                            </span>
+                            {{ no_of_government_schools }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_government_schools}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-indigo-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_drinking_water_available', 'Yes', 'Number of school with Drinking water')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Drinking Water</strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            local_drink
+                        </span>
+                        {{ no_of_school_with_drinking_water }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_drinking_water}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-grey-100">
+                    <div class="card-body" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_playground_facility', 'Yes','Number of Schools with Playgorund')">
+                        <div class="card-title">
+                            <strong>% of Schools with Playground</strong>
+                        </div>
+                        <h2>
+                            <span class="material-icons">
+                                nature_people
+                            </span>
+                        {{ no_of_school_have_playground_facility }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_have_playground_facility}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_electricity_connection', 'Yes','Number of Schools with Electricity')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Electricity</strong>
+                        </div>
+                        <h2>
+                            <span class="material-icons">
+                                electrical_services
+                            </span>
+                        {{ no_of_school_with_electricity }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_electricity}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3  bg-blue-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_librarian', 'Yes','Number of Schools with Library')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Library</strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            local_library
+                        </span>
+                        {{ no_of_school_with_library }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_library}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-indigo-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_sep_girls_sec', 'Yes','Number of Schools with Seperate Girl Common Room')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Seperate Girl Common Room</strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            roofing
+                        </span>
+                        {{ no_of_school_with_seperate_girl_common_room }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_seperate_girl_common_room}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-grey-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_ramp_disabled', 'Yes','Number of School with Ramp')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Ramp</strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            accessible
+                        </span>
+                        {{ no_of_school_with_ramp }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_ramp}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="card px-2 py-3 bg-red-100" data-toggle="modal" data-target="#exampleModal" onclick="setData('pf_schools_toilet', 'Yes','Number of School with Toilet')">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <strong>% of Schools with Toilet</strong>
+                        </div>
+                        <h2>
+                        <span class="material-icons">
+                            wc
+                        </span>
+                        {{ no_of_school_with_toilet }} %</h2>
+                    </div>
+                </div>
+                <div class="progress md-progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{no_of_school_with_toilet}}%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Number of Schools</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        function setData(field, value, title) {
+            if(window.chart !== undefined) {
+                window.chart.destroy();
+            }
+            let route = "{% url 'chart' %}";
+            let academic_year = "{{year}}";
+            let district = "{{district_id}}"
+            let block = "{{block_id}}"
+            
+            fetch(`${route}?year=${academic_year}&district=${district}&block=${block}&field=${field}&value=${value}`)
+            .then(res => res.json())
+            .then(res => {
+                window.chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: res['label'],
+                        datasets: [{
+                            label: title,
+                            data: res['data']
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            colorschemes: {
+                                scheme: 'brewer.PastelTwo8'
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                            beginAtZero: true,
+                            callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                            stepsize:1
+                            }
+                        }],
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                            beginAtZero: true
+                            }
+                        }]
+                    }
+                });
+            })
+        }
+
+        function filterBlocks(event) {
+            let district_id = "{{district_id}}";
+            let block_id = "{{block_id}}"
+            if(event) {
+                district_id = event.target.value;
+            }
+            console.log(event, district_id)
+            let endpoint = "{% url 'get_blocks' %}"
+            
+            fetch(`${endpoint}?district_id=${district_id}`)
+            .then(res => res.json())
+            .then(data => {
+                blocks_element.innerHTML = null
+                blocks = data['blocks']
+                var option = document.createElement('option')
+                option.value = ''
+                option.selected = true;
+                option.appendChild( document.createTextNode('Choose Block') );
+                blocks_element.appendChild(option)
+                blocks.map(block => {
+                    var option = document.createElement('option')
+                    option.value = block[0]
+                    if(block[0] == block_id) 
+                        option.selected = true;
+                    option.appendChild( document.createTextNode(block[1]) );
+                    blocks_element.appendChild(option)
+                });
+            })
+        }
+
+        var district = document.getElementById('district');
+        var blocks_element = document.getElementById('block');
+
+        district.addEventListener('change', filterBlocks)
+        window.onload = filterBlocks();
+
+        let dashboard_form = document.getElementById('form');
+        dashboard_form.addEventListener('submit', (event) => {
+            
+        })
+    </script>
+{% endblock body %}

@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container" style="padding-top: 2%; padding-bottom: 4%;">
+    <form action="" method="POST" class="text-center border border-light p-4">
+        {% csrf_token %}
+        <p class="h4 mb-4">{{ academic_year }}</p>
+        {% if error_msg %}
+        <span class="text-left text-danger large">
+            <ul class="errorlist">
+                <li>{{ error_msg }}</li>
+            </ul>
+        </span>
+        {% endif %}
+        <div class="row mb-4">
+            <div class="col-4">
+                <div class="form-group">
+                    <select onchange="getSubjects(this)" name="class"
+                        class="form-control browser-default custom-select mb-4" id="class">
+                        <option value="">SELECT CLASS</option>
+                        {% for cls in class %}
+                        <option value="{{ cls.0}}" {% if selected_class == cls.0 %} selected {% endif %}>{{ cls.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="subject" class="form-control browser-default custom-select mb-4" id="subject">
+                        <option value="">SELECT SUBJECT</option>
+                        {% if selected_subject %}
+                        <option value="{{ selected_subject }}" selected>{{ selected_subject }}</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="stream" class="form-control browser-default custom-select mb-4" id="stream">
+                        <option value="">SELECT STREAM</option>
+                        {% for stm in stream %}
+                        <option value="{{ stm.0 }}" {% if selected_stream == stm.0 %}selected{% endif %}>{{ stm.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="section" class="form-control browser-default custom-select mb-4" id="section">
+                        <option value="">SELECT SECTION</option>
+                        {% for sec in section %}
+                        <option value="{{ sec.0 }}" {% if selected_section == sec.0 %}selected{% endif %}>{{ sec.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="year" class="form-control browser-default custom-select mb-4" id="year">
+                        <option value="">SELECT ACADEMIC YEAR</option>
+                        {% for yr in year %}
+                        <option value="{{ yr.0 }}" {% if selected_year == yr.0 %}selected{% endif %}>{{ yr.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="offset-md-3 col-3"><button class="btn btn-info btn-block" type="submit">Submit</button></div>
+        </div>
+    </form>
+    <div class="msg mt-4"></div>
+    {% if not has_co_scholastic_subject and students %}  
+    <div class="row mt-4">
+        <div class="col">
+            <div class="table-responsive" style="overflow: visible;">
+                <table id="table" class="table text-center table-bordered table-hover">
+                    <thead id="myHeader" class="sticky-header">
+                        <tr class="table-light align-middle">
+                            <th>&nbsp;</th>
+                            <th scope="col" colspan="6">Term Test 1</th>
+                            <th scope="col" colspan="6">Term Test 2</th>
+                        </tr>
+                        <tr class="table-light">
+                            <th data-override="id" hidden></th>
+                            <th scope="col" data-override="first_name">First Name</th>
+                            <th scope="col" data-override="test_1">Test</th>
+                            <th scope="col" data-override="notebook_1">Notebook</th>
+                            <th scope="col" data-override="sea_1">SEA</th>
+                            <th scope="col" data-override="half_yearly_1">Half Yearly</th>
+                            <th scope="col" data-override="total_1">Total</th>
+                            <th scope="col" data-override="grade_1">Grade</th>
+                            <th scope="col" data-override="test_2">Test</th>
+                            <th scope="col" data-override="notebook_2">Notebook</th>
+                            <th scope="col" data-override="sea_2">SEA</th>
+                            <th scope="col" data-override="half_yearly_2">Half Yearly</th>
+                            <th scope="col" data-override="total_2">Total</th>
+                            <th scope="col" data-override="grade_2">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody class="content">
+                        {% for stud in students %}
+                        <tr>
+                            <th scope="row">{{ stud.user.first_name|title }}</th>
+                            <td hidden>{{ stud.exam.id }}</td>
+                            <td contenteditable="true">{{ stud.exam.per_test_1|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.notebook_1|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.sea_1|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.main_1|default_if_none:"--" }}</td>
+                            <td>{% if stud.exam.total_1 %} {{ stud.exam.total_1 }} {% else %} -- {% endif %}</td>
+                            <td>{{ stud.exam.grade_1 }}</td>
+
+                            <td contenteditable="true">{{ stud.exam.per_test_2|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.notebook_2|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.sea_2|default_if_none:"--" }}</td>
+                            <td contenteditable="true">{{ stud.exam.main_2|default_if_none:"--" }}</td>
+                            <td>{% if stud.exam.total_2 %} {{ stud.exam.total_2 }} {% else %} -- {% endif %}</td>
+                            <td>{{ stud.exam.grade_2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4" style="width: 100px;float: right;">
+        <button id="scholastic" class="btn btn-info btn-block">Save</button>
+    </div>
+    {% elif has_co_scholastic_subject and students %}
+    <div class="row mt-4">
+        <div class="col">
+            <div class="table-responsive" style="overflow: visible;">
+                <table id="table" class="table text-center table-bordered table-hover">
+                    <thead id="myHeader" class="sticky-header">
+                        <tr class="table-light align-middle">
+                            <th scope="col" rowspan="2">First Name</th>
+                            <th data-override="id" hidden></th>
+                            <th>Term Test 1</th>
+                            <th>Term Test 2</th>
+                        </tr>
+                        <tr class="table-light align-middle">
+                            <th scope="col" data-override="grade_1">Grade</th>
+                            <th scope="col" data-override="grade_2">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stud in students %}
+                        <tr>
+                            <th scope="row">{{ stud.user.first_name|title }}</th>
+                            <td hidden>{{ stud.exam.id }}</td>
+                            <td contenteditable="true">{{ stud.exam.exam_cs_grade_1 }}</td>
+                            <td contenteditable="true">{{ stud.exam.exam_cs_grade_2 }}</td>
+                        </tr>
+                        {% endfor %}                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4" style="width: 100px;float: right;">
+        <button id="co-scholastic" class="btn btn-info btn-block">Save</button>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+
+<!-- TableToJson jquery plugin CDN -->
+<script src="{% static 'js/vendor/jquery.tabletojson.min.js' %}"></script>
+<!-- Custom JS -->
+<script type="text/javascript" src="{% static 'js/util.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/exams/report.js' %}"></script>
+
+{% endblock %}

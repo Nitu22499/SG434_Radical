@@ -1,0 +1,515 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<!-- Table with panel -->
+
+
+<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
+    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
+        <div class="card card-cascade narrower">
+            
+            <!--Card image-->
+            <div
+              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2  d-flex justify-content-between align-items-center">
+          
+              
+          
+              <a href="" style="color:white" class="white-text mx-3 "><b>Physical Facilities and Equipments :</b></a>
+          
+              
+          
+            </div>
+            <!--/Card image-->
+         
+            <div class="px-4">
+        <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
+        <thead></thead>
+        <tbody>
+        <tr>
+            <td><b>Building Status:</b></td>
+            <td>{{object.pf_status}}</td>
+            <td><b>Building Wall:</b></td>
+            <td>{{object.pf_boundary_type}}</td>
+        </tr>
+        <tr>
+            <td><b>Full-Time Librarian:</b></td>
+            <td>{{object.pf_librarian}}</td>
+            <td><b>Newspapers/Magazines:</b></td>
+            <td>{{object.pf_magazine}}</td>
+        </tr>
+        <tr>
+            <td><b>Hand Wash facility:</b></td>
+            <td>{{object.pf_hand_soap_available}}</td>
+            {% if object.pf_hand_soap_available %}
+                <td><b>Number of Washing Points:</b></td>
+                <td>{{object.pf_number_hand_washing}}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <td><b>Drinking Water Availability:</b></td>
+            <td>{{object.pf_drinking_water_available}}</td>
+            <td><b>Water Purifier/RO Availability:</b></td>
+            <td>{{object.pf_purifier_available}}</td>
+        </tr>
+        <tr>
+            <td><b>Incinerator Availability:</b></td>
+            <td>{{object.pf_incinerator_girls}}</td>
+            <td><b>Electricity:</b></td>
+            <td>{{object.pf_electricity_connection}}</td>
+        </tr>
+        <tr>
+            <td><b>Rain Water Harvesting:</b></td>
+            <td>{{object.pf_rain_harvesting}}</td>
+            <td><b>Solar Panel:</b></td>
+            <td>{{object.pf_solar_panel}}</td>
+        </tr>
+        <tr>
+            <td><b>Kitchen Garden:</b></td>
+            <td>{{object.pf_kitchen_garden}}</td>
+            <td><b>Special educator:</b></td>
+            <td>{{object.pf_school_special_edu}}</td>
+        </tr>
+        <tr>
+            <td><b>Ramp for disabled children:</b></td>
+            <td>{{object.pf_ramp_disabled}}</td>
+            <td><b>Hand Rails for Ramp:</b></td>
+            <td>{{object.pf_hand_rails}}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><b>Total Number of rooms other than classrooms available in school :</b></td>
+            <td>{{object.pf_classrooms_available}}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><b>Land available for expansion of school facilities :</b></td>
+            <td>{{object.pf_land_available}}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><b>Separate room for Head Teacher/Principle :</b></td>
+            <td>{{object.pf_separate_head_available}}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><b>Number of Students for whom furniture is available :</b></td>
+            <td>{{object.pf_students_furniture}}</td>
+        </tr>
+        <tr>
+            <td ><b>Computer Lab :</b></td>
+            <td>{{object.pf_which_comp_lab}}</td>
+        </tr>
+    </tbody>
+    </table>
+
+
+            <!--Type of building-->
+    <div>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseType"
+        aria-expanded="false" aria-controls="collapseType">
+        <b> > Type of the School Building :</b>
+        </button>
+    </div>
+    &nbsp;
+    <div class="collapse" id="collapseType">
+        <p><b>Total Number of Building blocks of the school:&nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_no_blocks}}</b></p>
+        <table class="table table-bordered"  cellspacing="0" width="100%">
+            <thead>
+                <th scope="col" colspan="6">Out of the total Number of building block</th>
+                        
+                   
+                    <tr>
+                        <th scope="col">Pucca Building</th>
+                        <th scope="col">Partially pucca(building with pucca walls and floor without concrete roof</th>
+                        <th scope="col">Kuchcha building</th>
+                        <th scope="col">Tent</th>
+                        <th scope="col">Dilapidated Building</th>
+                        <th scope="col">Building Under Construction</th>
+                    </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{object.pf_pucca}}</td>
+                    <td>{{object.pf_partially_pucca}}</td>
+                    <td>{{object.pf_kuchcha}}</td>
+                    <td>{{object.pf_tent}}</td>
+                    <td>{{object.pf_dilapidated}}</td>
+                    <td>{{object.pf_construction}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+
+
+
+            
+    <!--School laboratory-->
+    <div>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLab"
+        aria-expanded="false" aria-controls="collapseLab">
+        <b> > Laboratory:</b>
+        </button>
+    </div>
+    &nbsp;
+    <div class="collapse" id="collapseLab">
+        <table class="table table-bordered"  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Laboratory</th>
+                    <th>Separate Room Available</th>
+                    <th>Present Condition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Physics</b></td>
+                    <td>{{object.pf_physics_sep}}</td>
+                    <td>{{object.pf_physics_condition}}</td>
+                </tr>
+                <tr>
+                    <td><b>Chemistry</b></td>
+                    <td>{{object.pf_chemistry_sep}}</td>
+                    <td>{{object.pf_chemistry_condition}}</td>
+                </tr>
+                <tr>
+                    <td><b>Biology</b></td>
+                    <td>{{object.pf_bio_sep}}</td>
+                    <td>{{object.pf_bio_condition}}</td>
+                </tr>
+                <tr>
+                    <td><b>Mathematics</b></td>
+                    <td>{{object.pf_maths_sep}}</td>
+                    <td>{{object.pf_maths_condition}}</td>
+                </tr>
+                <tr>
+                    <td><b>Geography</b></td>
+                    <td>{{object.pf_geog_sep}}</td>
+                    <td>{{object.pf_geog_condition}}</td>
+                </tr>
+                <tr>
+                    <td><b>Home Science</b></td>
+                    <td>{{object.pf_home_sci_sep}}</td>
+                    <td>{{object.pf_home_sci_condition}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+&nbsp;
+
+
+
+
+
+            <!--School facilities-->
+    <div>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseFacilities"
+        aria-expanded="false" aria-controls="collapseFacilities">
+        <b> > Facilities:</b>
+        </button>
+    </div>
+    &nbsp;
+    <div class="collapse" id="collapseFacilities">
+        <table class="table table-bordered  cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Particulars</th>
+                    <th>Availability</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Separate Room for Assistant Head Teacher/Vice principal</b></td>
+                    <td>{{object.pf_sep_room_head_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Separate common room for girls</b></td>
+                    <td>{{object.pf_sep_girls_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Staffroom for teachers</b></td>
+                    <td>{{object.pf_staff_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Co-curricular activity room/arts and crafts room</b></td>
+                    <td>{{object.pf_arts_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Staff quarters(including residential quarters for Head Teacher/Principal and Asst. Head Teacher/Vice Principal)</b></td>
+                    <td>{{object.pf_staff_quarters_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Integrated Science laboratory(integrated laboratory is the one in which Physics,Chemistry and Biology practical are held)for Secondary sections only</b></td>
+                    <td>{{object.pf_science_lab_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Library room</b></td>
+                    <td>{{object.pf_lib_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Computer room</b></td>
+                    <td>{{object.pf_comp_sec}}</td>
+                </tr>
+                <tr>
+                    <td><b>Tinkering Lab</b></td>
+                    <td>{{object.pf_tinkering_sec}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+        <!--ICT Teaching-->
+
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseICTTeaching"
+            aria-expanded="false" aria-controls="collapseICTTeaching">
+            <b> > ICT based tools used for Teaching :</b>
+                &nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_ict_for_teaching}}
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseICTTeaching">
+            <table class="table "  cellspacing="0" width="100%">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>(a)Number of hours spent per week :</b></td>
+                        <td>{{object.pf_ict_for_teaching_hours}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        {% if object.pf_which_comp_lab == "ICT" %}
+            
+        <!--ICT Lab-->
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseICT"
+            aria-expanded="false" aria-controls="collapseICT">
+            <b> > ICT Lab :</b>
+
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseICT">
+            <table class="table "  cellspacing="0" width="100%">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>(a)Year of implementation :</b></td>
+                        <td>{{object.pf_ict_year}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(b)Functional ICT Lab :</b></td>
+                        <td>{{object.pf_ict_functional}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Model :</b></td>
+                        <td>{{object.pf_ict_model}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(d)ICT Instructor :</b></td>
+                        <td>{{object.pf_ict_instructor}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% endif %}
+
+
+        <!-- Equipments-->
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseEquipments"
+            aria-expanded="false" aria-controls="collapseEquipments">
+            <b> > Equipment(s) :</b>
+
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseEquipments">
+            <table class="table table-bordered"  cellspacing="0" width="100%">
+                <thead>
+                    <th>Equipment/Facility</th>
+                    <th>Availability</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Audio/Visual/Public Address System</b></td>
+                        <td>{{object.pf_equip_audio}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Science Kit</b></td>
+                        <td>{{object.pf_equip_sci_kit}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Math kit</b></td>
+                        <td>{{object.pf_equip_math_kit}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Biometric device</b></td>
+                        <td>{{object.pf_equip_biometric}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--Dustbins-->
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDustbins"
+            aria-expanded="false" aria-controls="collapseDustbins">
+            <b> > Dustbins :</b>
+
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseDustbins">
+            <table class="table "  cellspacing="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td><b>Each Classrooms :</b></td>
+                        <td>{{object.pf_dustbins_class}}</td>
+                        <td><b>Toilet :</b></td>
+                        <td>{{object.pf_dustbins_toilet}}</td>
+                    </tr>
+                    <tr>
+                        <td ><b>Kitchen :</b></td>
+                        <td>{{object.pf_dustbins_kitchen}}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <!--Medical Check-up conducted last year-->
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMedical"
+            aria-expanded="false" aria-controls="collapseMedical">
+            <b> > Medical Check-up of Students conducted in last academic year:</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_medical_check_up}}
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseMedical">
+            <table class="table "  cellspacing="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td colspan="2"><b>Total Number of Medical Check-ups conducted in last academic year :</b></td>
+                        <td>{{object.pf_total_medical_check_ups}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>De-worming tablets given to children? :</b></td>
+                        <td>{{object.pf_de_worming_given}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>Iron and Folic acid tablets given to children as per guidelines of WCD :</b></td>
+                        <td>{{object.pf_iron_folic}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+       <!--Details of classrooms-->
+       <div>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClassrooms"
+        aria-expanded="false" aria-controls="collapseClassrooms">
+        <b> > Details of Classrooms:</b>
+        </button>
+    </div>
+    &nbsp;
+    <div class="collapse" id="collapseClassrooms">
+        <table class="table table-bordered"  cellspacing="0" width="100%">
+            <thead>
+                <th>
+                    No.of Classrooms used for Instructional purposes
+                </th>
+                <th>
+                    No. of Classrooms under Construction
+                </th>
+                <th>
+                    Total Classrooms in dilapidated condition
+                </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>{{object.pf_classrooms_instructional}}</b></td>
+                    <td><b>{{object.pf_classrooms_construction}}</b></td>
+                    <td><b>{{object.pf_dilapidated}}</b></td>
+                </tr>
+            </tbody>
+        </table>
+        <!--Classrooms Stage/Level-->
+        
+        <div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClassroomsStage"
+            aria-expanded="false" aria-controls="collapseClassroomsStage">
+            <b> > Out of the Total Classrooms used for Instructional purposes,the details by Stage/level:</b>
+            </button>
+        </div>
+        &nbsp;
+        <div class="collapse" id="collapseClassroomsStage">
+            <table class="table "  cellspacing="0" width="100%">
+                <tbody>
+                    <tr>
+                        <td><b>(a)Pre-Primary:</b></td>
+                        <td>{{object.pf_classrooms_instructional_pre_pri}}</td>
+                        <td><b>(d)Higher Secondary</b></td>
+                        <td>{{object.pf_classrooms_instructional_higher_sec}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(b)Primary</b></td>
+                    <td>{{object.pf_classrooms_instructional_pri}}</td>
+                        <td><b>(e)Secondary</b></td>
+                        <td>{{object.pf_classrooms_instructional_sec}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>(c)Upper Primary</b></td>
+                        <td>{{object.pf_classrooms_instructional_upper_pri}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    &nbsp;
+
+<hr>
+
+
+
+    <div>
+
+        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/library-details/{{ request.resolver_match.kwargs.pk }}';" >Library</button>
+    
+        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/items-details/{{ request.resolver_match.kwargs.pk }}';" >Items</button>
+
+        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-toilet-details/{{ request.resolver_match.kwargs.pk }}';" >Details of Toilets</button>
+
+        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+    
+        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
+    
+        <!-- <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+    
+        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/{{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button> -->
+    
+
+        
+    </div>     
+                    
+    <hr>     
+
+</div>
+</div>
+
+    </div>
+    </div>
+
+{% endblock %}
