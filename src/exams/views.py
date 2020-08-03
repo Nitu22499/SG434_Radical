@@ -80,9 +80,8 @@ def reportView(request):
         # New Strategy
         subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
         students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA')
-        print(students)
         if subject.subject_type != "Co -Scholastic":
-            exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'], exam_year=request.POST['year'])
+            exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
             if (not exams) and academic_year() == request.POST['year']:
                 exams = []
                 for stud in students:
@@ -93,7 +92,7 @@ def reportView(request):
             context.update({
                 'has_co_scholastic_subject': True
             })
-            exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'], exam_cs_year=request.POST['year'])
+            exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
             if (not exams) and academic_year() == request.POST['year']:
                 exams = []
                 for stud in students:

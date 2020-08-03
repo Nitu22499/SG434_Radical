@@ -36,8 +36,12 @@
             </tr>
             <tr>
               <td scope="row">3</td>
-              <td>Schools by category</td>
-              <td><a href = "#"><button class="btn btn-primary">View Report</button></a></td>              
+              <td>Students Enrolment by Broad Categories of Management</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#studentsEnrolmentByMgmtCategory">View Report</button></a></td>
+                {% url 'reports:students_enrolment_by_mgmt_category' as students_enrolment_by_mgmt_category_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=students_enrolment_by_mgmt_category_url modal_id='studentsEnrolmentByMgmtCategory' title='Student Enrolment by Broad Categories of Management' %}            
             </tr>
 
             <tr>
@@ -66,6 +70,24 @@
                 {% url 'reports:teachers_by_social_category' as teachers_by_social_category_url %}
                 <!-- generate view url and pass to modal template -->
                 {% include 'reports/modal_template.html' with view_url=teachers_by_social_category_url modal_id='teachersBySocialCategory' title='Teachers by Social Category' %}            
+            </tr>
+            <tr>
+              <td scope="row">7</td>
+              <td>Teachers received in-service training</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#teachersReceivedInServiceTraining">View Report</button></a></td>
+                {% url 'reports:teachers_received_in_service_training' as teachers_received_in_service_training_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=teachers_received_in_service_training_url modal_id='teachersReceivedInServiceTraining' title='Teachers received in-service training' %}            
+            </tr>
+            <tr>
+              <td scope="row">8</td>
+              <td>Teachers trained for teaching CWSN</td>
+              <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
+                data-target="#teachersTrainedForCWSN">View Report</button></a></td>
+                {% url 'reports:teachers_trained_for_cwsn' as teachers_trained_for_cwsn_url %}
+                <!-- generate view url and pass to modal template -->
+                {% include 'reports/modal_template.html' with view_url=teachers_trained_for_cwsn_url modal_id='teachersTrainedForCWSN' title='Teachers trained for teaching CWSN' %}            
             </tr>
           </tbody>
         </table>
