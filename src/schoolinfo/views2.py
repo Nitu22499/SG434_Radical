@@ -24,19 +24,18 @@ def SchoolRTEDetailView(request,ac_year):
         'class': choices,
         'selected_year': None
     }
-
     for choice in choices:
-        if not SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school):
-                SchoolRTE.objects.create(class_name=choice[0], academic_year=ac_year,
-                    srte_school = request.user.school
-                )
-        response.update({
-            choice[0]: SchoolRTE.objects.get(class_name=choice[0], academic_year=ac_year, srte_school = request.user.school)
-        })
-        context.update({
-            'rows': response,
-            'selected_year': ac_year
-        })    
+        obj = SchoolRTE.objects.filter(class_name=choice[0], academic_year=ac_year, srte_school_id = request.user.school if request.user.is_authenticated and  request.user.is_school_admin else request.GET.get('school',1)).first()
+        if obj:
+            response.update({
+                choice[0]: obj
+            })
+        else:
+            return render(request, 'schoolinfo/404.html', status=404)
+    context.update({
+        'rows': response,
+        'selected_year': ac_year
+    })
     return render(request, template_name, context)
 
 
@@ -50,11 +49,13 @@ def SchoolEWSDetailView(request,ac_year):
         'class': choice,
         'selected_year': None
     }
-    if not SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school = request.user.school):
-        SchoolEWS.objects.create(class_name=choice, academic_year=ac_year,sews_school = request.user.school)
-    response.update({
-        choice: SchoolEWS.objects.get(class_name=choice, academic_year=ac_year, sews_school = request.user.school)
-    })
+    obj = SchoolEWS.objects.filter(class_name=choice, academic_year=ac_year, sews_school_id = request.user.school if request.user.is_authenticated and  request.user.is_school_admin else request.GET.get('school',1)).first()
+    if obj:
+        response.update({
+            choice: obj
+        })
+    else:
+        return render(request, 'schoolinfo/404.html', status=404)
     context.update({
         'rows': response,
         'selected_year': ac_year
@@ -76,16 +77,16 @@ def SchoolAnnualDetailView(request,ac_year):
         'class': choices,
     }
     for choice in choices:
-        if not SchoolAnnual.objects.filter(class_name=choice[0], sa_school_name = request.user.school):
-            SchoolAnnual.objects.create(class_name=choice[0],
-                    sa_school_name = request.user.school
-                )
-        response.update({
-            choice[0]: SchoolAnnual.objects.get(class_name=choice[0],sa_school_name = request.user.school)
-        })
-        context.update({
-            'rows': response,
-        })    
+        obj = SchoolAnnual.objects.filter(class_name=choice[0],sa_school_name_id = request.user.school if request.user.is_authenticated and request.user.is_school_admin else request.GET.get('school',1)).first()
+        if obj:
+            response.update({
+                choice[0]: obj
+            })
+        else:
+            return render(request, 'schoolinfo/404.html', status=404)
+    context.update({
+        'rows': response,
+    })    
     return render(request, template_name, context)
 
 def SchoolAnnualView(request):
@@ -157,16 +158,16 @@ def SchoolIncentivesDetailView(request,ac_year):
         'class': choices,
     }
     for choice in choices:
-        if not SchoolIncentives.objects.filter(class_name=choice[0], si_school_name = request.user.school):
-            SchoolIncentives.objects.create(class_name=choice[0],
-                    si_school_name = request.user.school
-                )
-        response.update({
-            choice[0]: SchoolIncentives.objects.get(class_name=choice[0],si_school_name = request.user.school)
-        })
-        context.update({
-            'rows': response,
-        })    
+        obj = SchoolIncentives.objects.filter(class_name=choice[0],si_school_name = request.user.school if request.user.is_authenticated and  request.user.is_school_admin else request.GET.get('school',1)).first()
+        if obj:
+            response.update({
+                choice[0]: obj
+            })
+        else:
+            return render(request, 'schoolinfo/404.html', status=404)
+    context.update({
+        'rows': response,
+    })    
     return render(request, template_name, context)
 
 def SchoolIncentivesView(request):

@@ -1,5 +1,91 @@
 {% extends 'base.html' %}
 
+{% block title %}
+  {{ request.user.district|lower|capfirst }} Admin
+{% endblock title %}
+
 {% block body %}
-<h2>District Dashboard</h2>
+
+  <div class="container my-4">
+    <div class="card bg-teal-100 mb-4 shadow-none">
+            <div class="card-body p-5">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <h2>Welcome {{ request.user.district|lower|capfirst }} Admin,</h2>
+                        <small><i class="material-icons" style='font-size:14px'>school</i> Admin of {{ request.user.district|lower|capfirst }}</small>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <h4 class='mb-4'>Quick Links</h4>
+
+    <div class="row school-admin-links">
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Schools Actions
+            </div>
+            <a href="{% url 'profiles:school-register'%}" class='btn btn-primary btn-sm'>Add School <i class="material-icons">add</i></a>
+            <a href="{% url 'profiles:school-list'%}" class='btn btn-secondary btn-sm'>List School</a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Total Schools in {{ request.user.block|lower|capfirst }}: {{ schools_count }}</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+        <div class="col-lg-3 col-md-4 mb-3">
+            <div class="card border shadow-none">
+                <div class="card-body">
+                    <div class="card-title h5 mb-3">
+                        Employee actions
+                    </div>
+                    <a href="{% url 'employee:authority' %}" class='btn btn-primary btn-sm'>View Employee <i
+                            class="material-icons">list</i></a>
+                </div>
+                <div class="card-footer">
+                    <strong>
+                        <small>Total number of Employee : {{ employees_count }}</small>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 mb-3">
+            <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Attendance Management
+            </div>
+            <a href="{% url 'attendance:index' %}" class='btn btn-primary btn-sm'>Fetch Attendance <i class="material-icons">list</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Student & Employee Attendance</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4 mb-3">
+        <div class="card border shadow-none">
+          <div class="card-body">
+            <div class="card-title h5 mb-3">
+              Academic Records
+            </div>
+            <a href="{% url 'exams:report' %}" class='btn btn-primary btn-sm'>Academic Info <i class="material-icons-outlined">info</i></a>
+          </div>
+          <div class="card-footer">
+            <strong>
+              <small>Get Academic Records</small>
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

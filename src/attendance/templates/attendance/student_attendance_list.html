@@ -35,7 +35,7 @@
                 {% for head_val in header %}
                     {% if forloop.first %}
                         <th scope="col" class="text-center">{{ head_val }}</th>
-                    {% elif forloop.counter0 < 3 or forloop.last %}
+                    {% elif forloop.counter == 2 or forloop.last %}
                         <th scope="col">{{ head_val }}</th>
                     {% else %}
                         <th scope="col" class="text-center"><a href="
@@ -56,7 +56,7 @@
 
                         {% if forloop.first %}
                             <th scope="row" class="text-center">{{ value }}</th>
-                        {% elif forloop.counter0 < 3 %}
+                        {% elif forloop.counter0 < 2 %}
                             <td>{{ value }}</td>
                         {% elif forloop.last %}
                             <td>{{ value }} %</td>

@@ -35,6 +35,7 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=schools_by_type_url modal_id='schoolsByTypeModal' title='Type of Schools (Boys, Girls, Co-Educational)' %}            
           </tr>
+          {% comment %}
           <tr>
             <td scope="row">3</td>
             <td>Students Enrolment by Broad Categories of Management</td>
@@ -44,9 +45,9 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=students_enrolment_by_mgmt_category_url modal_id='studentsEnrolmentByMgmtCategory' title='Student Enrolment by Broad Categories of Management' %}            
           </tr>
-
+          {% endcomment %}
           <tr>
-            <td scope="row">4</td>
+            <td scope="row">3</td>
             <td>Schools in Rural & Urban Area</td>
             <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
               data-target="#schoolsByAreaModal">View Report</button></a></td>
@@ -145,7 +146,7 @@
               {% include 'reports/modal_template.html' with view_url=schools_by_c_url modal_id='schoolsBycModal' title='Schools with Computers' %}
           </tr>
           <tr>
-            <td scope="row">17</td>
+            <td scope="row">14</td>
             <td>Students Enrolment by Gender </td>
             <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
               data-target="#studentsByGender">View Report</button></a></td>
@@ -153,6 +154,7 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=students_enrolment_by_gender_url modal_id='studentsByGender' title='Students Enrolment by Gender' %}
           </tr>
+          {% comment %}
           <tr>
             <td scope="row">18</td>
             <td>Students Enrolment by Social Category</td>
@@ -162,8 +164,9 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=students_enrolment_by_social_category_url modal_id='studentsBySocialCategory' title='Students Enrolment by Social Category' %}
           </tr>
+          {% endcomment %}
           <tr>
-            <td scope="row">19</td>
+            <td scope="row">15</td>
             <td>Students Enrolment by Area (Rural, Urban)</td>
             <td><a href = "#"><button class="btn btn-primary" data-toggle="modal"
               data-target="#studentsByArea">View Report</button></a></td>
@@ -171,6 +174,7 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=students_enrolment_by_area_url modal_id='studentsByArea' title='Students Enrolment by Area (Rural, Urban)' %}
           </tr>
+          {% comment %}
           <tr>
             <td scope="row">20</td>
             <td>Students received Free Textbooks</td>
@@ -180,9 +184,11 @@
               <!-- generate view url and pass to modal template -->
               {% include 'reports/modal_template.html' with view_url=students_received_free_textbooks_url modal_id='studentsWithBooks' title='Students received Free Textbooks' %}
           </tr>
+          {% endcomment %}
         </tbody>
       </table>
   </div>
+  <!-- Text here -->
     
 
         <!-- Modals -->

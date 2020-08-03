@@ -8,7 +8,7 @@ class SchoolProfileForm(forms.ModelForm):
 
     class Meta:
         model = SchoolProfile
-        exclude = ('sp_school', 'academic_year')
+        exclude = ('sp_school', 'academic_year', 'sp_last_synced')
 
 class PhysicalFacilitiesForm(forms.ModelForm):
 

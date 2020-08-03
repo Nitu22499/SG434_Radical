@@ -20,8 +20,8 @@ class Employee(models.Model):
     employee_date_of_joining = models.DateField(verbose_name='Date of Joining')
 
     employee_is_married = models.BooleanField(default=False, max_length=25, verbose_name='Married?')
-    employee_contact_number = models.IntegerField(validators=(validate_phone_number,), blank=True,
-                                                  verbose_name='Contact Number')
+    employee_contact_number = models.BigIntegerField(validators=(validate_phone_number,), blank=True,
+                                                     verbose_name='Contact Number')
     employee_email_address = models.EmailField(max_length=254, blank=True, verbose_name='Email Address')
     employee_other_info = models.TextField(blank=True, verbose_name='Other Information')
 

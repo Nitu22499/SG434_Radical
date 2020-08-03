@@ -66,8 +66,7 @@
         <table class="table table-responsive table-striped table-hover">
             <thead class="table-dark">
             <tr>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
+                <th scope="col">Full name</th>
                 <th scope="col" class="text-center">Attendance</th>
                 <th scope="col">Reason for absence</th>
             </tr>
@@ -76,8 +75,7 @@
             {% for employee in attendance %}
 
                 <tr>
-                    <td>{{ employee.employee_attendance_employee.employee_user.first_name }}</td>
-                    <td>{{ employee.employee_attendance_employee.employee_user.last_name }}</td>
+                    <td>{{ employee.employee_attendance_employee.employee_user.first_name }} {{ employee.employee_attendance_employee.employee_user.last_name }}</td>
                     <td class="text-{% if employee.employee_attendance_is_present %}success{% else %}danger{% endif %} text-center">
                         {% if employee.employee_attendance_is_present %}
                             P

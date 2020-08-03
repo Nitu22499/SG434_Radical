@@ -15,7 +15,7 @@
         <h2 class = "card-header text-center bg-primary text-white">School Records</h2>
         <div class = "card-body">
             <div class="container-fluid">
-                <form method="GET" id="sisForm" data-blocks-url="{% url 'misc:ajax_load_blocks' %}">
+                <form method="GET" onsubmit="return processForm()" id="sisForm" data-blocks-url="{% url 'misc:ajax_load_blocks' %}">
                     <div class="row mx-auto">
                         {% for field in form %}
                         <div class="col-md-4">
@@ -42,11 +42,11 @@
                         <th scope="col">SCHOOL NAME</th>                      
                         <th scope="col">DISTRICT</th>
                         <th scope="col">BLOCK</th>
-                        <th scope="col">VILLAGE NAME</th>
                         <th scope="col">CLUSTER</th>
                         <th scope="col">LOCATION</th>
                         <th scope="col">SCHOOL CATEGORY</th>
                         <th scope="col">SCHOOL BOARD</th>
+                        <th scope="col">LAST SYNCED</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,11 +56,11 @@
                             <td><a href = "{% url 'schoolinfo:school_profile_details' school.pk %}">{{ school.sp_school_name }}</a></td>
                             <td>{{ school.sp_school.school_district }}</td>
                             <td>{{ school.sp_school.school_block }}</td>
-                            <td>{{ school.sp_village_ward }}</td>
                             <td>{{ school.sp_school.school_cluster }}</td>
                             <td>{{ school.sp_school_located }}</td>
                             <td>{{ school.sp_school_category }}</td>
                             <td>{{ school.sp_school.school_board }}</td>   
+                            <td>{{ school.sp_last_synced }}</td>    
                         </tr>
                     {% endfor %}
                 </tbody>

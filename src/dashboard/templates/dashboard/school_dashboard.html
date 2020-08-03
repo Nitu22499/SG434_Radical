@@ -247,7 +247,7 @@
             let district = "{{district_id}}"
             let block = "{{block_id}}"
             
-            fetch(`${route}?year=${academic_year}&district=${district}&block=${block}&field=${field}&value=${value}`)
+            fetch(`${route}?district=${district}&block=${block}&field=${field}&value=${value}`)
             .then(res => res.json())
             .then(res => {
                 window.chart = new Chart(ctx, {

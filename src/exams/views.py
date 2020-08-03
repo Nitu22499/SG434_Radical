@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from profiles.models import class_choices, section_choices, stream_choices
-
+from django.contrib.auth.decorators import login_required
 # Importing models
 from profiles.models import Subject, Student, School, District, Block
 from exams.models import Exam, ExamCoScholastic
@@ -13,6 +13,7 @@ import json
 from misc.utilities import academic_year, year_choices
 
 # Create your views here.
+@login_required()
 def reportView(request):
     # template_name = 'exams/report.html'
     template_name = 'exams/report-2.html'
@@ -123,22 +124,23 @@ def reportView(request):
         # New Strategy
         if none_edit_view:
             subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'], subject_board=School.objects.get(id=request.POST['school']).school_board)
-            students = Student.objects.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA', stud_school=request.POST['school'])
+            students = Student.objects.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA', stud_school=request.POST['school']).extra(select={'stud_rollno_int': 'CAST(stud_rollno AS INTEGER)'}).order_by('stud_rollno_int')
         else:
             subject = Subject.objects.get(subject_name=request.POST['subject'],subject_class=request.POST['class'],subject_board=request.user.school.school_board)
-            students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA')
-        
+            students = request.user.school.student_set.filter(stud_class=request.POST['class'], stud_section=request.POST['section'], stud_stream=request.POST['stream'] if stream else 'NA').order_by('stud_rollno').extra(select={'stud_rollno_int': 'CAST(stud_rollno AS INTEGER)'}).order_by('stud_rollno_int')
+
         if subject.subject_type != "Co -Scholastic":
             if none_edit_view:
                 exams = Exam.objects.filter(student__stud_school=request.POST['school'], exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
             else:
-                exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
-                if (not exams) and academic_year() == request.POST['year']:
+                # exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
+                if academic_year() == request.POST['year']:
                     exams = []
                     for stud in students:
-                        e = Exam(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
-                        e.save()
+                        e, cr = Exam.objects.get_or_create(exam_class=stud.stud_class, student=stud, subject=subject, exam_section=stud.stud_section, exam_stream=stud.stud_stream, exam_year=request.POST['year'], exam_rollno=stud.stud_rollno)
                         exams.append(e)
+                else:
+                    exams = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], subject=subject, exam_section=request.POST['section'], exam_stream=request.POST['stream'] if stream else 'NA', exam_year=request.POST['year'])
         else:
             context.update({
                 'has_co_scholastic_subject': True
@@ -146,19 +148,21 @@ def reportView(request):
             if none_edit_view:
                 exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school__school_name=request.POST['school'], exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
             else:
-                exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
-                if (not exams) and academic_year() == request.POST['year']:
+                # exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
+                if academic_year() == request.POST['year']:
                     exams = []
                     for stud in students:
-                        e = ExamCoScholastic(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
-                        e.save()
-                        exams.append(e)
+                        e, cr = ExamCoScholastic.objects.get_or_create(exam_cs_student=stud, exam_cs_class=stud.stud_class, exam_cs_subject=subject, exam_cs_section=stud.stud_section, exam_cs_stream=stud.stud_stream, exam_cs_year=request.POST['year'], exam_cs_rollno=stud.stud_rollno)
+                        exams.append(e)                    
+                else:
+                    exams = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school,exam_cs_class=request.POST['class'], exam_cs_subject=subject, exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'] if stream else 'NA', exam_cs_year=request.POST['year'])
         if not exams:
             context.update({'no_record': True})
         context.update({
             'exams': exams
         })
     return render(request, template_name, context)
+
 
 def getSchoolsByBlock(request, block_id):
     schools = School.objects.filter(school_block=block_id)
@@ -172,6 +176,7 @@ def getSchoolsByBlock(request, block_id):
         })
     json_res = json.dumps(res)
     return HttpResponse(json_res, content_type="application/json")
+
 
 def getBlocksByDistrict(request, district_id):
     blocks = Block.objects.filter(block_district=district_id)
@@ -206,6 +211,7 @@ def getSubjects(request, class_level):
     json_res = json.dumps(res)
     return HttpResponse(json_res, content_type="application/json")
 
+@login_required()
 def saveExamForm(request):
     students = json.loads(request.body)
     for stud in students:
@@ -222,10 +228,12 @@ def saveExamForm(request):
             exam_marks.full_clean()
             exam_marks.save()
         except Exception as e:
+            print(e)
             return HttpResponse(json.dumps({ "err": str(e) }), content_type="application/json")
 
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
 
+@login_required()
 def saveExamFormCoScholastic(request):
     students = json.loads(request.body)
     for stud in students:
@@ -242,6 +250,7 @@ def saveExamFormCoScholastic(request):
 
     return HttpResponse(json.dumps({ "msg": "success" }), content_type="application/json")
     
+@login_required()
 def myReportView(request):
     template_name = 'exams/my-report.html'
     year = academic_year()
@@ -282,14 +291,14 @@ def myReportView(request):
             return [template_name, context]
     return [template_name, context]
 
-
+@login_required()
 def studentReportView(request):
     if request.user.is_student:
         template_name, context = myReportView(request)
         return render(request, template_name, context)
     else:
         template_name = 'exams/student-report.html'
-
+        school = School.objects.get(id=request.GET.get('school'))
         sections = [ item for item in section_choices if item[0] ]
         context = {
             'academic_year': academic_year(),
@@ -297,7 +306,7 @@ def studentReportView(request):
             'section': sections,
             'year': year_choices,
             'stream': list(stream_choices)[2:],
-            'school_name': request.user.school.school_name
+            'school_name': school.school_name
         }
 
         if request.method=="POST":
@@ -351,11 +360,11 @@ def studentReportView(request):
                     })
             try:
                 if stream:
-                    exam = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], exam_section=request.POST['section'], exam_stream=request.POST['stream'], exam_rollno=request.POST['roll_no'], exam_year=request.POST['year'])
-                    exam_cs = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school, exam_cs_class=request.POST['class'], exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'], exam_cs_year=request.POST['year'], exam_cs_rollno=request.POST['roll_no'])
+                    exam = Exam.objects.filter(student__stud_school=school, exam_class=request.POST['class'], exam_section=request.POST['section'], exam_stream=request.POST['stream'], exam_rollno=request.POST['roll_no'], exam_year=request.POST['year'])
+                    exam_cs = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=school, exam_cs_class=request.POST['class'], exam_cs_section=request.POST['section'], exam_cs_stream=request.POST['stream'], exam_cs_year=request.POST['year'], exam_cs_rollno=request.POST['roll_no'])
                 else:
-                    exam = Exam.objects.filter(student__stud_school=request.user.school, exam_class=request.POST['class'], exam_section=request.POST['section'], exam_rollno=request.POST['roll_no'], exam_year=request.POST['year'], exam_school=request.user.school)
-                    exam_cs = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=request.user.school, exam_cs_class=request.POST['class'], exam_cs_section=request.POST['section'], exam_cs_year=request.POST['year'], exam_cs_rollno=request.POST['roll_no'], exam_cs_school=request.user.school)
+                    exam = Exam.objects.filter(student__stud_school=school, exam_class=request.POST['class'], exam_section=request.POST['section'], exam_rollno=request.POST['roll_no'], exam_year=request.POST['year'], exam_school=school)
+                    exam_cs = ExamCoScholastic.objects.filter(exam_cs_student__stud_school=school, exam_cs_class=request.POST['class'], exam_cs_section=request.POST['section'], exam_cs_year=request.POST['year'], exam_cs_rollno=request.POST['roll_no'], exam_cs_school=school)
                 
                 current_student = (exam and exam[0].student) or (exam_cs and exam_cs[0].exam_cs_student)
                 scholastic_subjects = exam
@@ -379,14 +388,15 @@ def studentReportView(request):
                 return render(request, template_name, context)
         return render(request, template_name, context)
 
-
+@login_required()
 def studentReportViewByID(request, stud_id):
     template_name = 'exams/report-by-id.html'
     year = academic_year()
+    school = School.objects.filter(id=request.GET.get('school',0)).first()
     context = {
         'academic_year': year,
         'year': year_choices,
-        'school_name': (request.user.is_student and request.user.student.stud_school.school_name) or request.user.school.school_name
+        'school_name': request.user.school.school_name if request.user.is_school_admin else school
     }
     if request.method=="POST":
         if request.POST['year']: year = request.POST['year']
@@ -410,7 +420,7 @@ def studentReportViewByID(request, stud_id):
                 })
             
         except Exception as e:
-            print(e)
+            # print(e)
             context.update({
                 'no_record': True
             })

@@ -1,30 +1,20 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    Basic Details
+{% endblock title %}
+
 {% block body %}
-<!-- Table with panel -->
-
-
-<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
-    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
-        <div class="card card-cascade narrower">
-
-      
-            <div
-              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2  d-flex justify-content-between align-items-center">
-          
-              
-          
-              <a href="" style="color:white" class="white-text mx-3 "><b>Basic Details :</b></a>
-          
-              
-          
-            </div>
-         
-         
-            <div class="px-4">
-                <div class="table-responsive">
-                    <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
-                        <tbody>
+    <div class="container">
+        
+        <div>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+        <br>        
+        <h3>Basic Details</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive table-striped">
+                <tbody>
                         <tr>
                             <td><b>School Name:</b></td>
                             <td>{{object.sp_school_name}}</td>
@@ -145,21 +135,21 @@
                             <td>{{object.sp_all_weather_road}}</td>
                         </tr>
                     </tbody>
-                    </table>
-                
-                </div>
-       
-                <!--Affiliation Board of school-->
+            </table>
+        </div>
+        
+        <br><br>
+        <!--Affiliation Board of school-->
             <div>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAffiliation"
-                aria-expanded="false" aria-controls="collapseAffiliation">
+                <button class="btn btn-light collapse_class"  data-toggle="collapse" data-target="#collapseAffiliation"
+                aria-expanded="false" aria-controls="collapseAffiliation"  >
                 <b> > Affiliation Board of School: </b>
                 </button>
             </div>
             &nbsp;
             <div class="collapse" id="collapseAffiliation">
                 <div class="table-responsive">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -182,15 +172,15 @@
             
             <!-- Sections By Class-->
             <div>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSections"
-                aria-expanded="false" aria-controls="collapseSections">
+                <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseSections"
+                aria-expanded="false" aria-controls="collapseSections" style="width:100%;text-align:left">
                 <b> > Number of Sections by Class :</b>
                 </button>
             </div>
             &nbsp;
             <div class="collapse" id="collapseSections">
                 <div class="table-responsive">
-                    <table class="table table-bordered" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             <tr>
                                 <th>Classes</th>
@@ -248,14 +238,14 @@
                
                 <!--year of recognition-->
                 <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseRecognition"
+                    <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseRecognition"
                     aria-expanded="false" aria-controls="collapseRecognition">
                     <b> > Year of Recognition of School(Only for Govt. Aided and Private Unaided School): </b>
                     </button>
                 </div>
                 &nbsp;
                 <div class="collapse" id="collapseRecognition">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -263,13 +253,13 @@
                         <tr>
                         <td><b>(a)Primary:</b></td>
                         <td>{{object.sp_primary_year}}</td>
-                        <td><b>(b)Upper Primary</b></td>
+                        <td><b>(b)Upper Primary:</b></td>
                         <td>{{object.upper_primary_year}}</td>
                     </tr>
                     <tr>
-                        <td><b>(c)Secondary</b></td>
+                        <td><b>(c)Secondary:</b></td>
                         <td>{{object.sp_secondary_year}}</td>
-                        <td><b>(d)Higher Secondary</b></td>
+                        <td><b>(d)Higher Secondary:</b></td>
                         <td>{{object.sp_higher_secondary_year}}</td>
                     </tr>
                     </table>
@@ -279,14 +269,14 @@
                 <!--Ugradation year-->
               
                 <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseUpgradation"
+                    <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseUpgradation"
                     aria-expanded="false" aria-controls="collapseUpgradation">
                     <b> > Year of Upgradation of the School: </b>
                     </button>
                 </div>
                 &nbsp;
                 <div class="collapse" id="collapseUpgradation">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -309,14 +299,14 @@
             
                 <!--distance of the school-->
                 <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDistance"
+                    <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseDistance"
                     aria-expanded="false" aria-controls="collapseDistance">
                     <b> > Distance of the school(in km.) from the nearest Govt/Aided School: </b>
                     </button>
                 </div>
                 &nbsp;
                 <div class="collapse" id="collapseDistance">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -324,13 +314,13 @@
                         <tr>
                         <td><b>(a)Primary:</b></td>
                         <td>{{object.sp_distance_primary}}</td>
-                        <td><b>(b)Upper Primary</b></td>
+                        <td><b>(b)Upper Primary:</b></td>
                         <td>{{object.sp_distance_upper_primary}}</td>
                     </tr>
                     <tr>
-                        <td><b>(c)Secondary</b></td>
+                        <td><b>(c)Secondary:</b></td>
                         <td>{{object.sp_distance_secondary}}</td>
-                        <td><b>(d)Higher Secondary</b></td>
+                        <td><b>(d)Higher Secondary:</b></td>
                         <td>{{object.sp_distance_higher_secondary}}</td>
                     </tr>
                     </table>
@@ -339,14 +329,14 @@
 
                 <!--Number of instructional days-->
                 <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseInstructional"
+                    <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseInstructional"
                     aria-expanded="false" aria-controls="collapseInstructional">
                     <b> > Number of Instructional days(previous academic year) :</b>
                     </button>
                 </div>
                 &nbsp;
                 <div class="collapse" id="collapseInstructional">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -354,17 +344,17 @@
                         <tr>
                         <td><b>(a)Pre-Primary:</b></td>
                         <td>{{object.sp_pre_primary_ins_days}}</td>
-                        <td><b>(d)Higher Secondary</b></td>
+                        <td><b>(d)Higher Secondary:</b></td>
                 <td>{{object.sp_higher_secondary_ins_days}}</td>
                     </tr>
                     <tr>
-                        <td><b>(b)Primary</b></td>
+                        <td><b>(b)Primary:</b></td>
                         <td>{{object.sp_primary_ins_days}}</td>
-                        <td><b>(e)Secondary</b></td>
+                        <td><b>(e)Secondary:</b></td>
                         <td>{{object.sp_secondary_ins_days}}</td>
                     </tr>
                     <tr>
-                        <td><b>(c)Upper Primary</b></td>
+                        <td><b>(c)Upper Primary:</b></td>
                         <td>{{object.sp_upper_primary_ins_days}}</td>
                     </tr>
                     </table>
@@ -374,14 +364,14 @@
                 
                 <!--Number of hours in School-->
                 <div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAverageHours"
+                    <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseAverageHours"
                     aria-expanded="false" aria-controls="collapseAverageHours">
                     <b> > Average school hours for children(per day) :</b>
                     </button>
                 </div>
                 &nbsp;
                 <div class="collapse" id="collapseAverageHours">
-                    <table class="table" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-responsive table-striped">
                         <thead>
                             
                         </thead>
@@ -389,17 +379,17 @@
                         <tr>
                         <td><b>(a)Pre-Primary:</b></td>
                         <td>{{object.sp_pre_primary_avg_chil_days}}</td>
-                        <td><b>(d)Higher Secondary</b></td>
+                        <td><b>(d)Higher Secondary:</b></td>
                         <td>{{object.sp_higher_secondary_avg_chil_days}}</td>
                     </tr>
                     <tr>
-                        <td><b>(b)Primary</b></td>
+                        <td><b>(b)Primary:</b></td>
                         <td>{{object.sp_primary_avg_chil_days}}</td>
-                        <td><b>(e)Secondary</b></td>
+                        <td><b>(e)Secondary:</b></td>
                         <td>{{object.sp_secondary_avg_chil_days}}</td>
                     </tr>
                     <tr>
-                        <td><b>(c)Upper Primary</b></td>
+                        <td><b>(c)Upper Primary:</b></td>
                         <td>{{object.sp_upper_primary_avg_chil_days}}</td>
                     </tr>
                     </table>
@@ -408,14 +398,14 @@
                 
             <!--Working hours for Teacher-->
             <div>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseAverageHoursTeacher"
+                <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseAverageHoursTeacher"
                 aria-expanded="false" aria-controls="collapseAverageHoursTeacher">
                 <b> > Average Working hours for Teachers(per day) :</b>
                 </button>
             </div>
             &nbsp;
             <div class="collapse" id="collapseAverageHoursTeacher">
-                <table class="table" cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <thead>
                         
                     </thead>
@@ -423,17 +413,17 @@
                     <tr>
                     <td><b>(a)Pre-Primary:</b></td>
                     <td>{{object.sp_pre_primary_avg_teach_days}}</td>
-                    <td><b>(d)Higher Secondary</b></td>
+                    <td><b>(d)Higher Secondary:</b></td>
                     <td>{{object.sp_higher_secondary_avg_teach_days}}</td>
                 </tr>
                 <tr>
-                    <td><b>(b)Primary</b></td>
+                    <td><b>(b)Primary:</b></td>
             <td>{{object.sp_primary_avg_teach_days}}</td>
-                    <td><b>(e)Secondary</b></td>
+                    <td><b>(e)Secondary:</b></td>
                     <td>{{object.sp_secondary_avg_teach_days}}</td>
                 </tr>
                 <tr>
-                    <td><b>(c)Upper Primary</b></td>
+                    <td><b>(c)Upper Primary:</b></td>
                     <td>{{object.sp_upper_primary_avg_teach_days}}</td>
                 </tr>
                 </table>
@@ -445,37 +435,26 @@
 
 
             
-            <hr>
-            <div>
-                <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >For Government and Aided Schools</button>
+            
+            
+                <button type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >For Government and Aided Schools</button>
                 
-                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
+                <button style="margin-top: 30px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/physical-details/{{ request.resolver_match.kwargs.pk }}';" >Physical Facilities and Equipments</button>
                 
 
-                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-safety-details/{{ request.resolver_match.kwargs.pk }}';" >School Safety</button>
+                <button style="margin-top: 30px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-safety-details/{{ request.resolver_match.kwargs.pk }}';" >School Safety</button>
 
-                <button style="margin-left:40px;margin-top: 30px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-receipt-details/{{ request.resolver_match.kwargs.pk }}';" >Receipts and Expenditure </button>
+                <button style="margin-top: 30px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-receipt-details/{{ request.resolver_match.kwargs.pk }}';" >Receipts and Expenditure </button>
 
-                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/2020%20-%202021';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
+                <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-rte-details/2020-2021?school={{ request.resolver_match.kwargs.pk }}';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
 
-                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/2020%20-%202021';" >No. of Economically Weaker Section(EWS)students enrolled</button>
+                <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-ews-details/2020-2021?school={{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button>
 
-                <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-annual-details/2020%20-%202021';" >Annual Examination Result at Elementary Level</button>
+                <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-annual-details/2020-2021?school={{ request.resolver_match.kwargs.pk }}';" >Annual Examination Result at Elementary Level</button>
 
-            </div>     
+             
                             
-            <hr>       
-                    
-                        
-
-                       
-                 
-        
-
-</div>
-</div>
-
-    </div>
+            <hr>    
     </div>
 
-{% endblock %}
+{% endblock body %}

@@ -1,4 +1,5 @@
 from django.views.generic import CreateView,ListView,FormView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from schoolinfo.models import SchoolProfile
 from .forms import *
@@ -11,7 +12,7 @@ from django.contrib import messages
 from django.forms.models import model_to_dict
 from misc.utilities import academic_year
 
-class StudentSignUpView(CreateView):
+class StudentSignUpView(LoginRequiredMixin,CreateView):
     model = User
     form_class = StudentSignUpForm
     template_name = 'profiles/student-signup.html'
@@ -32,7 +33,7 @@ class Login(LoginView):
 class Logout(LogoutView):
     pass
 
-class StudentList(ListView):
+class StudentList(LoginRequiredMixin,ListView):
     model = Student
     template_name = 'profiles/student-list.html'
     stud_class=""
@@ -43,7 +44,16 @@ class StudentList(ListView):
         class_choices=['1','2','3','4','5','6','7', '8', '9', '10', '11', '12', 'LKG', 'UKG']
         # stream_choices=['COMMERCE','ELECTRICAL TECHNOLOGY','HUMANITIES','INFORMATION TECHNOLOGY','PCM','PCB','TOURISM','NA']
         stream_choices=[('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM')]
-        school = School.objects.all()
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
+        elif self.request.user.is_block_admin:
+            block = self.request.user.block
+            school = School.objects.filter(school_block=block)
+        elif self.request.user.is_district_admin:
+            district = self.request.user.district
+            school = School.objects.filter(school_district=district)
+        elif self.request.user.is_state_admin:
+            school = School.objects.all()
         # print(school)
         kwargs['school_list'] = school
         kwargs['stream_list'] = stream_choices
@@ -53,19 +63,19 @@ class StudentList(ListView):
         self.stud_school = self.request.GET.get('input_school')
         # print(self.stud_school)
         self.stud_class = self.request.GET.get('input_class')
-        print(self.stud_class)
+        # print(self.stud_class)
         self.stud_section = self.request.GET.get('input_section')
-        print(self.stud_section)
+        # print(self.stud_section)
         self.stud_stream = self.request.GET.get('input_stream')
-        print(self.stud_stream)
+        # print(self.stud_stream)
         
         if(self.stud_stream is None):
             self.stud_stream="NA"
-            print(self.stud_stream)
+            # print(self.stud_stream)
         # print(self.request.user)
         if(self.request.user.is_school_admin):
             student=Student.objects.filter(stud_school=self.request.user.school,stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
-            print(student)
+            # print(student)
             if student:
                 kwargs['currentclass']=self.stud_class
                 kwargs['currentsection']=self.stud_section
@@ -81,11 +91,12 @@ class StudentList(ListView):
             
         else:
             obj=Student.objects.filter(stud_school=self.stud_school,stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
-            # print(obj)
+            #print(obj)
             if obj:
                 kwargs['currentclass']=self.stud_class
                 kwargs['currentsection']=self.stud_section
                 kwargs['currentstream']=self.stud_stream
+                kwargs['currentschool']=self.stud_school
                 kwargs['student']=obj
                 return super().get_context_data(**kwargs)
             else:
@@ -99,7 +110,7 @@ class StudentList(ListView):
         # print(student)
         
 
-class StudentInfo(ListView):
+class StudentInfo(LoginRequiredMixin,ListView):
     model = Student
     template_name = 'profiles/student-info.html'
     context_object_name="stud"
@@ -118,7 +129,7 @@ class StudentInfo(ListView):
         # print(kwargs['stud'])
         return super().get_context_data(**kwargs)
 
-class StudentUpdateView(FormView):
+class StudentUpdateView(LoginRequiredMixin, FormView):
     form_class = StudentUpdateForm
     template_name = 'profiles/student-update-info.html'
     success_url = reverse_lazy('profiles:student-list')
@@ -174,16 +185,21 @@ class StudentUpdateView(FormView):
         return super().form_valid(form) 
 
 
-class StudentDeleteView(DeleteView):
+class StudentDeleteView(LoginRequiredMixin,DeleteView):
     model = User
     success_url = reverse_lazy('profiles:student-list')
 
 
-class SchoolRegisterView(CreateView):
+class SchoolRegisterView(LoginRequiredMixin,CreateView):
     model = User
     form_class = SchoolSignUpForm
     template_name = 'profiles/school-register.html'
     success_url = reverse_lazy('profiles:school-list')
+
+    def get_form_kwargs(self):
+        form = super().get_form_kwargs()
+        form['user'] = self.request.user
+        return form
 
     def form_valid(self, form):
         """Save to the database. If data exists, update else create new record"""
@@ -210,8 +226,6 @@ class SchoolList(FormView):
     categories_field = None
     management_field = None
 
-    
-
     def get(self, request, *args, **kwargs):
         self.academic_year_field = self.request.GET.get('academic_year_field')
         # print(self.academic_year_field)
@@ -230,15 +244,27 @@ class SchoolList(FormView):
         return super(SchoolList, self).get(request, *args, **kwargs)
     
     def get_initial(self):
+        if not self.request.user.is_anonymous:
+            if self.request.user.is_block_admin:
+                self.districts_field = self.request.user.block.block_district.id
+                self.blocks_field = self.request.user.block.id
+            elif self.request.user.is_district_admin:
+                self.districts_field = self.request.user.district.id
+
         initial_data = {
-            'academic_year_field':self.academic_year_field,
-            'districts_field':self.districts_field,
-            'blocks_field':self.blocks_field,
-            'categories_field':self.categories_field,
-            'management_field':self.management_field
+            'academic_year_field': self.academic_year_field,
+            'districts_field': self.districts_field,
+            'blocks_field': self.blocks_field,
+            'categories_field': self.categories_field,
+            'management_field': self.management_field
         }
         return initial_data
     
+    def get_form_kwargs(self):
+        form = super().get_form_kwargs()
+        form['user'] = self.request.user
+        return form
+
     def get_form(self, form_class=None):
         if form_class is None:
             form_class = self.get_form_class()

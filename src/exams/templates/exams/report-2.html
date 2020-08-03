@@ -6,7 +6,7 @@
     <div class="card border border-primary shadow-2-strong col-md-11 mx-auto">
         <h2 class="card-header text-center bg-primary text-white">
             {% if not no_editing %}
-            UPDATE STUDENT MARKS
+            UPDATE / VIEW STUDENT MARKS
             {% else %}
             VIEW STUDENT MARKS
             {% endif %}
@@ -133,13 +133,14 @@
                             <table id="table" class="table text-center table-bordered table-hover">
                                 <thead id="myHeader">
                                     <tr class="table-light align-middle">
-                                        <th>&nbsp;</th>
+                                        <th colspan="2">Student</th>
                                         <th scope="col" colspan="6">Term Test 1</th>
                                         <th scope="col" colspan="6">Term Test 2</th>
                                     </tr>
                                     <tr class="table-light">
-                                        <th data-override="id" hidden></th>
-                                        <th scope="col" data-override="first_name">First Name</th>
+                                        <th data-override="id" hidden></th>   
+                                        <th>Roll no.</th>                                     
+                                        <th scope="col" data-override="first_name">Name</th>
                                         <th scope="col" data-override="test_1">Test</th>
                                         <th scope="col" data-override="notebook_1">Notebook</th>
                                         <th scope="col" data-override="sea_1">SEA</th>
@@ -157,7 +158,8 @@
                                 <tbody class="content">
                                     {% for ex in exams %}
                                     <tr>
-                                        <th scope="row">{{ ex.student.user.first_name|title }}</th>
+                                        <th>{{ ex.exam_rollno }}</th>
+                                        <th scope="row">{{ ex.student.user.first_name|title }} {{ ex.student.user.last_name|title }}</th>
                                         <td hidden>{{ ex.id }}</td>
                                         <td {% if not no_editing %}contenteditable="true" {% endif %}>
                                             {{ ex.per_test_1|default_if_none:"--" }}</td>
@@ -199,12 +201,15 @@
                             <table id="table" class="table text-center table-bordered table-hover">
                                 <thead id="myHeader" class="sticky-header">
                                     <tr class="table-light align-middle">
-                                        <th scope="col" rowspan="2">First Name</th>
+                                        <th colspan="2">Student</th>
                                         <th data-override="id" hidden></th>
                                         <th>Term Test 1</th>
                                         <th>Term Test 2</th>
                                     </tr>
                                     <tr class="table-light align-middle">
+                                        <th data-override="id" hidden></th>   
+                                        <th>Roll no.</th>     
+                                        <th scope="col" data-override="first_name">Name</th>              
                                         <th scope="col" data-override="grade_1">Grade</th>
                                         <th scope="col" data-override="grade_2">Grade</th>
                                     </tr>
@@ -212,7 +217,8 @@
                                 <tbody>
                                     {% for ex in exams %}
                                     <tr>
-                                        <th scope="row">{{ ex.exam_cs_student.user.first_name|title }}</th>
+                                        <th>{{ ex.exam_cs_rollno }}</th>
+                                        <th scope="row">{{ ex.exam_cs_student.user.first_name|title }} {{ ex.exam_cs_student.user.last_name|title }}</th>
                                         <td hidden>{{ ex.id }}</td>
                                         <td contenteditable="true">{{ ex.exam_cs_grade_1 }}</td>
                                         <td contenteditable="true">{{ ex.exam_cs_grade_2 }}</td>

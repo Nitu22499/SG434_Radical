@@ -98,7 +98,7 @@ class SchoolSignUpForm(UserCreationForm):
     # date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     school_name = forms.CharField(widget=forms.TextInput())
     school_board = forms.CharField(label='Board', widget=forms.Select(choices=board_choices, attrs={'class':'form-select'}))
-    school_district = forms.ModelChoiceField(label='District', queryset=District.objects.all())
+    # school_district = forms.ModelChoiceField(label='District',required=False, queryset=District.objects.filter(id=user.district.id))
     school_block = forms.ModelChoiceField(label='Block', queryset=Block.objects.none())
     school_cluster = forms.CharField(label='Cluster', widget=forms.TextInput())
     password1 = forms.CharField(label = '', widget=forms.HiddenInput(attrs={'value':'Pass@123'}))
@@ -115,25 +115,33 @@ class SchoolSignUpForm(UserCreationForm):
         except:
             raise forms.ValidationError("Invalid Date")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,user, *args, **kwargs):
+        self.user = user
         super(SchoolSignUpForm, self).__init__(*args, **kwargs)
         self.fields['username'].initial = str(random.randint(3, 99999))
-        # self.fields['school_block'].queryset = Block.objects.none()
-
-        if 'school_district' in self.data:
-            try:
-                district_id = int(self.data.get('school_district'))
-                self.fields['school_block'].queryset = Block.objects.filter(block_district=district_id).order_by('block_name')
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['school_block'].queryset = self.instance.school.school_district.block_set.order_by('block_name')
+        
+        
+        if self.user.is_district_admin:
+            district_id = self.user.district.id
+            self.fields['school_block'].queryset = Block.objects.filter(block_district=district_id).order_by('block_name')
+        elif self.user.is_block_admin:
+            
+            del self.fields['school_block']
+            # self.fields['school_block'].queryset = Block.objects.filter(id=self.user.block.id)
+       
 
     @transaction.atomic
     def save(self, commit=True):
         user = super().save(commit=False)
         user.is_school_admin = True
         user.save()
+
+        if self.user.is_district_admin:
+            self.cleaned_data['school_district']=self.user.district
+        elif self.user.is_block_admin:
+            self.cleaned_data['school_district']=self.user.block.block_district
+            self.cleaned_data['school_block']=self.user.block
+
         school_obj = School(user=user, school_name = self.cleaned_data['school_name'],
             school_board = self.cleaned_data['school_board'],
             school_district = self.cleaned_data['school_district'],
@@ -156,7 +164,8 @@ class SchoolListForm(forms.Form):
     class Meta:
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super().__init__(*args, **kwargs)
         self.fields['academic_year_field'].choices = (('', 'Select Academic Year'), ) + year_choices()
         self.fields['districts_field'].choices = (('', 'Select District'), ) + get_districts()
@@ -164,6 +173,7 @@ class SchoolListForm(forms.Form):
         self.fields['categories_field'].choices = (('', 'All'), ) + school_category_code
         self.fields['management_field'].choices = (('', 'All'), ) +  management_school_code
         
+           
         if 'districts_field' in self.data:
             try:
                 if self.data.get('districts_field'):

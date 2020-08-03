@@ -78,7 +78,7 @@ $('td[contenteditable=true]').on('click', function(){
 $('#scholastic').click( function() {
     var table = $('#table').tableToJSON({
         ignoreRows: [0,1],  // To Ignore the first two rows consisting of table heading
-
+        ignoreColumns: [0],
         headings: ['first_name',  // Array of Column Header names
         'id',    // Added ID for faster access
         'test_1','notebook_1',
@@ -129,7 +129,7 @@ $('#scholastic').click( function() {
 $('#co-scholastic').click( function() {
     var table = $('#table').tableToJSON({
         ignoreRows: [0,1],  // To Ignore the first two rows consisting of table heading
-
+        ignoreColumns: [0],
         headings: ['first_name',  // Array of Column Header names
         'id',    // Added ID for faster access
         'grade_1',

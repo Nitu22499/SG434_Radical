@@ -15,7 +15,7 @@ yn=(
 
 
 class SchoolToilet(TimeStampMixin):
-    st_school_name=models.OneToOneField(School, on_delete=models.CASCADE)
+    st_school_name=models.ForeignKey(School, on_delete=models.CASCADE)
     st_boys_total_cwsn=models.CharField(max_length=10,blank=True)
     st_boys_func_cwsn=models.CharField(max_length=10,blank=True)
     st_girls_total_cwsn=models.CharField(max_length=10,blank=True)
@@ -48,7 +48,7 @@ class SchoolToilet(TimeStampMixin):
         return str(self.st_school_name)
 
 class SchoolItems(TimeStampMixin):
-    sit_school_name = models.OneToOneField(School, on_delete=models.CASCADE)
+    sit_school_name = models.ForeignKey(School, on_delete=models.CASCADE)
     sit_lap_avai=models.CharField(max_length=10,blank=True, choices=yn,null=True)
     sit_lap_units=models.CharField(max_length=10,blank=True)
     sit_lap_func=models.CharField(max_length=10,blank=True)
@@ -98,7 +98,7 @@ class SchoolItems(TimeStampMixin):
         return str(self.sit_school_name)
 
 class SchoolLibrary(TimeStampMixin):
-    sli_school_name = models.OneToOneField(School, on_delete=models.CASCADE)
+    sli_school_name = models.ForeignKey(School, on_delete=models.CASCADE)
     sli_lib_avai=models.CharField(max_length=10,blank=True, choices=yn,null=True)
     sli_lib_books=models.CharField(max_length=10,blank=True,null=True)
     sli_lib_ncert=models.CharField(max_length=10,blank=True,null=True)
@@ -198,7 +198,7 @@ class SchoolIncentives(TimeStampMixin):
         return str(self.si_school_name)
 
 class SchoolSafety(TimeStampMixin):
-    sst_school_name= models.OneToOneField(School, on_delete=models.CASCADE)
+    sst_school_name= models.ForeignKey(School, on_delete=models.CASCADE)
     sst_sdmp=models.CharField(max_length=10,blank=True, choices=yn,verbose_name="Whether the School Disaster Management Plan (SDMP) has been developed ?")
     sst_audit=models.CharField(max_length=10,blank=True, choices=yn,verbose_name="Whether Structural Safety Audit has been conducted ?")
     sst_non_audit=models.CharField(max_length=10,blank=True, choices=yn,verbose_name="Whether Non- structural Safety Audit has been conducted ?")

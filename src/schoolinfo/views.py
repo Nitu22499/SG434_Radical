@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic import TemplateView, FormView , DetailView
 from django.shortcuts import render
 from django.contrib import messages
@@ -11,6 +11,17 @@ from misc.utilities import academic_year, year_choices
 
 # Importing Libraries
 import json
+
+
+class Error404Mixin(DetailView):
+    def get(self, request, *args, **kwargs):
+        try:
+            self.object = self.get_object()
+        except Http404:
+            # return custom template
+            return render(request, 'schoolinfo/404.html', status=404)
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
 class SectionsHome(FormView):
     template_name = 'schoolinfo/sections_home.html'
@@ -26,36 +37,35 @@ class SectionsHome(FormView):
         # print(input_year)
         return reverse_lazy('schoolinfo:sections_home', kwargs={'ac_year':input_year})
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(Error404Mixin):
     model=SchoolProfile
-    template_name= 'schoolinfo/profile_details.html'
-    
+    template_name= 'schoolinfo/profile_details.html'    
 
-class GovernmentDetailView(DetailView):
+class GovernmentDetailView(Error404Mixin):
     model=SchoolProfile
     template_name='schoolinfo/government_details.html'
 
-class SchoolToiletDetailView(DetailView):
+class SchoolToiletDetailView(Error404Mixin):
     model=SchoolToilet
     template_name='schoolinfo/toilet_details.html'
 
-class PhysicalDetailView(DetailView):
+class PhysicalDetailView(Error404Mixin):
     model=PhysicalFacilities
     template_name='schoolinfo/physical_details.html'
 
-class SchoolLibraryDetailView(DetailView):
+class SchoolLibraryDetailView(Error404Mixin):
     model=SchoolLibrary
     template_name='schoolinfo/library_details.html'
 
-class SchoolItemsDetailView(DetailView):
+class SchoolItemsDetailView(Error404Mixin):
     model=SchoolItems
     template_name='schoolinfo/items_details.html'
 
-class SchoolSafetyDetailView(DetailView):
+class SchoolSafetyDetailView(Error404Mixin):
     model=SchoolSafety
     template_name='schoolinfo/safety_details.html' 
 
-class SchoolReceiptDetailView(DetailView):
+class SchoolReceiptDetailView(Error404Mixin):
     model=SchoolReceipt
     template_name='schoolinfo/receipt_details.html'
 
@@ -123,7 +133,7 @@ class SchoolReceiptView(FormView):
     def get_object(self):
         """Check if data already exists"""
         try:
-            obj = SchoolReceipt.objects.get(sre_school_name = self.request.user.school, academic_year = self.kwargs['ac_year'])
+            obj = SchoolReceipt.objects.get(sre_school_name = self.request.user.block.school, academic_year = self.kwargs['ac_year'])
             # obj = SchoolProfile.objects.get(sp_school = self.request.user.school)
             return obj
         except:

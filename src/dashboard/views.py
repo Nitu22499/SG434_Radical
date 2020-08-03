@@ -7,8 +7,9 @@ from django.http import JsonResponse
 
 from misc.utilities import academic_year, year_choices, get_districts, get_blocks
 
-from schoolinfo.models import PhysicalFacilities
+from schoolinfo.models import PhysicalFacilities, School
 from profiles.models import Student
+from exams.models import Exam
 
 
 def get_percentage(c, n):
@@ -90,7 +91,7 @@ def chart(request, *args, **kwargs):
     if 'field' in request.GET and request.GET['value'] != '' and request.GET['field'] != '':
         query[request.GET['field']] = request.GET['value']
     
-    values = PhysicalFacilities.objects.filter(**query).values_list('academic_year').annotate(freq=Count('academic_year'))
+    values = PhysicalFacilities.objects.filter(**query).order_by('academic_year').values_list('academic_year').annotate(freq=Count('academic_year'))
     for value in values:
         label.append(value[0])
         data.append(value[1])
@@ -116,8 +117,8 @@ def get_blocks_by_district(request):
 def get_attendance_data(request):
     student = Student.objects.get(user=request.user)
     current_month = datetime.date.today().month
-    total_present_days = student.student_attendance.filter(student_attendance_date__month=current_month).count()
-    total_absent_days = student.student_attendance.all().count() - total_present_days
+    total_present_days = student.student_attendance.filter(student_attendance_date__month=current_month, student_attendance_is_present = True).count()
+    total_absent_days = student.student_attendance.filter(student_attendance_date__month=current_month, student_attendance_is_present = False).count()
     labels = ['Total Present', 'Total Absent']
     data = [total_present_days, total_absent_days]
     return JsonResponse(data={
@@ -149,3 +150,7 @@ def get_academic_data(request):
         'label': label,
         'have_academic_records': have_records
     })
+
+def index(request):
+    context = {}
+    return render(request, 'dashboard/home.html', context)

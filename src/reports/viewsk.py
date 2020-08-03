@@ -749,8 +749,10 @@ class TeachersTrainedForCWSN(FormView):
             count_other_schools = 0
             count_total_schools = 0
         #   Start Counting
-            records = temp_obj.filter(sp_management_code='State Govt.')            
+            records = temp_obj.filter(sp_management_code='State Govt.')  
+            #
             for record in records:
+                
                 count_state_govt_schools += teachers_in_current_block.filter(teacher_employee__employee_school=record.sp_school).count()
             
             records = temp_obj.filter(sp_management_code='Central Govt.')            

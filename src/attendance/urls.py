@@ -4,7 +4,7 @@ from .views import (
     AttendanceIndexView, StudentAttendanceListView, StudentAttendanceHomeView, EmployeeAttendanceListView,
     EmployeeAttendanceHomeView, StudentAttendanceCreateView, StudentAttendanceUpdateView, student_mark_attendance,
     StudentAttendanceDetailView, student_attendance_delete_view, EmployeeAttendanceDetailView,
-    EmployeeAttendanceCreateView, EmployeeAttendanceUpdateView, employee_mark_attendance,
+    EmployeeAttendanceCreateView, EmployeeAttendanceUpdateView, employee_mark_attendance, StudentAttendanceIdView,
     employee_attendance_delete_view, MyAttendanceFetchView, MyAttendanceDetailView, load_school, load_block
 )
 
@@ -25,6 +25,10 @@ urlpatterns = (
     path('student/delete/', student_attendance_delete_view, name='student_delete'),
     path('student/mark-attendance/<slug:create_date>/<slug:subject>/<slug:section>/', student_mark_attendance,
          name='student_mark_attendance'),
+
+    path('student/individual/<int:pk>/', StudentAttendanceIdView.as_view(), name='student_id'),
+    path('student/individual/detail/<int:student>/<slug:start_date>/<slug:end_date>/<slug:subject>/',
+         MyAttendanceDetailView.as_view(), name='student_id_detail'),
 
     # employee
     path('employee/', EmployeeAttendanceHomeView.as_view(), name='employee_home'),
