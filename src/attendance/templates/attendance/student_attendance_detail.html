@@ -78,8 +78,7 @@
             <thead class="table-dark">
             <tr>
                 <th scope="col">Roll no</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
+                <th scope="col">Full name</th>
                 <th scope="col" class="text-center">Attendance</th>
             </tr>
             </thead>
@@ -88,8 +87,7 @@
 
                 <tr>
                     <th scope="row">{{ student.student_attendance_student.stud_rollno }}</th>
-                    <td>{{ student.student_attendance_student.user.first_name }}</td>
-                    <td>{{ student.student_attendance_student.user.last_name }}</td>
+                    <td>{{ student.student_attendance_student.user.first_name }} {{ student.student_attendance_student.user.last_name }}</td>
                     <td class="text-{% if student.student_attendance_is_present %}success{% else %}danger{% endif %} text-center">
                         {% if student.student_attendance_is_present %}
                             P

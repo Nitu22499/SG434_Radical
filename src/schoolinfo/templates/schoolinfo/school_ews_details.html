@@ -5,7 +5,10 @@
     
         <p class="h4 mb-5">No. of Economically Weaker Section(EWS)students enrolled({{academic_year}})</p>
         
-     
+        <div>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+
         <p id="year" value={{academic_year}} hidden>{{academic_year}}</p>
 
     <div class="msg"></div>

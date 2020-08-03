@@ -508,6 +508,7 @@ class SchoolsBybw(FormView):
         table_data = []     # compute and add data block wise to this list
         for block in blocks_list:
             records = objs.filter(sp_cd=block) # get schools in particular block
+            # print(records,block)
             pucca_schools=0
             for record in records:
                 school=record.sp_school
@@ -656,7 +657,7 @@ class SchoolsByec(FormView):
             for block in Block.objects.all():       # all inputs set to all.
                 blocks_list.append(block.block_name)
 
-        # print(blocks_list)
+        #print(blocks_list)
         total_count_of_primary_one = 0
         total_count_of_primary_two = 0
         total_count_of_higher_sec_one = 0
@@ -671,62 +672,63 @@ class SchoolsByec(FormView):
 
         table_data = []     # compute and add data block wise to this list
         for block in blocks_list:
-            objs = objs.filter(sp_cd=block)    # get schools in particular block
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 5')
+            records1 = objs.filter(sp_cd=block)    # get schools in particular block
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 5')
             count_of_primary_one=0
             for record in records:
                 school = record.sp_school
-                if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
+                if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection='Yes'):
                     count_of_primary_one+=1
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 8')
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 8')
             count_of_primary_two=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_primary_two+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 1 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 1 to 12')
+         
             count_of_higher_sec_one=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_higher_sec_one+=1
-            records = objs.filter(sp_school_category='Upper Primary only with grades 6 to 8')
+            records = records1.filter(sp_school_category='Upper Primary only with grades 6 to 8')
             count_of_upper_primary=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_upper_primary+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 6 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 6 to 12')
             count_of_higher_sec_two=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_higher_sec_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
             count_of_sr_secondary_one=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_sr_secondary_one+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
             count_of_sr_secondary_two=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_sr_secondary_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
             count_of_sr_secondary_three=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_sr_secondary_three+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 9 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 9 to 12')
             count_of_higher_sec_three=0
             for record in records:
                 school = record.sp_school
                 if PhysicalFacilities.objects.filter(pf_school=school,pf_electricity_connection="Yes"):
                     count_of_higher_sec_three+=1
-            records = objs.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
+            records = records1.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
             count_of_college=0
             for record in records:
                 school = record.sp_school
@@ -734,6 +736,7 @@ class SchoolsByec(FormView):
                     count_of_college+=1
             
             total_schools = count_of_primary_one + count_of_primary_two + count_of_higher_sec_one + count_of_upper_primary + count_of_higher_sec_two + count_of_sr_secondary_one + count_of_sr_secondary_two + count_of_sr_secondary_three + count_of_higher_sec_three + count_of_college
+            #print(total_schools)
             table_data.append({
                 'block_name':block,
                 'count_of_primary_one':count_of_primary_one,
@@ -778,7 +781,7 @@ class SchoolsByec(FormView):
                 'total_schools':total_total_schools
             }
 
-
+        # print(table_data)
         kwargs['table_data'] = table_data
 
         return super().get_context_data(**kwargs)
@@ -861,62 +864,63 @@ class SchoolsBycwsn(FormView):
 
         table_data = []     # compute and add data block wise to this list
         for block in blocks_list:
-            objs = objs.filter(sp_cd=block)    # get schools in particular block
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 5')
+            records1 = objs.filter(sp_cd=block)    # get schools in particular block
+            # print(records1,block)
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 5')
             count_of_primary_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_primary_one+=1
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 8')
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 8')
             count_of_primary_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_primary_two+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 1 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 1 to 12')
             count_of_higher_sec_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_higher_sec_one+=1
-            records = objs.filter(sp_school_category='Upper Primary only with grades 6 to 8')
+            records = records1.filter(sp_school_category='Upper Primary only with grades 6 to 8')
             count_of_upper_primary=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_upper_primary+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 6 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 6 to 12')
             count_of_higher_sec_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_higher_sec_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
             count_of_sr_secondary_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_sr_secondary_one+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
             count_of_sr_secondary_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_sr_secondary_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
             count_of_sr_secondary_three=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_sr_secondary_three+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 9 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 9 to 12')
             count_of_higher_sec_three=0
             for record in records:
                 school = record.sp_school
                 if SchoolProfile.objects.filter(sp_school=school,sp_is_cwsn="Yes"):
                     count_of_higher_sec_three+=1
-            records = objs.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
+            records = records1.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
             count_of_college=0
             for record in records:
                 school = record.sp_school
@@ -1202,62 +1206,62 @@ class SchoolsByc(FormView):
 
         table_data = []     # compute and add data block wise to this list
         for block in blocks_list:
-            objs = objs.filter(sp_cd=block)    # get schools in particular block
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 5')
+            records1 = objs.filter(sp_cd=block)    # get schools in particular block
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 5')
             count_of_primary_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_primary_one+=1
-            records = objs.filter(sp_school_category='Primary only with grades 1 to 8')
+            records = records1.filter(sp_school_category='Primary only with grades 1 to 8')
             count_of_primary_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_primary_two+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 1 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 1 to 12')
             count_of_higher_sec_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_higher_sec_one+=1
-            records = objs.filter(sp_school_category='Upper Primary only with grades 6 to 8')
+            records = records1.filter(sp_school_category='Upper Primary only with grades 6 to 8')
             count_of_upper_primary=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_upper_primary+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 6 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 6 to 12')
             count_of_higher_sec_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_higher_sec_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 1 to 10')
             count_of_sr_secondary_one=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_sr_secondary_one+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 6 to 10')
             count_of_sr_secondary_two=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_sr_secondary_two+=1
-            records = objs.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
+            records = records1.filter(sp_school_category='Secondary/Sr.Sec. with grades 9 and 10')
             count_of_sr_secondary_three=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_sr_secondary_three+=1
-            records = objs.filter(sp_school_category='Higher Secondary with grades 9 to 12')
+            records = records1.filter(sp_school_category='Higher Secondary with grades 9 to 12')
             count_of_higher_sec_three=0
             for record in records:
                 school = record.sp_school
                 if SchoolItems.objects.filter(sit_school_name=school,sit_desk_avai="Yes"):
                     count_of_higher_sec_three+=1
-            records = objs.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
+            records = records1.filter(sp_school_category='Hr.Sec. /Jr.College only with grades 11 and 12')
             count_of_college=0
             for record in records:
                 school = record.sp_school

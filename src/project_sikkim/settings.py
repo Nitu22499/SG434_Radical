@@ -82,6 +82,13 @@ TEMPLATES = [
     },
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_storage',
+    }
+}
+
 WSGI_APPLICATION = 'project_sikkim.wsgi.application'
 
 

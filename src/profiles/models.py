@@ -73,8 +73,8 @@ class Student(models.Model):
     stud_disability = models.CharField(max_length=50, choices=disability_choices, default = 'NA', blank=True)
     stud_address = models.TextField(max_length=100, null = False,  default="")
     stud_admissionDate = models.DateField(null = True)
-    stud_parentContact = models.IntegerField(null = True)
-    stud_parentSecContact = models.IntegerField(null = True)
+    stud_parentContact = models.BigIntegerField(null = True)
+    stud_parentSecContact = models.BigIntegerField(null = True)
     stud_school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):

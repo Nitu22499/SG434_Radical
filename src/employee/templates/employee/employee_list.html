@@ -10,41 +10,42 @@
         <br>
         <h1>Staff List</h1>
         <div class="text-muted">
-            <p>logged in admin: <b>{{ user.get_full_name }}</b></p>
-            <p>school: <b>{{ user.school }}</b></p>
-            <a href="{% url 'employee:add' %}" class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;Add new Employee</a>
+            <p>logged in admin: <b>{{ user }}</b></p>
+            <p>school: <b>{{ school }}</b></p>
+            {% if user.is_school_admin %}
+                <a href="{% url 'employee:add' %}" class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;Add new
+                    Employee</a>
+            {% endif %}
         </div>
         <br>
-{% if employees is not None %}
-        <table class="table table-responsive table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-                <th scope="col" class="text-center">Is Teacher?</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for employee in employees %}
-
+        {% if employees is not None %}
+            <table class="table table-responsive table-striped table-hover">
+                <thead class="table-dark">
                 <tr>
-                    <td>{{ employee.employee_user.first_name }}</td>
-                    <td>{{ employee.employee_user.last_name }}</td>
-                    <td class="text-{% if employee.employee_user.is_teacher %}success{% endif %} text-center">
-                        {% if employee.employee_user.is_teacher %}
-                            YES
-                        {% else %}
-                            NO
-                        {% endif %}
-                    </td>
-                    <td><a href="{% url 'employee:detail' employee.id %}" class="btn">View</a></td>
-
+                    <th scope="col">Full name</th>
+                    <th scope="col" class="text-center">Is Teacher?</th>
+                    <th scope="col"></th>
                 </tr>
-            {% endfor %}
+                </thead>
+                <tbody>
+                {% for employee in employees %}
 
-            </tbody>
-        </table>
-        {%endif %}
+                    <tr>
+                        <td>{{ employee.employee_user.first_name }} {{ employee.employee_user.last_name }}</td>
+                        <td class="text-{% if employee.employee_user.is_teacher %}success{% endif %} text-center">
+                            {% if employee.employee_user.is_teacher %}
+                                YES
+                            {% else %}
+                                NO
+                            {% endif %}
+                        </td>
+                        <td><a href="{% url 'employee:detail' employee.id %}" class="btn">View</a></td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 {% endblock body %}

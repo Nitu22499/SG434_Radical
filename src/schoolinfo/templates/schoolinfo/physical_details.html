@@ -1,31 +1,19 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    Physical Facilities and Equipments
+{% endblock title %}
+
 {% block body %}
-<!-- Table with panel -->
-
-
-<div class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
-    <div class = "card border border-primary  shadow-2-strong col-md-10 mx-auto">
-        <div class="card card-cascade narrower">
-            
-            <!--Card image-->
-            <div
-              class="view view-cascade bg-primary gradient-card-header blue-gradient narrower py-2  d-flex justify-content-between align-items-center">
-          
-              
-          
-              <a href="" style="color:white" class="white-text mx-3 "><b>Physical Facilities and Equipments :</b></a>
-          
-              
-          
-            </div>
-            <!--/Card image-->
-         
-            <div class="px-4">
-                <div class="table-responsive">
-                    <table id="dt-cell-sellection" class="table" cellspacing="0" width="100%">
-                        <thead></thead>
-                        <tbody>
+    <div class="container">
+        
+        <div>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+        </div>
+        <br>        
+        <h3>Physical Facilities and Equipments </h3>
+        <table class="table table-bordered table-responsive table-striped">
+             <tbody>
                         <tr>
                             <td><b>Building Status:</b></td>
                             <td>{{object.pf_status}}</td>
@@ -97,14 +85,11 @@
                             <td>{{object.pf_which_comp_lab}}</td>
                         </tr>
                     </tbody>
-                    </table>
-                
-                </div>
-        
-
-            <!--Type of building-->
+        </table>
+        <br><br>
+        <!--Type of building-->
     <div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseType"
+        <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseType"
         aria-expanded="false" aria-controls="collapseType">
         <b> > Type of the School Building :</b>
         </button>
@@ -113,7 +98,7 @@
     <div class="collapse" id="collapseType">
         <p><b>Total Number of Building blocks of the school:&nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_no_blocks}}</b></p>
         <div class="table-responsive">
-            <table class="table table-bordered"  cellspacing="0" width="100%">
+            <table class="table table-bordered table-responsive table-striped">
                 <thead>
                     <th scope="col" colspan="6">Out of the total Number of building block</th>
                             
@@ -150,7 +135,7 @@
             
     <!--School laboratory-->
     <div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLab"
+        <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseLab"
         aria-expanded="false" aria-controls="collapseLab">
         <b> > Laboratory:</b>
         </button>
@@ -158,7 +143,7 @@
     &nbsp;
     <div class="collapse" id="collapseLab">
         <div class="table-responsive">
-            <table class="table table-bordered"  cellspacing="0" width="100%">
+            <table class="table table-bordered table-responsive table-striped">
                 <thead>
                     <tr>
                         <th>Laboratory</th>
@@ -212,7 +197,7 @@
 
             <!--School facilities-->
     <div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseFacilities"
+        <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseFacilities"
         aria-expanded="false" aria-controls="collapseFacilities">
         <b> > Facilities:</b>
         </button>
@@ -220,7 +205,7 @@
     &nbsp;
     <div class="collapse" id="collapseFacilities">
         <div class="table-responsive">
-            <table class="table table-bordered  cellspacing="0" width="100%">
+            <table class="table table-bordered table-responsive table-striped">
                 <thead>
                     <tr>
                         <th>Particulars</th>
@@ -274,7 +259,7 @@
         <!--ICT Teaching-->
 
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseICTTeaching"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseICTTeaching"
             aria-expanded="false" aria-controls="collapseICTTeaching">
             <b> > ICT based tools used for Teaching :</b>
                 &nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_ict_for_teaching}}
@@ -283,7 +268,7 @@
         &nbsp;
         <div class="collapse" id="collapseICTTeaching">
             <div class="table-responsive">
-                <table class="table "  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <thead>
                     </thead>
                     <tbody>
@@ -302,7 +287,7 @@
             
         <!--ICT Lab-->
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseICT"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseICT"
             aria-expanded="false" aria-controls="collapseICT">
             <b> > ICT Lab :</b>
 
@@ -311,7 +296,7 @@
         &nbsp;
         <div class="collapse" id="collapseICT">
             <div class="table-responsive">
-                <table class="table "  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <thead>
                     </thead>
                     <tbody>
@@ -341,7 +326,7 @@
 
         <!-- Equipments-->
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseEquipments"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseEquipments"
             aria-expanded="false" aria-controls="collapseEquipments">
             <b> > Equipment(s) :</b>
 
@@ -350,7 +335,7 @@
         &nbsp;
         <div class="collapse" id="collapseEquipments">
             <div class="table-responsive">
-                <table class="table table-bordered"  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <thead>
                         <th>Equipment/Facility</th>
                         <th>Availability</th>
@@ -381,7 +366,7 @@
 
         <!--Dustbins-->
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDustbins"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseDustbins"
             aria-expanded="false" aria-controls="collapseDustbins">
             <b> > Dustbins :</b>
 
@@ -390,7 +375,7 @@
         &nbsp;
         <div class="collapse" id="collapseDustbins">
             <div class="table-responsive">
-                <table class="table "  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <tbody>
                         <tr>
                             <td><b>Each Classrooms :</b></td>
@@ -411,7 +396,7 @@
 
         <!--Medical Check-up conducted last year-->
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMedical"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseMedical"
             aria-expanded="false" aria-controls="collapseMedical">
             <b> > Medical Check-up of Students conducted in last academic year:</b>
             &nbsp;&nbsp;&nbsp;&nbsp;{{object.pf_medical_check_up}}
@@ -420,7 +405,7 @@
         &nbsp;
         <div class="collapse" id="collapseMedical">
             <div class="table-responsive">
-                <table class="table "  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <tbody>
                         <tr>
                             <td colspan="2"><b>Total Number of Medical Check-ups conducted in last academic year :</b></td>
@@ -443,7 +428,7 @@
 
        <!--Details of classrooms-->
        <div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClassrooms"
+        <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseClassrooms"
         aria-expanded="false" aria-controls="collapseClassrooms">
         <b> > Details of Classrooms:</b>
         </button>
@@ -451,7 +436,7 @@
     &nbsp;
     <div class="collapse" id="collapseClassrooms">
         <div class="table-responsive">
-            <table class="table table-bordered"  cellspacing="0" width="100%">
+            <table class="table table-bordered table-responsive table-striped">
                 <thead>
                     <th>
                         No.of Classrooms used for Instructional purposes
@@ -476,7 +461,7 @@
         <!--Classrooms Stage/Level-->
         
         <div>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClassroomsStage"
+            <button class="btn btn-light collapse_class" type="button" data-toggle="collapse" data-target="#collapseClassroomsStage"
             aria-expanded="false" aria-controls="collapseClassroomsStage">
             <b> > Out of the Total Classrooms used for Instructional purposes,the details by Stage/level:</b>
             </button>
@@ -484,7 +469,7 @@
         &nbsp;
         <div class="collapse" id="collapseClassroomsStage">
             <div class="table-responsive">
-                <table class="table "  cellspacing="0" width="100%">
+                <table class="table table-bordered table-responsive table-striped">
                     <tbody>
                         <tr>
                             <td><b>(a)Pre-Primary:</b></td>
@@ -510,37 +495,30 @@
         
     </div>
     &nbsp;
+    <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/library-details/{{ request.resolver_match.kwargs.pk }}';" >Library</button>
+    
+    <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/items-details/{{ request.resolver_match.kwargs.pk }}';" >Items</button>
+    <button style="margin-top: 20px;" type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-toilet-details/{{ request.resolver_match.kwargs.pk }}';" >Details of Toilets</button><br><br>
+    <button type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
+<br><br>
+    <button type="button"  class="btn btn-light collapse_class" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
 
 <hr>
 
 
 
-    <div>
+    <!-- <div> -->
 
-        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/library-details/{{ request.resolver_match.kwargs.pk }}';" >Library</button>
-    
-        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/items-details/{{ request.resolver_match.kwargs.pk }}';" >Items</button>
-
-        <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-toilet-details/{{ request.resolver_match.kwargs.pk }}';" >Details of Toilets</button>
-
-        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-profile-details/{{ request.resolver_match.kwargs.pk }}';" >School Basic Details</button>
-    
-        <button type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/government-details/{{ request.resolver_match.kwargs.pk }}';" >Government and Aided Schools</button>
-    
+       
+       
         <!-- <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-rte-details/';" >Number of Students Enrolled Under Section 12 of RTE Act</button>
     
         <button style="margin-top: 20px;" type="button"  class="btn btn-primary" onclick="location.href='/schoolinfo/school-ews-details/{{ request.resolver_match.kwargs.pk }}';" >No. of Economically Weaker Section(EWS)students enrolled</button> -->
     
 
-        
-    </div>     
-                    
-    <hr>     
-
-</div>
-</div>
-
-    </div>
+<!--         
+    </div>  -->
+   
     </div>
 
-{% endblock %}
+{% endblock body %}

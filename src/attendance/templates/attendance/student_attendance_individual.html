@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ student.user.get_full_name|title }}'s Attendance Record
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <br>
+        <h1 class="text-center">{{ student.user.get_full_name|title }}'s Attendance Record</h1>
+        <a href="{% url 'attendance:index' %}" class="btn"><i class="fas fa-chevron-left"></i> Return Home</a>
+        {% if user.is_school_admin %}
+            <a class="btn" href="{% url 'attendance:student_add' %}"><i class="fas fa-plus"></i> Add</a>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="student_id" value="{{ student.id }}">
+            {% if form.non_field_errors %}
+                <ul class="text-danger form-text" style="list-style: none">
+                    {% for error in form.non_field_errors %}
+                        <li class="alert alert-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <br>
+            {% endif %}
+            {% for field in form %}
+                {% if not forloop.counter|divisibleby:2 %}
+                    <div class="row mb-4">
+                {% endif %}
+
+
+            <div class="col">
+                <label class="form-label">{{ field.label_tag }}</label>
+                {{ field }}
+
+                {% if field.errors %}
+                    <div>
+                        <span class="text-danger form-text small">{{ field.errors.as_text }}</span>
+                        {% if field.help_text %}
+                            <small class="text-danger form-text">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    <br>
+                {% endif %}
+            </div>
+            {% if forloop.counter|divisibleby:2 or forloop.last %}
+                </div>
+            {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Fetch students</button>
+        </form>
+    </div>
+
+{% endblock body %}

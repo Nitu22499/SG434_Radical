@@ -13,8 +13,8 @@
             <p><i class="fas fa-user"></i> &nbsp; welcome, {{ user|title }} &nbsp; <i
                     class="fas fa-school"></i>&nbsp; {{ display.authority_type }} • {{ display.location }}</p>
         </div>
-        <div class="row">
-            <section class="card col-5">
+        <div class="row my-5">
+            <section class="card col-5 shadow-2-strong">
                 <div class="card-body text-center">
                     <h2><a href="{% url 'attendance:student_home' %}">Student Attendance</a></h2>
                     {% if user.is_school_admin %}
@@ -23,7 +23,7 @@
                     <a href="{% url 'attendance:student_home' %}" class="btn btn-primary">Fetch</a>
                 </div>
             </section>
-            <section class="card col-5 offset-2">
+            <section class="card col-5 offset-2 shadow-2-strong">
                 <div class="card-body text-center">
                     <h2><a href="{% url 'attendance:employee_home' %}">Employee Attendance</a></h2>
                     {% if user.is_school_admin %}

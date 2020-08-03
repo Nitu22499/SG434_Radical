@@ -8,7 +8,7 @@
 {% block body %}
     <div class="container">
         <br>
-        <h1>{{ user.last_name|title }} {{ user.first_name|title }} {{ user.middle_name|title }}</h1>
+        <h1>{{ display.student.user.get_full_name|title }}</h1>
         <p class="text-muted">{{ display.subject }} • {{ display.start_date }} - {{ display.end_date }}</p>
         <p class="text-muted">Roll no: <b>{{ display.student.stud_rollno }}</b></p>
         <div>

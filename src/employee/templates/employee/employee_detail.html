@@ -11,47 +11,54 @@
         <br>
 
         <div>
-            <a href="{% url 'employee:list' %}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
-            <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
-                    class="far fa-trash-alt"></i>&nbsp;Delete
-            </button>
+            {% if user.is_school_admin or user.is_employee %}
+                <a href="{% url 'employee:list' %}" class="btn"><i class="fas fa-chevron-left"></i>&nbsp;back</a>
+            {% endif %}
+            {% if user.is_school_admin %}
+                <button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger"><i
+                        class="far fa-trash-alt"></i>&nbsp;Delete
+                </button>
+            {% endif %}
         </div>
         <br>
 
         <!-- Delete Modal -->
-        <div
-                class="modal fade"
-                id="deleteModal"
-                tabindex="-1"
-                aria-labelledby="deleteModal"
-                aria-hidden="true"
-        >
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger text-light">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle"></i>&nbsp;Delete
-                            record?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        {% if user.is_school_admin %}
+            <div
+                    class="modal fade"
+                    id="deleteModal"
+                    tabindex="-1"
+                    aria-labelledby="deleteModal"
+                    aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-light">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-triangle"></i>&nbsp;Delete
+                                record?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure, you want to <span class="text-danger">delete</span> Employee record
+                                for <b>{{ employee.employee_user.get_full_name }} ({{ employee.employee_user }})</b>
+                                ?</p>
+                            <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
+                        </div>
+                        <form class="modal-footer" method="post"
+                              action="{% url 'employee:delete' employee.employee_user_id %}">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                <i class="fas fa-chevron-left"></i>&nbsp;return back
+                            </button>
+                            <button type="submit" class="btn btn-outline-danger">delete</button>
+                        </form>
                     </div>
-                    <div class="modal-body">
-                        <p>Are you sure, you want to <span class="text-danger">delete</span> Employee record
-                            for <b>{{ employee.employee_user.get_full_name }} ({{ employee.employee_user }})</b>
-                            ?</p>
-                        <p>This step is <span class="font-weight-bold">un-reversible</span>.</p>
-                    </div>
-                    <form class="modal-footer" method="post"
-                          action="{% url 'employee:delete' employee.employee_user_id %}">
-                        {% csrf_token %}
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">
-                            <i class="fas fa-chevron-left"></i>&nbsp;return back
-                        </button>
-                        <button type="submit" class="btn btn-outline-danger">delete</button>
-                    </form>
                 </div>
             </div>
-        </div>
+        {% endif %}
+
         <!-- End of Delete Modal -->
 
         <h3>Personal Information</h3>
@@ -88,9 +95,11 @@
         <br><br>
 
         <h3>Employment Details</h3>
-        <div>
-            <a href="{% url 'employee:update' employee.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
-        </div>
+        {% if user.is_school_admin %}
+            <div>
+                <a href="{% url 'employee:update' employee.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
+            </div>
+        {% endif %}
         <br>
         <table class="table table-bordered table-responsive table-striped">
             <tbody>
@@ -142,9 +151,12 @@
         {% if teacher %}
             <br><br>
             <h3>Teaching Details</h3>
-            <div>
-                <a href="{% url 'employee:teacher_update' employee.teacher.id %}" class="btn"><i class="fas fa-pen"></i>&nbsp;Edit</a>
-            </div>
+            {% if user.is_school_admin %}
+                <div>
+                    <a href="{% url 'employee:teacher_update' employee.teacher.id %}" class="btn"><i
+                            class="fas fa-pen"></i>&nbsp;Edit</a>
+                </div>
+            {% endif %}
             <br>
             <table class="table table-bordered table-responsive table-striped">
                 <tbody>

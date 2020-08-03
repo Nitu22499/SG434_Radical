@@ -3,6 +3,7 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, FormView
@@ -87,7 +88,7 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
         date_header = get_student_attendance_dates(kwargs['start_date'], kwargs['end_date'], kwargs['subject'],
                                                    kwargs['section'], school)
 
-        header = ['Roll no', 'First name', 'Last name', *date_header, 'present percent']
+        header = ['Roll no', 'Full name', *date_header, 'present percent']
 
         subject = Subject.objects.get(pk=kwargs['subject'])
 
@@ -116,7 +117,7 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
             except ZeroDivisionError:
                 present_percent = '--'
 
-            field_value.append([stud_rollno, first_name, last_name, *attendance, present_percent])
+            field_value.append([stud_rollno, f'{first_name} {last_name}', *attendance, present_percent])
 
         kwargs['header'] = header
         kwargs['field_values'] = field_value
@@ -267,6 +268,47 @@ class StudentAttendanceUpdateView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class StudentAttendanceIdView(LoginRequiredMixin, FormView):
+    template_name = 'attendance/student_attendance_individual.html'
+    form_class = MyAttendanceFetchForm
+
+    def get(self, request, *args, **kwargs):
+        if not Student.objects.filter(pk=kwargs['pk']).exists():
+            raise Http404(_('Student Does not exist'))
+        return super(StudentAttendanceIdView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StudentAttendanceIdView, self).get_context_data(**kwargs)
+        context['student'] = Student.objects.get(pk=self.kwargs['pk'])
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(StudentAttendanceIdView, self).get_form_kwargs()
+        student = Student.objects.get(pk=self.kwargs['pk'])
+        kwargs['student'] = student
+        return kwargs
+
+    def form_valid(self, form):
+        student = Student.objects.get(pk=self.kwargs['pk'])
+
+        attendance = get_my_attendance(form.cleaned_data['student_fetch_start_date'],
+                                       form.cleaned_data['student_fetch_end_date'], form.cleaned_data['subject'],
+                                       student.stud_section, student.stud_school, student)
+
+        if not attendance.count():
+            messages.warning(self.request, 'No classes found between these dates')
+            return redirect('attendance:student_id', pk=student.id)
+
+        parameters = {
+            'student': student.id,
+            'start_date': form.cleaned_data['student_fetch_start_date'],
+            'end_date': form.cleaned_data['student_fetch_end_date'],
+            'subject': form.cleaned_data['subject'].pk
+        }
+
+        return redirect('attendance:student_id_detail', **parameters)
+
+
 @login_required()
 def student_attendance_delete_view(request):
     attendances = get_student_attendance(request.POST['create_date'], request.POST['subject'], request.POST['section'],
@@ -319,7 +361,7 @@ class EmployeeAttendanceListView(LoginRequiredMixin, TemplateView):
             employee_attendance_school_id=kwargs['school']
         ).distinct()
 
-        header = ['First name', 'Last name', *date_header, 'Present percent']
+        header = ['Full name', *date_header, 'Present percent']
 
         school = None
         if self.request.user.is_employee:
@@ -354,7 +396,7 @@ class EmployeeAttendanceListView(LoginRequiredMixin, TemplateView):
             except ZeroDivisionError:
                 present_percent = '--'
 
-            field_value.append([first_name, last_name, *attendance, present_percent])
+            field_value.append([f'{first_name} {last_name}', *attendance, present_percent])
 
         kwargs['header'] = header
         kwargs['field_values'] = field_value
@@ -521,7 +563,12 @@ class MyAttendanceDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/my_attendance_detail.html'
 
     def get_context_data(self, **kwargs):
-        student = self.request.user.student
+        if self.request.user.is_student:
+            student = self.request.user.student
+        else:
+            student = Student.objects.get(pk=self.kwargs['student'])
+
+        print(student)
 
         # info display inside template
         kwargs['display'] = {

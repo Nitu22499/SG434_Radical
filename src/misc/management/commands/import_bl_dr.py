@@ -24,4 +24,6 @@ class Command(BaseCommand):
                 b_user_obj.is_block_admin = True
                 b_user_obj.save()
                 block_obj = Block.objects.create(user = b_user_obj, block_name = block, block_district = district_obj)
+
+        User.objects.create_superuser('admin', email='admin@sikkim.com', password='Pass@123')
         print("Done")

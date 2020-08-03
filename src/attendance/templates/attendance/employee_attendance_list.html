@@ -22,7 +22,7 @@
             <thead class="table-dark">
             <tr>
                 {% for head_val in header %}
-                    {% if forloop.counter0 < 2 or forloop.last %}
+                    {% if forloop.first or forloop.last %}
                         <th scope="col">{{ head_val }}</th>
                     {% else %}
                         <th scope="col" class="text-center"><a href="
@@ -40,7 +40,7 @@
             {% for field_value in field_values %}
                 <tr>
                     {% for value in field_value %}
-                        {% if forloop.counter0 < 2 %}
+                        {% if forloop.first %}
                             <td>{{ value }}</td>
                         {% elif forloop.last %}
                             <td>{{ value }} %</td>

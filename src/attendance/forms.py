@@ -121,6 +121,13 @@ class MyAttendanceFetchForm(forms.Form):
         queryset=Subject.objects.all(), label='Subject', widget=forms.Select(attrs={'class': 'form-control'})
     )
 
+    def __init__(self, *args, **kwargs):
+        student = kwargs.pop('student', None)
+        super(MyAttendanceFetchForm, self).__init__(*args, **kwargs)
+
+        if student:
+            self.fields['subject'].queryset = Subject.objects.filter(subject_class=student.stud_class)
+
     def clean(self):
         super().clean()
         start_date = self.cleaned_data['student_fetch_start_date']

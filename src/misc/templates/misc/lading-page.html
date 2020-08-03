@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Home
+{% endblock title %}
+
+
+{% block body %}
+    <div class="container">
+        <header class='hero bg-teal-100 my-5 '>
+            <div class="row d-flex justify-content-start">
+                <div class="col-md-7 col-12">
+                    <div class="content">
+                        <h1>School Information System</h1>
+                        <h4 class='mb-4'>A robust management system tailored especially for the need of Government of Sikkim</h4>
+                        <a href="{% url 'profiles:login'%}" class="btn btn-lg btn-primary shadow-none">Login as user</a>
+                        <a href="{% url 'school_dashboard'%}" class="btn btn-lg btn-secondary shadow-none">View dashboard</a>
+                    </div>
+                </div>
+                <div class="col-md-5 sm-none">
+                    <img  src="{% static 'images/hero.png'%}" alt="Hero Image" class='w-100 hero-img'>
+                </div>
+            </div>
+            
+        </header>
+
+        <div class="about">
+            <div class="row mb-3 d-flex justify-content-center">
+                <div class="col-md-5">
+                    <img class='w-100' src="{% static 'images/clip-reading-of-books-1.png'%}" alt="About image">
+                </div>
+                <div class="col-md-5">
+                    <h3>About the system</h3>
+                    <p>Sikkim School Information System (SIS) is a
+                        UDISE+ compliant data management system.
+                        This system is tailored for the State of Sikkim to
+                        enable schools across 31 blocks within the four
+                        districts to record and share their statutory
+                        records effectively and efficiently with the
+                        higher authorities.
+
+                        This system could record data offline and sync
+                        them with other systems whenever the internet
+                        connection restores. This system will provide
+                        quality and credible data to the Government of
+                        Sikkim to help them effectively plan and
+                        structure their decision based on these data
+                        analysis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mb-3 d-flex justify-content-center sm-reverse">
+                <div class="col-md-5">
+                    <h3>Statistics</h3>
+                    <p>We have compiled all the data that came from
+                        1290 school across the state and crafted this
+                        beautiful dashboard. This dashboard will give
+                        you insight into all the schools across the Sikkim.
+                    </p>
+                    <a href="{% url 'school_dashboard'%}" class="btn btn-block btn-primary mb-1">Take me to the Dashboard</a>
+                    <a href="" class="btn btn-block btn-secondary">View Reports</a>
+                </div>
+                <div class="col-md-5">
+                    <img class='w-100' src="{% static 'images/statistics.svg'%}" alt="Statistics image">
+                </div>
+            </div>
+        </div>
+
+        <div class="features bg-blue-100 my-5">
+            <h3 class='text-center h2 mb-4'>Salient Features</h3>
+            <div class="row d-flex justify-content-around">
+                <div class="col-lg-3 mb-3">
+                    <div class="card">
+                        <img src="{% static 'images/wifi.png'%}" alt="">
+                        Works Offline
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="card">
+                        <img src="{% static 'images/reconnect.svg'%}" alt="">
+                        Internet based syncing
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="card">
+                        <img src="{% static 'images/sync.png'%}" alt="">
+                        cross platform
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about mt-5">
+            <div class="row sm-reverse mb-4 d-flex justify-content-center">
+                <div class="col-md-5">
+                    <h3>Find My School</h3>
+                    <p>Find details about your school infrasctructure
+                        and other facilities hassel free.
+                    </p>
+                    <a href="{% url 'school_dashboard'%}" class="btn btn-block btn-primary">Take me to find my school</a>
+                </div>
+                <div class="col-md-5">
+                    <img class='w-100' src="{% static 'images/find_school.png'%}" alt="School image">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <img class='w-100' src="{% static 'images/login.png'%}" alt="Login image">
+                </div>
+                <div class="col-md-6">
+                    <h3>Login</h3>
+                    <p>This unified login system allows Students,
+                        Admins and authority to login to respective page
+                        through one single page.
+                    </p>
+                    <a href="{% url 'profiles:login'%}" class="btn btn-block btn-primary">Take me to Login Page</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="geographical mt-5">
+
+            <div class='d-flex justify-content-between align-items-center'>
+                <h3>Stats by Geography</h3>
+                <span>
+                    <a href="{% url 'school_dashboard'%}" class='d-flex align-items-center'>View Detail <i class="material-icons">arrow_right_alt</i></a> 
+                </span>
+            </div>
+
+            <div class="row my-4">
+                <div class="col-md-5">
+                    <img class='w-100 h-auto mb-2' src="https://i.pinimg.com/originals/80/d4/36/80d436d3092a2c50a8e26b6a694d5150.jpg" alt="Sikkim Map">
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class='table border'>
+                                <thead>
+                                    <tr><th>North Sikkim</th></tr>
+                                </thead>
+                                <tbody class='small'>
+                                    <tr><td>Number of Schools : 567</td> </tr>
+                                    <tr><td>Number of Teachers : 567</td> </tr>
+                                    <tr><td>Number of Students : 567</td> </tr>
+                                    <tr><td>Number of Records : 567</td> </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class='table border'>
+                                <thead>
+                                    <tr><th>South Sikkim</th></tr>
+                                </thead>
+                                <tbody class='small'>
+                                    <tr><td>Number of Schools : 567</td> </tr>
+                                    <tr><td>Number of Teachers : 567</td> </tr>
+                                    <tr><td>Number of Students : 567</td> </tr>
+                                    <tr><td>Number of Records : 567</td> </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class='table border'>
+                                <thead>
+                                    <tr><th>East Sikkim</th></tr>
+                                </thead>
+                                <tbody class='small'>
+                                    <tr><td>Number of Schools : 567</td> </tr>
+                                    <tr><td>Number of Teachers : 567</td> </tr>
+                                    <tr><td>Number of Students : 567</td> </tr>
+                                    <tr><td>Number of Records : 567</td> </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class='table border'>
+                                <thead>
+                                    <tr><th>West Sikkim</th></tr>
+                                </thead>
+                                <tbody class='small'>
+                                    <tr><td>Number of Schools : 567</td> </tr>
+                                    <tr><td>Number of Teachers : 567</td> </tr>
+                                    <tr><td>Number of Students : 567</td> </tr>
+                                    <tr><td>Number of Records : 567</td> </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
