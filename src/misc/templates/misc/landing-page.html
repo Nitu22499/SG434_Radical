@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block navbar %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark" style = "background-color: #222831;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="font-family: Pacifico;">Sikkim S.I.S</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+        
+        </div>
+    </div>
+    </nav>
+<!-- </Navbar> -->
+{% endblock %}
+
+{% block body %}
+<!-- Carousel wrapper -->
+<div id="carouselBasicExample" class="carousel slide carousel-fade" data-ride="carousel">
+    <!-- Inner -->
+    <div class="carousel-inner">
+      <!-- Single item -->
+      <div class="carousel-item active">
+        <img
+          src="{% static 'template.jpg' %}"
+          class="d-block w-100"
+          alt="..."
+        />
+      </div>
+      </div>
+    </div>
+    <!-- Inner -->
+  </div>
+  <!-- Carousel wrapper -->
+
+  <div class="container mt-5">
+      <div class="row">
+    <div class = "col-md-7">
+        <h3>About <span style="font-family: Pacifico;">Sikkim S.I.S</span></h3>
+        <hr>
+        <p>
+            Timely and accurate data is the basis of sound and effective planning and decision-making. Therefore, the establishment of a well-functioning and Sustainable Educational Management Information System is of utmost importance today.
+Sikkim School Information System (S.I.S) has been initiated for enabling schools covering all 4 Districts and 31 Blocks in Sikkim to manage their statutory records.
+The entire system can run offline and sync data automatically with the higher authorities when internet becomes available.
+With the introduction of this system it will be easier for the Blocks and Districts to monitor the progress of the schools and to reduce the time taken in data collection and analysis.
+Such a system will also improve the quality and credibility of the data provided thereby making its analysis more robust and accurate. 
+        </p>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Dashboard and Analytics</h5>
+              
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+                
+            </div>
+          </div>
+</div>
+</div>
+</div>
+{% endblock %}

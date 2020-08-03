@@ -45,7 +45,7 @@ class StudentList(ListView):
         print(school)
         kwargs['school_list'] = school
         kwargs['stream_list'] = stream_choices
-        print(kwargs['stream_list'])
+        # print(kwargs['stream_list'])
         kwargs['section_list'] = section_choices
         kwargs['class_list'] = class_choices
         self.stud_school = self.request.GET.get('input_school')
