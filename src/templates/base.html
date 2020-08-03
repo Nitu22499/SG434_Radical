@@ -44,18 +44,6 @@
               {% block schoolinfo_link %}         
               
               {% endblock %}
-              
-              {% if request.user.is_student %}
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'attendance:my_home' %}">Attendance</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'exams:student-report' %}">Academic Records</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'profiles:student-info' request.user.student.id %}">Profile</a>
-              </li> 
-              {% else %}
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'profiles:student-list' %}">Students</a>
               </li> 
@@ -68,7 +56,17 @@
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'exams:report' %}">Academic Records</a>
               </li> 
-              {% endif %}                       
+              
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Staff
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Employee</a>
+                  
+                </div>
+              </li> 
+                         
               
             </ul>
             <div class="navbar-nav nav-item font-weight-bold d-flex w-auto">

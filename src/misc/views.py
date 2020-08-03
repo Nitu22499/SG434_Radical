@@ -3,9 +3,6 @@ from profiles.models import District, Block
 from django.shortcuts import render
 from .utilities import academic_year
 
-class LandingPage(TemplateView):
-    template_name = 'misc/landing-page.html'
-
 class Home(TemplateView):
     template_name = 'base.html'
 
@@ -26,7 +23,5 @@ class Home(TemplateView):
 
 def load_blocks(request):
     district_id = request.GET.get('district')
-    print(district_id)
     blocks = Block.objects.filter(block_district_id=district_id).order_by('block_name')
-    print(blocks)
     return render(request, 'misc/block_dropdown_options.html', {'blocks': blocks})  
