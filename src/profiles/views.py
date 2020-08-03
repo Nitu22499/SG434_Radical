@@ -41,32 +41,55 @@ class StudentList(ListView):
         class_choices=['1','2','3','4','5','6','7', '8', '9', '10', '11', '12', 'LKG', 'UKG']
         # stream_choices=['COMMERCE','ELECTRICAL TECHNOLOGY','HUMANITIES','INFORMATION TECHNOLOGY','PCM','PCB','TOURISM','NA']
         stream_choices=[('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM')]
+        school = School.objects.all()
+        print(school)
+        kwargs['school_list'] = school
         kwargs['stream_list'] = stream_choices
-        print(kwargs['stream_list'])
+        # print(kwargs['stream_list'])
         kwargs['section_list'] = section_choices
         kwargs['class_list'] = class_choices
+        self.stud_school = self.request.GET.get('input_school')
         self.stud_class = self.request.GET.get('input_class')
-        print(self.stud_class)
+        # print(self.stud_class)
         self.stud_section = self.request.GET.get('input_section')
-        print(self.stud_section)
+        # print(self.stud_section)
         self.stud_stream = self.request.GET.get('input_stream')
-        print(self.stud_stream)
+        # print(self.stud_stream)
         if(self.stud_stream is None):
             self.stud_stream="NA"
-        student=Student.objects.filter(stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
-        print(student)
-        if student:
-            kwargs['currentclass']=self.stud_class
-            kwargs['currentsection']=self.stud_section
-            kwargs['currentstream']=self.stud_stream
-            kwargs['student']=student
-            return super().get_context_data(**kwargs)
+            # print(self.stud_stream)
+        # print(self.request.user)
+        if(self.request.user.is_school_admin):
+            student=Student.objects.filter(stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
+            print(student)
+            if student:
+                kwargs['currentclass']=self.stud_class
+                kwargs['currentsection']=self.stud_section
+                kwargs['currentstream']=self.stud_stream
+                kwargs['student']=student
+                return super().get_context_data(**kwargs)
+            else:
+                kwargs['currentclass']=None
+                kwargs['currentsection']=None
+                kwargs['currentstream']=None
+                # kwargs['student']=student
+                return super().get_context_data(**kwargs)
+            
         else:
-            kwargs['currentclass']=None
-            kwargs['currentsection']=None
-            kwargs['currentstream']=None
-            # kwargs['student']=student
-            return super().get_context_data(**kwargs)
+            obj=Student.objects.filter(stud_school=self.stud_school,stud_class=self.stud_class,stud_section=self.stud_section,stud_stream=self.stud_stream)
+            if obj:
+                kwargs['currentclass']=self.stud_class
+                kwargs['currentsection']=self.stud_section
+                kwargs['currentstream']=self.stud_stream
+                kwargs['student']=obj
+                return super().get_context_data(**kwargs)
+            else:
+                kwargs['currentclass']=None
+                kwargs['currentsection']=None
+                kwargs['currentstream']=None
+            
+                return super().get_context_data(**kwargs)
+        
         # print(student.stud_rollno)
         # print(student)
         

@@ -64,6 +64,10 @@ class StudentSignUpForm(UserCreationForm):
         user.date_of_birth = datetime.datetime.strptime(self.cleaned_data['date_of_birth'], '%d/%m/%Y').date()
         user.is_student = True
         user.save()
+        if not self.cleaned_data['stud_stream']:
+            self.cleaned_data['stud_stream'] = 'NA'
+        if not self.cleaned_data['stud_section']:
+            self.cleaned_data['stud_section'] = 'NA'
         student = Student(user=user, stud_mother_name = self.cleaned_data['stud_mother_name'],
             stud_class = self.cleaned_data['stud_class'],
             stud_section = self.cleaned_data['stud_section'],

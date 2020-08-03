@@ -22,7 +22,6 @@ class AttendanceIndexView(LoginRequiredMixin, TemplateView):
     template_name = 'attendance/attendance.html'
 
     def get(self, request, *args, **kwargs):
-        print(self.request.user.school)
         if request.user.is_student:
             return redirect('attendance:my_home')
         else:
@@ -66,7 +65,8 @@ def student_mark_attendance(request, create_date, subject, section):
     parameter = {
         'create_date': create_date,
         'subject': subject,
-        'section': section
+        'section': section,
+        'school': request.user.school.id
     }
     return redirect('attendance:student_detail', **parameter)
 
@@ -77,11 +77,11 @@ class StudentAttendanceListView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         print(kwargs)
         school = None
-        if self.request.user.is_employee:
-            school = Employee.objects.get(employee_user=self.request.user).employee_school
         if self.request.user.is_school_admin:
             school = self.request.user.school
-        if not self.request.user.is_student:
+        elif self.request.user.is_employee:
+            school = Employee.objects.get(employee_user=self.request.user).employee_school
+        elif not self.request.user.is_student:
             school = School.objects.get(pk=kwargs['school'])
 
         date_header = get_student_attendance_dates(kwargs['start_date'], kwargs['end_date'], kwargs['subject'],
@@ -153,11 +153,11 @@ class StudentAttendanceHomeView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         school = None
-        if self.request.user.is_employee:
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
+        elif self.request.user.is_employee:
             logged_in_employee = Employee.objects.get(employee_user=self.request.user)
             school = logged_in_employee.employee_school
-        elif self.request.user.is_school_admin:
-            school = self.request.user.school
         elif not self.request.user.is_student:
             school = School.objects.get(id=self.request.POST.get('school'))
 
@@ -253,6 +253,8 @@ class StudentAttendanceUpdateView(LoginRequiredMixin, TemplateView):
         context = super(StudentAttendanceUpdateView, self).get_context_data(**kwargs)
         context['attendance'] = get_student_attendance(context['create_date'], context['subject'], context['section'],
                                                        self.request.user.school)
+        context['school'] = self.request.user.school.id
+        print(context['school'])
 
         # to display information in the update view
         subject = Subject.objects.get(pk=context['subject'])
@@ -299,6 +301,7 @@ def employee_mark_attendance(request, create_date):
 
     parameter = {
         'create_date': create_date,
+        'school': request.user.school.id
     }
     return redirect('attendance:employee_detail', **parameter)
 
@@ -385,11 +388,11 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
 
         school = None
-        if self.request.user.is_employee:
+        if self.request.user.is_school_admin:
+            school = self.request.user.school
+        elif self.request.user.is_employee:
             logged_in_employee = Employee.objects.get(employee_user=self.request.user)
             school = logged_in_employee.employee_school
-        elif self.request.user.is_school_admin:
-            school = self.request.user.school
         elif not self.request.user.is_student:
             school = School.objects.get(id=self.request.POST.get('school'))
 
@@ -399,15 +402,13 @@ class EmployeeAttendanceHomeView(LoginRequiredMixin, FormView):
             'school': school.id
         }
 
-        logged_in_employee = Employee.objects.get(employee_user=self.request.user)
-
         dates = EmployeeAttendance.objects.values_list(
             'employee_attendance_date', flat=True
         ).order_by(
             'employee_attendance_date'
         ).filter(
             employee_attendance_date__range=(parameter['start_date'], parameter['end_date']),
-            employee_attendance_school=logged_in_employee.employee_school
+            employee_attendance_school=school
         ).distinct()
 
         if not dates.count():
@@ -475,6 +476,7 @@ class EmployeeAttendanceUpdateView(LoginRequiredMixin, TemplateView):
         kwargs['display'] = {
             'date': datetime.strptime(kwargs['create_date'], '%Y-%m-%d').date(),
         }
+        kwargs['school'] = self.request.user.school.id
 
         return kwargs
 
@@ -577,7 +579,5 @@ def load_block(request):
     blocks = Block.objects.all()
     if district_id:
         blocks = Block.objects.filter(block_district_id=district_id)
-
-    print(blocks)
 
     return render(request, 'attendance/dropdown_list_options.html', {'type': 'block', 'blocks': blocks})

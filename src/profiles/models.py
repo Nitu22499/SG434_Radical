@@ -3,7 +3,7 @@ from django.db import models
 
 class_choices = (('1', 'CLASS 1'), ('2', 'CLASS 2'), ('3', 'CLASS 3'), ('4', 'CLASS 4'), ('5', 'CLASS 5'), ('6', 'CLASS 6'), ('7', 'CLASS 7'), ('8', 'CLASS 8'), ('9', 'CLASS 9'), ('10', 'CLASS 10'), ('11', 'CLASS 11'), ('12', 'CLASS 12'), ('LKG', 'LKG'), ('UKG', 'UKG'))
 section_choices = (('', 'SECTION'), ('NA', 'NA'), ('A', 'SECTION A'), ('B', 'SECTION B'), ('C', 'SECTION C'), ('D', 'SECTION D'), ('E', 'SECTION E'), ('F', 'SECTION F'), )
-stream_choices = (('', 'STREAM'), ('NA', 'NA'), ('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM'))
+stream_choices = (('', 'STREAM'), ('NA','NA'),('COMMERCE', 'COMMERCE'), ('ELECTRICAL TECHNOLOGY', 'ELECTRICAL TECHNOLOGY'), ('HUMANITIES', 'HUMANITIES'), ('INFORMATION TECHNOLOGY', 'INFORMATION TECHNOLOGY'), ('PCM', 'PCM'), ('PCB', 'PCB'), ('TOURISM', 'TOURISM'))
 district_choices = (('EAST SIKKIM', 'EAST SIKKIM'), ('WEST SIKKIM', 'WEST SIKKIM'), ('NORTH SIKKIM', 'NORTH SIKKIM'), ('SOUTH SIKKIM', 'SOUTH SIKKIM'))
 board_choices = (('', 'BOARD'), ('NA', 'NA'), ('CBSE', 'CBSE'), ('STATE BOARD', 'STATE BOARD'), ('ICSE', 'ICSE'))
 religion_choices = (('HINDU','HINDU'), ('MUSLIM','MUSLIM'), ('CHRISTIAN','CHRISTIAN'), ('SIKH','SIKH'), ('BUDDHIST', 'BUDDHIST'), ('PARSI','PARSI'), ('JAIN', 'JAIN'), ('OTHER','OTHER'))
@@ -80,8 +80,8 @@ class Student(models.Model):
         return self.user.first_name
 
 
-class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+# class Teacher(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # teacher_id = 
     # teacher_school
     # teacher_subjects
