@@ -56,6 +56,11 @@ Run `pipenv install` command to install package from pipfile.
 
     `python manage.py runserver`
 
+## Screenshots
+![image](https://github.com/user-attachments/assets/307a646a-834d-4f84-b06c-68fccdf31b6b)
+![image](https://github.com/user-attachments/assets/d8b1f238-07e2-494a-82da-625f7d77570c)
+
+
 ## Additional Notes
 
 - Django Admin Panel can be accessed at:
